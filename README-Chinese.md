@@ -2,32 +2,32 @@
 
 [![README](https://img.shields.io/badge/README-English-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README.md) [![README](https://img.shields.io/badge/README-中文-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README-Chinese.md)
 
-A dynamic library tweak for WeChat macOS.
+微信macOS客户端消息撤回拦截动态库。
 
-## Screenshot
+## 截图
 
 ![](https://raw.githubusercontent.com/Sunnyyoung/WeChatTweak-macOS/master/Screenshot/WeChatTweak-macOS.png)
 
-## Feature
+## 功能
 
-- Prevent message revoked
+- 阻止消息撤回
 
-## Usage
+## 使用
 
-- `sudo make install`   Inject the dylib to `WeChat` by [insert_dylib](https://github.com/Tyilo/insert_dylib)
-- `sudo make uninstall` Uninstall the injection
+- `sudo make install`   安装动态库
+- `sudo make uninstall` 卸载动态库
 
-## Development
+## 开发调试
 
 **Requirement: Command Line Tools**
 
-Run `xcode-select --install` to install Command Line Tools.
+运行命令：`xcode-select --install` 安装Command Line Tools。
 
-- `make build` Build the dylib file to the same dicrectory
-- `make debug` Build the dylib file and run `WeChat` with dynamic injection
-- `make clean` Clean output files
+- `make build` 编译dylib动态库到当前目录下
+- `make debug` 编译dylib动态库并临时注入微信macOS客户端
+- `make clean` 清除生成文件
 
-## Dependency
+## 依赖
 
 - [insert_dylib](https://github.com/Tyilo/insert_dylib)
 

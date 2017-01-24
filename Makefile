@@ -1,11 +1,12 @@
 WECHATPATH=/Applications/WeChat.app/Contents/MacOS
+DYLIBFILE=WeChatTweak.dylib
 
 build::
-	clang -dynamiclib ./WeChatHook.m -fobjc-link-runtime -current_version 1.0 -compatibility_version 1.0 -o ./WeChatHook.dylib
+	clang -dynamiclib ./WeChatTweak.m -fobjc-link-runtime -current_version 1.0 -compatibility_version 1.0 -o ./${DYLIBFILE}
 
 debug::
 	make build
-	DYLD_INSERT_LIBRARIES=./WeChatHook.dylib ${WECHATPATH}/WeChat &
+	DYLD_INSERT_LIBRARIES=./${DYLIBFILE} ${WECHATPATH}/WeChat &
 
 install::
 	@if ! [[ $EUID -eq 0 ]]; then\
@@ -16,14 +17,14 @@ install::
 		echo "Can not find the WeChat.";\
 		exit 1;\
 	fi
-	@if ! [ -f "./WeChatHook.dylib" ]; then\
+	@if ! [ -f "./${DYLIBFILE}" ]; then\
 		echo "Can not find the dylib file, please build first.";\
 		exit 1;\
 	fi
 
 	@cp ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat.bak;
-	@cp ./WeChatHook.dylib ${WECHATPATH}/WeChatHook.dylib;
-	@./insert_dylib @executable_path/WeChatHook.dylib ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat --all-yes;
+	@cp ./${DYLIBFILE} ${WECHATPATH}/${DYLIBFILE};
+	@./insert_dylib @executable_path/${DYLIBFILE} ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat --all-yes;
 	@echo "Install successed!";
 
 uninstall::
@@ -40,9 +41,9 @@ uninstall::
 		exit 1;\
 	fi
 
-	@rm -rf ${WECHATPATH}/WeChatHook.dylib;
+	@rm -rf ${WECHATPATH}/${DYLIBFILE};
 	@mv ${WECHATPATH}/WeChat.bak ${WECHATPATH}/WeChat;
 	@echo "Uninstall successed";
 
 clean::
-	rm -rf ./WeChatHook.dylib
+	rm -rf ./${DYLIBFILE}
