@@ -5,9 +5,9 @@
 
 __attribute__((constructor))
 static void initializer(void) {
-    Class messageServiceClass = NSClassFromString(@"MessageService");
+    Class MessageServiceClass = NSClassFromString(@"MessageService");
     SEL onRevokeMsgSEL = NSSelectorFromString(@"onRevokeMsg:");
-    IMP hookIMP = imp_implementationWithBlock(^(id self, id arg) {
+    IMP onRevokeMsgIMP = imp_implementationWithBlock(^(id self, id arg) {
         NSString *message = (NSString *)arg;
         NSRange begin = [message rangeOfString:@"<replacemsg><![CDATA["];
         NSRange end = [message rangeOfString:@"]]></replacemsg>"];
@@ -20,6 +20,6 @@ static void initializer(void) {
             [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
         });
     });
-    Method originMethod = class_getInstanceMethod(messageServiceClass, onRevokeMsgSEL);
-    IMP originImp = class_replaceMethod(messageServiceClass, onRevokeMsgSEL, hookIMP, method_getTypeEncoding(originMethod));
+    Method onRevokeMsgMethod = class_getInstanceMethod(MessageServiceClass, onRevokeMsgSEL);
+    class_replaceMethod(MessageServiceClass, onRevokeMsgSEL, onRevokeMsgIMP, method_getTypeEncoding(onRevokeMsgMethod));
 }
