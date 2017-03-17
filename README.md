@@ -1,16 +1,20 @@
 # WeChatTweak-macOS
 
-[![README](https://img.shields.io/badge/README-English-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README.md) [![README](https://img.shields.io/badge/README-中文-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README-Chinese.md)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![README](https://img.shields.io/badge/README-English-blue.svg)](README.md)
+[![README](https://img.shields.io/badge/README-中文-blue.svg)](README-Chinese.md)
 
 A dynamic library tweak for WeChat macOS.
 
 ## Screenshot
 
-![](https://raw.githubusercontent.com/Sunnyyoung/WeChatTweak-macOS/master/Screenshot/WeChatTweak-macOS.png)
+![](Screenshot/WeChatTweak-macOS.png)
 
 ## Feature
 
 - Prevent message revoked
+- Multiple WeChat Instance
+    - Run command: `open -n /Applications/WeChat.app`
 
 ## Usage
 

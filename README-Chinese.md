@@ -1,16 +1,20 @@
 # WeChatTweak-macOS
 
-[![README](https://img.shields.io/badge/README-English-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README.md) [![README](https://img.shields.io/badge/README-中文-blue.svg)](https://github.com/Sunnyyoung/WeChatTweak-macOS/blob/master/README-Chinese.md)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![README](https://img.shields.io/badge/README-English-blue.svg)](README.md)
+[![README](https://img.shields.io/badge/README-中文-blue.svg)](README-Chinese.md)
 
-微信macOS客户端消息撤回拦截动态库。
+微信 macOS 客户端 Tweak 动态库。
 
 ## 截图
 
-![](https://raw.githubusercontent.com/Sunnyyoung/WeChatTweak-macOS/master/Screenshot/WeChatTweak-macOS.png)
+![](Screenshot/WeChatTweak-macOS.png)
 
 ## 功能
 
 - 阻止消息撤回
+- 客户端无限多开
+    - 命令行执行：`open -n /Applications/WeChat.app`
 
 ## 使用
 
@@ -21,10 +25,10 @@
 
 **Requirement: Command Line Tools**
 
-运行命令：`xcode-select --install` 安装Command Line Tools。
+运行命令：`xcode-select --install` 安装 Command Line Tools。
 
-- `make build` 编译dylib动态库到当前目录下
-- `make debug` 编译dylib动态库并临时注入微信macOS客户端
+- `make build` 编译 dylib 动态库到当前目录下
+- `make debug` 编译 dylib 动态库并临时注入微信macOS客户端
 - `make clean` 清除生成文件
 
 ## 依赖
