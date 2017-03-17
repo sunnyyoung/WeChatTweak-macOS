@@ -5,6 +5,7 @@ build::
 	clang -dynamiclib ./WeChatTweak.m -fobjc-link-runtime -current_version 1.0 -compatibility_version 1.0 -o ./${DYLIBFILE}
 
 debug::
+	make clean
 	make build
 	DYLD_INSERT_LIBRARIES=./${DYLIBFILE} ${WECHATPATH}/WeChat &
 

@@ -3,12 +3,12 @@
 #import <objc/message.h>
 #import <Cocoa/Cocoa.h>
 
-__attribute__((constructor))
-static void initializer(void) {
-    Class MessageServiceClass = NSClassFromString(@"MessageService");
-    SEL onRevokeMsgSEL = NSSelectorFromString(@"onRevokeMsg:");
-    IMP onRevokeMsgIMP = imp_implementationWithBlock(^(id self, id arg) {
-        NSString *message = (NSString *)arg;
+// Tweak for no revoke message.
+__attribute__((constructor(101))) static void noRevokeTweak(void) {
+    Class class = NSClassFromString(@"MessageService");
+    SEL selector = NSSelectorFromString(@"onRevokeMsg:");
+    Method method = class_getInstanceMethod(class, selector);
+    IMP imp = imp_implementationWithBlock(^(id self, NSString *message) {
         NSRange begin = [message rangeOfString:@"<replacemsg><![CDATA["];
         NSRange end = [message rangeOfString:@"]]></replacemsg>"];
         NSRange subRange = NSMakeRange(begin.location + begin.length,end.location - begin.location - begin.length);
@@ -20,6 +20,16 @@ static void initializer(void) {
             [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
         });
     });
-    Method onRevokeMsgMethod = class_getInstanceMethod(MessageServiceClass, onRevokeMsgSEL);
-    class_replaceMethod(MessageServiceClass, onRevokeMsgSEL, onRevokeMsgIMP, method_getTypeEncoding(onRevokeMsgMethod));
+    class_replaceMethod(class, selector, imp, method_getTypeEncoding(method));
+}
+
+// Tweak for multiple instance.
+__attribute__((constructor(102))) static void multipleInstanceTweak(void) {
+    Class class = object_getClass(NSClassFromString(@"CUtility"));
+    SEL selector = NSSelectorFromString(@"HasWechatInstance");
+    Method method = class_getInstanceMethod(class, selector);
+    IMP imp = imp_implementationWithBlock(^(id self) {
+        return 0;
+    });
+    class_replaceMethod(class, selector, imp, method_getTypeEncoding(method));
 }
