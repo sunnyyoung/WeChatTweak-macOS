@@ -8,12 +8,14 @@
 
 ## 截图
 
-![](Screenshot/WeChatTweak-macOS.png)
+![](Screenshot/0x01.png)
+![](Screenshot/0x02.png)
 
 ## 功能
 
 - 阻止消息撤回
 - 客户端无限多开
+    - 右键 Dock Icon 登录新的微信账号
     - 命令行执行：`open -n /Applications/WeChat.app`
 
 ## 使用
@@ -33,6 +35,7 @@
 
 ## 依赖
 
+- [JRSwizzle](https://github.com/rentzsch/jrswizzle)
 - [insert_dylib](https://github.com/Tyilo/insert_dylib)
 
 ## License
