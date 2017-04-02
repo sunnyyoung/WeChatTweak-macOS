@@ -17,6 +17,7 @@
 - 客户端无限多开
     - 右键 Dock Icon 登录新的微信账号
     - 命令行执行：`open -n /Applications/WeChat.app`
+- 阻止退出登录（重新打开应用无需手机认证）
 
 ## 使用
 

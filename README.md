@@ -17,6 +17,7 @@ A dynamic library tweak for WeChat macOS.
 - Multiple WeChat Instance
     - Right click on the Dock icon to login another WeChat account
     - Run command: `open -n /Applications/WeChat.app`
+- Prevent logout (Auto login without authority)
 
 ## Usage
 

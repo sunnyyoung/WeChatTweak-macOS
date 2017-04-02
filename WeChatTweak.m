@@ -9,14 +9,16 @@
 #pragma mark - Constructor
 
 static void __attribute__((constructor)) tweak(void) {
-    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_OnRevokeMsg:) error:nil];
+    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
-    class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:))), "@:@");
+    class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");    
+    [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDidFinishLaunching:") withMethod:@selector(tweak_applicationDidFinishLaunching:) error:nil];
+    [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationShouldTerminate:") withMethod:@selector(tweak_applicationShouldTerminate:) error:nil];
 }
 
 #pragma mark - No Revoke Message
 
-- (void)tweak_OnRevokeMsg:(NSString *)message {
+- (void)tweak_onRevokeMsg:(NSString *)message {
     NSRange begin = [message rangeOfString:@"<replacemsg><![CDATA["];
     NSRange end = [message rangeOfString:@"]]></replacemsg>"];
     NSRange subRange = NSMakeRange(begin.location + begin.length,end.location - begin.location - begin.length);
@@ -34,7 +36,7 @@ static void __attribute__((constructor)) tweak(void) {
     return NO;
 }
 
-- (NSMenu *)applicationDockMenu:(NSApplication *)sender {
+- (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
     NSMenu *menu = [[objc_getClass("NSMenu") alloc] init];
     NSMenuItem *menuItem = [[objc_getClass("NSMenuItem") alloc] initWithTitle:@"登录新的微信账号" action:@selector(openNewWeChatInstace:) keyEquivalent:@""];
     [menu insertItem:menuItem atIndex:0];
@@ -47,6 +49,24 @@ static void __attribute__((constructor)) tweak(void) {
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
     [task launch];
+}
+
+#pragma mark - No Logout
+
+- (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
+    [self tweak_applicationDidFinishLaunching:notification];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+    id serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
+    id accountService = [serviceCenter getService:objc_getClass("AccountService")];
+    if ([accountService canAutoAuth]) {
+        [accountService AutoAuth];
+    }
+#pragma clang diagnostic pop
+}
+
+- (NSApplicationTerminateReply)tweak_applicationShouldTerminate:(NSApplication *)sender {
+    return NSTerminateNow;
 }
 
 @end
