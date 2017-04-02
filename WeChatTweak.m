@@ -55,12 +55,17 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
+    NSBundle *bundle = [objc_getClass("NSBundle") mainBundle];
+    NSString *bundleIdentifier = [bundle bundleIdentifier];
+    NSArray *instances = [objc_getClass("NSRunningApplication") runningApplicationsWithBundleIdentifier:bundleIdentifier];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-method-access"
-    id serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
-    id accountService = [serviceCenter getService:objc_getClass("AccountService")];
-    if ([accountService canAutoAuth]) {
-        [accountService AutoAuth];
+    if (instances.count == 1) {
+        id serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
+        id accountService = [serviceCenter getService:objc_getClass("AccountService")];
+        if ([accountService canAutoAuth]) {
+            [accountService AutoAuth];
+        }
     }
 #pragma clang diagnostic pop
 }
