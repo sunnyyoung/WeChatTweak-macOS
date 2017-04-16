@@ -31,7 +31,7 @@
 运行命令：`xcode-select --install` 安装 Command Line Tools。
 
 - `make build` 编译 dylib 动态库到当前目录下
-- `make debug` 编译 dylib 动态库并临时注入微信macOS客户端
+- `make debug` 编译 dylib 动态库并临时注入微信 macOS 客户端
 - `make clean` 清除生成文件
 
 ## 依赖
@@ -40,4 +40,5 @@
 - [insert_dylib](https://github.com/Tyilo/insert_dylib)
 
 ## License
+
 The [MIT License](LICENSE).

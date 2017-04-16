@@ -21,7 +21,7 @@ A dynamic library tweak for WeChat macOS.
 
 ## Usage
 
-- `sudo make install`   Inject the dylib to `WeChat`
+- `sudo make install` Inject the dylib to `WeChat`
 - `sudo make uninstall` Uninstall the injection
 
 ## Development
@@ -40,4 +40,5 @@ Run `xcode-select --install` to install Command Line Tools.
 - [insert_dylib](https://github.com/Tyilo/insert_dylib)
 
 ## License
+
 The [MIT License](LICENSE).
