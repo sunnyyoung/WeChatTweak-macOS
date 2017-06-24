@@ -10,25 +10,29 @@ A dynamic library tweak for WeChat macOS.
 
 ![](Screenshot/0x01.png)
 ![](Screenshot/0x02.png)
+![](Screenshot/0x03.png)
 
 ## Feature
 
 - Prevent message revoked
+    - Message list notification
+    - System notification
+    - Revoke message you sent
 - Multiple WeChat Instance
     - Right click on the Dock icon to login another WeChat account
     - Run command: `open -n /Applications/WeChat.app`
-- Prevent logout (Auto login without authority)
+- Auto login without authentication
 
 ## Usage
 
-- `sudo make install` Inject the dylib to `WeChat`
-- `sudo make uninstall` Uninstall the injection
+- `sudo make install` Inject the dylib
+- `sudo make uninstall` Uninstall the dylib
 
 ## Development
 
 **Requirement: Command Line Tools**
 
-Run `xcode-select --install` to install Command Line Tools.
+Run `xcode-select --install` to install Command Line Tools
 
 - `make build` Build the dylib file to the same dicrectory
 - `make debug` Build the dylib file and run `WeChat` with dynamic injection
