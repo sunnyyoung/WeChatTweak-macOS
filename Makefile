@@ -22,11 +22,15 @@ install::
 		echo "Can not find the dylib file, please build first.";\
 		exit 1;\
 	fi
-
-	@cp ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat.bak;
-	@cp ./${DYLIBFILE} ${WECHATPATH}/${DYLIBFILE};
-	@./insert_dylib @executable_path/${DYLIBFILE} ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat --all-yes;
-	@echo "Install successed!";
+	@if [ -f "${WECHATPATH}/${DYLIBFILE}" ]; then\
+		cp ./${DYLIBFILE} ${WECHATPATH}/${DYLIBFILE};\
+		echo "Tweak file found! Replace with new tweak file successed!";\
+	else \
+		cp ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat.bak;\
+		cp ./${DYLIBFILE} ${WECHATPATH}/${DYLIBFILE};\
+		./insert_dylib @executable_path/${DYLIBFILE} ${WECHATPATH}/WeChat ${WECHATPATH}/WeChat --all-yes;\
+		echo "Install successed!";\
+	fi
 
 uninstall::
 	@if ! [[ $EUID -eq 0 ]]; then\

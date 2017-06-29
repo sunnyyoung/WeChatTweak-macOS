@@ -82,7 +82,7 @@ static void __attribute__((constructor)) tweak(void) {
 
     // Dispatch notification
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Delete message if is revoke from myself
+        // Delete message if it is revoke from myself
         if ([localMessageData isSendFromSelf]) {
             [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
             [((MessageService *)self) AddRevokePromptMsg:session msgData: promptMessageData];
@@ -108,7 +108,7 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)openNewWeChatInstace:(id)sender {
-    NSString *applicationPath = [[objc_getClass("NSBundle") mainBundle] bundlePath];
+    NSString *applicationPath = [[NSBundle mainBundle] bundlePath];
     NSTask *task = [[objc_getClass("NSTask") alloc] init];
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
@@ -119,19 +119,16 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
-    NSBundle *bundle = [objc_getClass("NSBundle") mainBundle];
-    NSString *bundleIdentifier = [bundle bundleIdentifier];
+    NSString *bundleIdentifier = [[objc_getClass("NSBundle") mainBundle] bundleIdentifier];
     NSArray *instances = [objc_getClass("NSRunningApplication") runningApplicationsWithBundleIdentifier:bundleIdentifier];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-method-access"
+    // Detect multiple instance conflict
     if (instances.count == 1) {
-        id serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
-        id accountService = [serviceCenter getService:objc_getClass("AccountService")];
+        AccountService *accountService = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("AccountService")];
         if ([accountService canAutoAuth]) {
             [accountService AutoAuth];
         }
     }
-#pragma clang diagnostic pop
+
 }
 
 - (NSApplicationTerminateReply)tweak_applicationShouldTerminate:(NSApplication *)sender {

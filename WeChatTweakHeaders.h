@@ -42,3 +42,10 @@
 - (void)notifyAddMsgOnMainThread:(id)arg1 msgData:(id)arg2;
 
 @end
+
+@interface AccountService: NSObject
+
+- (BOOL)canAutoAuth;
+- (void)AutoAuth;
+
+@end
