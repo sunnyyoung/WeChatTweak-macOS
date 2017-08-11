@@ -1,3 +1,11 @@
+//
+//  WeChatTweakHeaders.h
+//  WeChatTweak
+//
+//  Created by Sunnyyoung on 2017/8/11.
+//  Copyright © 2017年 Sunnyyoung. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
