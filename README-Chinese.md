@@ -20,6 +20,7 @@
     - 右键 dock icon 登录新的微信账号
     - 命令行执行：`open -n /Applications/WeChat.app`
 - 重新打开应用无需手机认证
+- UI界面设置面板
 
 ## 使用
 
@@ -28,12 +29,16 @@
 
 ## 开发调试
 
-**Requirement: Command Line Tools**
+**Requirement: Xcode**
 
-运行命令：`xcode-select --install` 安装 Command Line Tools
+### 编译
 
-- `make build` 编译 dylib 动态库到当前目录下
-- `make debug` 编译 dylib 动态库并临时注入微信 macOS 客户端
+1. 运行 `pod install`
+2. 打开 `WeChatTweak.xcworkspace` 并编译
+
+### 调试
+
+- `make debug` 临时注入微信 macOS 客户端
 - `make clean` 清除生成文件
 
 ## 依赖

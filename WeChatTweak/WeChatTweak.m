@@ -8,31 +8,9 @@
 
 #import "WeChatTweak.h"
 #import "WeChatTweakHeaders.h"
-
-@implementation NSString (WeChatTweak)
-
-- (NSString *)tweak_sessionFromMessage {
-    NSRange begin = [self rangeOfString:@"<session>"];
-    NSRange end = [self rangeOfString:@"</session>"];
-    NSRange range = NSMakeRange(begin.location + begin.length,end.location - begin.location - begin.length);
-    return [self substringWithRange:range];
-}
-
-- (NSUInteger)tweak_newMessageIDFromMessage {
-    NSRange begin = [self rangeOfString:@"<newmsgid>"];
-    NSRange end = [self rangeOfString:@"</newmsgid>"];
-    NSRange range = NSMakeRange(begin.location + begin.length,end.location - begin.location - begin.length);
-    return [[self substringWithRange:range] longLongValue];
-}
-
-- (NSString *)tweak_replaceMessageFromMessage {
-    NSRange begin = [self rangeOfString:@"<replacemsg><![CDATA["];
-    NSRange end = [self rangeOfString:@"]]></replacemsg>"];
-    NSRange range = NSMakeRange(begin.location + begin.length,end.location - begin.location - begin.length);
-    return [self substringWithRange:range];
-}
-
-@end
+#import "NSBundle+WeChatTweak.h"
+#import "NSString+WeChatTweak.h"
+#import "TweakPreferecesController.h"
 
 @implementation NSObject (WeChatTweak)
 
@@ -44,15 +22,17 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationShouldTerminate:") withMethod:@selector(tweak_applicationShouldTerminate:) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
+    [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
+    [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"viewControllerForIdentifier:") withMethod:@selector(tweak_viewControllerForIdentifier:) error:nil];
 }
 
 #pragma mark - No Revoke Message
 
 - (void)tweak_onRevokeMsg:(NSString *)message {
     // Decode message
-    NSString *session = [message tweak_sessionFromMessage];
-    NSUInteger newMessageID = [message tweak_newMessageIDFromMessage];
-    NSString *replaceMessage = [message tweak_replaceMessageFromMessage];
+    NSString *session = [message tweak_subStringFrom:@"<session>" to:@"</session>"];
+    NSUInteger newMessageID = [message tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
+    NSString *replaceMessage = [message tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
 
     // Prepare message data
     MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
@@ -74,12 +54,18 @@ static void __attribute__((constructor)) tweak(void) {
     });
 
     // Prepare notification information
+    MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
     NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+    BOOL isChatStatusNotifyOpen = YES;
     if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
+        ContactStorage *contactStorage = [serviceCenter getService:objc_getClass("ContactStorage")];
+        WCContactData *contact = [contactStorage GetContact:session];
+        isChatStatusNotifyOpen = [contact isChatStatusNotifyOpen];
         userNotification.informativeText = replaceMessage;
     } else {
-        GroupStorage *groupStorage = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("GroupStorage")];
-        WCContactData *groupContact = [groupStorage GetGroupContact: session];
+        GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
+        WCContactData *groupContact = [groupStorage GetGroupContact:session];
+        isChatStatusNotifyOpen = [groupContact isChatStatusNotifyOpen];
         NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : @"群组";
         userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
     }
@@ -89,11 +75,17 @@ static void __attribute__((constructor)) tweak(void) {
         // Delete message if it is revoke from myself
         if ([localMessageData isSendFromSelf]) {
             [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
-            [((MessageService *)self) AddRevokePromptMsg:session msgData: promptMessageData];
+            [((MessageService *)self) AddRevokePromptMsg:session msgData:promptMessageData];
         } else {
-            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-            [((MessageService *)self) AddRevokePromptMsg:session msgData: promptMessageData];
-            [((MessageService *)self) notifyAddMsgOnMainThread:session msgData: promptMessageData];
+            [((MessageService *)self) AddRevokePromptMsg:session msgData:promptMessageData];
+            [((MessageService *)self) notifyAddMsgOnMainThread:session msgData:promptMessageData];
+        }
+        // Deliver notification
+        if (![localMessageData isSendFromSelf]) {
+            RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
+            if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+            }
         }
     });
 }
@@ -119,24 +111,43 @@ static void __attribute__((constructor)) tweak(void) {
     [task launch];
 }
 
-#pragma mark - Auto auth
+#pragma mark - Auto Auth
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
     NSString *bundleIdentifier = [[objc_getClass("NSBundle") mainBundle] bundleIdentifier];
     NSArray *instances = [objc_getClass("NSRunningApplication") runningApplicationsWithBundleIdentifier:bundleIdentifier];
     // Detect multiple instance conflict
-    if (instances.count == 1) {
+    BOOL hasInstance = instances.count == 1;
+    BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
+    if (hasInstance && enabledAutoAuth) {
         AccountService *accountService = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("AccountService")];
         if ([accountService canAutoAuth]) {
             [accountService AutoAuth];
         }
     }
-
 }
 
 - (NSApplicationTerminateReply)tweak_applicationShouldTerminate:(NSApplication *)sender {
-    return NSTerminateNow;
+    BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
+    if (enabledAutoAuth) {
+        return NSTerminateNow;
+    } else {
+        return [self tweak_applicationShouldTerminate:sender];
+    }
+}
+
+#pragma mark - Preferences Window
+
+- (id)tweak_initWithViewControllers:(NSArray *)arg1 {
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:arg1];
+    TweakPreferecesController *controller = [[objc_getClass("TweakPreferecesController") alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
+    [viewControllers addObject:controller];
+    return [self tweak_initWithViewControllers:viewControllers];
+}
+
+- (id)tweak_viewControllerForIdentifier:(NSString *)arg1 {
+    return [self tweak_viewControllerForIdentifier:arg1];
 }
 
 @end

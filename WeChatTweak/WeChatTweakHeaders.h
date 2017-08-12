@@ -27,6 +27,14 @@
 
 @property(retain, nonatomic) NSString *m_nsNickName;
 
+- (BOOL)isChatStatusNotifyOpen;
+
+@end
+
+@interface ContactStorage : NSObject
+
+- (id)GetContact:(id)arg1;
+
 @end
 
 @interface GroupStorage: NSObject
@@ -55,5 +63,28 @@
 
 - (BOOL)canAutoAuth;
 - (void)AutoAuth;
+
+@end
+
+@protocol MASPreferencesViewController <NSObject>
+
+@property(readonly, nonatomic) NSString *toolbarItemLabel;
+@property(readonly, nonatomic) NSImage *toolbarItemImage;
+@property(readonly, nonatomic) NSString *identifier;
+
+@optional
+@property(readonly, nonatomic) BOOL hasResizableHeight;
+@property(readonly, nonatomic) BOOL hasResizableWidth;
+- (NSView *)initialKeyView;
+- (void)viewDidDisappear;
+- (void)viewWillAppear;
+
+@end
+
+@interface MASPreferencesWindowController : NSWindowController
+
+@property(readonly, nonatomic) NSMutableArray *viewControllers;
+
+- (id)initWithViewControllers:(NSArray *)arg1;
 
 @end
