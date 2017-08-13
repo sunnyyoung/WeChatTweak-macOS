@@ -57,18 +57,18 @@
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6x2-KV-p8w">
                     <rect key="frame" x="173" y="17" width="144" height="26"/>
-                    <popUpButtonCell key="cell" type="push" title="跟随消息通知设置" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="gec-CY-E1x" id="wek-GT-N5V">
+                    <popUpButtonCell key="cell" type="push" title="跟随聊天通知设置" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="gec-CY-E1x" id="wek-GT-N5V">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="H2J-gJ-aGD">
                             <items>
-                                <menuItem title="跟随消息通知设置" id="gec-CY-E1x">
+                                <menuItem title="跟随聊天通知设置" state="on" id="gec-CY-E1x">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem title="全部接收" id="da4-aJ-lEy">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="全部关闭" state="on" id="Uk9-Oc-Jtv">
+                                <menuItem title="全部关闭" id="Uk9-Oc-Jtv">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>

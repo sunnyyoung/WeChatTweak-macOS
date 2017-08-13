@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @interface NSString (WeChatTweak)
 

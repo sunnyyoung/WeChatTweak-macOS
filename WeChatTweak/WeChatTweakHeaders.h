@@ -75,15 +75,10 @@
 @optional
 @property(readonly, nonatomic) BOOL hasResizableHeight;
 @property(readonly, nonatomic) BOOL hasResizableWidth;
-- (NSView *)initialKeyView;
-- (void)viewDidDisappear;
-- (void)viewWillAppear;
 
 @end
 
 @interface MASPreferencesWindowController : NSWindowController
-
-@property(readonly, nonatomic) NSMutableArray *viewControllers;
 
 - (id)initWithViewControllers:(NSArray *)arg1;
 

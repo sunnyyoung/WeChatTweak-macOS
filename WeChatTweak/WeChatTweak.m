@@ -23,7 +23,6 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
-    [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"viewControllerForIdentifier:") withMethod:@selector(tweak_viewControllerForIdentifier:) error:nil];
 }
 
 #pragma mark - No Revoke Message
@@ -97,15 +96,15 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
-    NSMenu *menu = [[objc_getClass("NSMenu") alloc] init];
-    NSMenuItem *menuItem = [[objc_getClass("NSMenuItem") alloc] initWithTitle:@"登录新的微信账号" action:@selector(openNewWeChatInstace:) keyEquivalent:@""];
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"登录新的微信账号" action:@selector(openNewWeChatInstace:) keyEquivalent:@""];
     [menu insertItem:menuItem atIndex:0];
     return menu;
 }
 
 - (void)openNewWeChatInstace:(id)sender {
     NSString *applicationPath = [[NSBundle mainBundle] bundlePath];
-    NSTask *task = [[objc_getClass("NSTask") alloc] init];
+    NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
     [task launch];
@@ -115,8 +114,8 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
-    NSString *bundleIdentifier = [[objc_getClass("NSBundle") mainBundle] bundleIdentifier];
-    NSArray *instances = [objc_getClass("NSRunningApplication") runningApplicationsWithBundleIdentifier:bundleIdentifier];
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSArray *instances = [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
     // Detect multiple instance conflict
     BOOL hasInstance = instances.count == 1;
     BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
@@ -141,13 +140,9 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (id)tweak_initWithViewControllers:(NSArray *)arg1 {
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:arg1];
-    TweakPreferecesController *controller = [[objc_getClass("TweakPreferecesController") alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
+    TweakPreferecesController *controller = [[TweakPreferecesController alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
     [viewControllers addObject:controller];
     return [self tweak_initWithViewControllers:viewControllers];
-}
-
-- (id)tweak_viewControllerForIdentifier:(NSString *)arg1 {
-    return [self tweak_viewControllerForIdentifier:arg1];
 }
 
 @end
