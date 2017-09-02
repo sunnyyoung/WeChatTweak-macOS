@@ -28,12 +28,12 @@ install::
 	@if [ -d "${APP_PATH}/${FRAMEWORK_PATH}" ]; then\
 		rm -rf ${APP_PATH}/${FRAMEWORK_PATH};\
 		cp -R ${FRAMEWORK_PATH} ${APP_PATH};\
-		echo "Framework found! Replace with new framework successed!";\
+		echo "Framework found! Replace with new framework successfully!";\
 	else \
 		cp ${APP_PATH}/${APP_NAME} ${APP_PATH}/${BACKUP_NAME};\
 		cp -R ${FRAMEWORK_PATH} ${APP_PATH};\
 		./insert_dylib @executable_path/${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} ${APP_PATH}/${APP_NAME} --all-yes;\
-		echo "Install successed!";\
+		echo "Install successfully!";\
 	fi
 
 uninstall::
@@ -53,7 +53,7 @@ uninstall::
 	@rm -rf ${APP_PATH}/${DYLIB_NAME};
 	@rm -rf ${APP_PATH}/${FRAMEWORK_PATH};
 	@mv ${APP_PATH}/${BACKUP_NAME} ${APP_PATH}/${APP_NAME};
-	@echo "Uninstall successed";
+	@echo "Uninstall successfully";
 
 clean::
 	rm -rf ${FRAMEWORK_PATH}

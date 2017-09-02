@@ -27,19 +27,9 @@
 - `sudo make install` 安装或者更新动态库
 - `sudo make uninstall` 卸载动态库
 
-## 开发调试
+## 文档
 
-**Requirement: Xcode**
-
-### 编译
-
-1. 运行 `pod install`
-2. 打开 `WeChatTweak.xcworkspace` 并编译
-
-### 调试
-
-- `make debug` 临时注入微信 macOS 客户端
-- `make clean` 清除生成文件
+获取更多信息, 请到 [wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki)。
 
 ## 依赖
 

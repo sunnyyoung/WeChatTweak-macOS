@@ -22,24 +22,14 @@ A dynamic library tweak for WeChat macOS.
 - Auto login without authentication
 - UI Interface settings panel
 
-## Usage
+## Quick Start
 
 - `sudo make install` Install or Upgrade the dylib
 - `sudo make uninstall` Uninstall the dylib
 
-## Development
+## Documentation
 
-**Requirement: Xcode**
-
-### Build
-
-1. Run `pod install`
-2. Open `WeChatTweak.xcworkspace` and build
-
-### Debug
-
-- `make debug` Run `WeChat` with dynamic injection
-- `make clean` Clean output files
+For more informations, please go to the [wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki).
 
 ## Dependency
 
