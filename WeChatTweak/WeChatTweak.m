@@ -46,7 +46,7 @@ static void __attribute__((constructor)) tweak(void) {
             data.mesLocalID = localMessageData.mesLocalID;
             data.msgContent = replaceMessage;
         } else {
-            data.mesLocalID = localMessageData.mesLocalID + 1;
+            data.mesLocalID = localMessageData.mesLocalID;
             data.msgContent = [NSString stringWithFormat:@"[已拦截]\n%@", replaceMessage];
         }
         data;
@@ -74,9 +74,9 @@ static void __attribute__((constructor)) tweak(void) {
         // Delete message if it is revoke from myself
         if ([localMessageData isSendFromSelf]) {
             [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
-            [((MessageService *)self) AddRevokePromptMsg:session msgData:promptMessageData];
+            [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
         } else {
-            [((MessageService *)self) AddRevokePromptMsg:session msgData:promptMessageData];
+            [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
             [((MessageService *)self) notifyAddMsgOnMainThread:session msgData:promptMessageData];
         }
         // Deliver notification
