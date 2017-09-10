@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D14E5A41F6447DB00D75132 /* AlfredManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D14E5A21F6447DB00D75132 /* AlfredManager.h */; };
+		7D14E5A51F6447DB00D75132 /* AlfredManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D14E5A31F6447DB00D75132 /* AlfredManager.m */; };
 		7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8422A1F40583F00D42D79 /* WeChatTweak.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF842331F4058AB00D42D79 /* WeChatTweak.m */; };
 		7DF842521F4058C600D42D79 /* TweakPreferecesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8424F1F4058C600D42D79 /* TweakPreferecesController.h */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		153504EC5C9196C0D85213CF /* libPods-WeChatTweak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeChatTweak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D14E5A21F6447DB00D75132 /* AlfredManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfredManager.h; sourceTree = "<group>"; };
+		7D14E5A31F6447DB00D75132 /* AlfredManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfredManager.m; sourceTree = "<group>"; };
 		7DF842271F40583F00D42D79 /* WeChatTweak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WeChatTweak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF8422A1F40583F00D42D79 /* WeChatTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeChatTweak.h; sourceTree = "<group>"; };
 		7DF8422B1F40583F00D42D79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,6 +79,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7D14E5A11F6447B900D75132 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7D14E5A21F6447DB00D75132 /* AlfredManager.h */,
+				7D14E5A31F6447DB00D75132 /* AlfredManager.m */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 		7DF8421D1F40583F00D42D79 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +111,7 @@
 			children = (
 				7DF8422A1F40583F00D42D79 /* WeChatTweak.h */,
 				7DF842331F4058AB00D42D79 /* WeChatTweak.m */,
+				7D14E5A11F6447B900D75132 /* Manager */,
 				7DF842551F4058C900D42D79 /* Controller */,
 				7DF842561F4058D300D42D79 /* Category */,
 				7DF842631F40594400D42D79 /* Resources */,
@@ -162,6 +176,7 @@
 			files = (
 				7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */,
 				7DF8425B1F4058DD00D42D79 /* NSBundle+WeChatTweak.h in Headers */,
+				7D14E5A41F6447DB00D75132 /* AlfredManager.h in Headers */,
 				7DF842601F40590500D42D79 /* WeChatTweakHeaders.h in Headers */,
 				7DF842521F4058C600D42D79 /* TweakPreferecesController.h in Headers */,
 				7DF8425D1F4058DD00D42D79 /* NSString+WeChatTweak.h in Headers */,
@@ -277,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D14E5A51F6447DB00D75132 /* AlfredManager.m in Sources */,
 				7DF8425E1F4058DD00D42D79 /* NSString+WeChatTweak.m in Sources */,
 				7DF842531F4058C600D42D79 /* TweakPreferecesController.m in Sources */,
 				7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */,

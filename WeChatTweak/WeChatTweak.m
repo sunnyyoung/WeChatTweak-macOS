@@ -11,6 +11,7 @@
 #import "NSBundle+WeChatTweak.h"
 #import "NSString+WeChatTweak.h"
 #import "TweakPreferecesController.h"
+#import "AlfredManager.h"
 
 @implementation NSObject (WeChatTweak)
 
@@ -41,12 +42,11 @@ static void __attribute__((constructor)) tweak(void) {
         data.msgStatus = 4;
         data.toUsrName = localMessageData.toUsrName;
         data.fromUsrName = localMessageData.fromUsrName;
+        data.mesLocalID = localMessageData.mesLocalID;
         data.msgCreateTime = localMessageData.msgCreateTime;
         if ([localMessageData isSendFromSelf]) {
-            data.mesLocalID = localMessageData.mesLocalID;
             data.msgContent = replaceMessage;
         } else {
-            data.mesLocalID = localMessageData.mesLocalID;
             data.msgContent = [NSString stringWithFormat:@"[已拦截]\n%@", replaceMessage];
         }
         data;
@@ -77,7 +77,6 @@ static void __attribute__((constructor)) tweak(void) {
             [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
         } else {
             [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-            [((MessageService *)self) notifyAddMsgOnMainThread:session msgData:promptMessageData];
         }
         // Deliver notification
         if (![localMessageData isSendFromSelf]) {
@@ -125,6 +124,7 @@ static void __attribute__((constructor)) tweak(void) {
             [accountService AutoAuth];
         }
     }
+    [[AlfredManager sharedInstance] startListener];
 }
 
 - (NSApplicationTerminateReply)tweak_applicationShouldTerminate:(NSApplication *)sender {

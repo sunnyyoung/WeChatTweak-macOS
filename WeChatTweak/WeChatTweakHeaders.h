@@ -9,6 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
+@interface WeChat : NSObject
+
++ (instancetype)sharedInstance;
+- (void)lock:(id)block;
+- (void)showMainWindow;
+- (void)startANewChatWithContact:(id)contact;
+
+@end
+
+@interface MMSearchResultItem : NSObject
+
+@property(nonatomic) unsigned long long type; // 0 is single chat, 1 is group chat
+@property(readonly, nonatomic) NSString *identifier;
+
+@end
+
 @interface MessageData: NSObject
 
 @property(nonatomic) unsigned int messageType;
@@ -25,7 +41,14 @@
 
 @interface WCContactData : NSObject
 
+@property(nonatomic) unsigned int m_uiBrandSubscriptionSettings;
 @property(retain, nonatomic) NSString *m_nsNickName;
+@property(retain, nonatomic) NSString *m_nsUsrName;
+@property(retain, nonatomic) NSString *m_nsAliasName;
+@property(retain, nonatomic) NSString *m_nsRemark;
+@property(retain, nonatomic) NSString *m_nsFullPY;
+@property(retain, nonatomic) NSString *m_nsRemarkPYShort;
+@property(retain, nonatomic) NSString *m_nsRemarkPYFull;
 
 - (BOOL)isChatStatusNotifyOpen;
 
@@ -33,20 +56,22 @@
 
 @interface ContactStorage : NSObject
 
-- (id)GetContact:(id)arg1;
+- (WCContactData *)GetContact:(NSString *)session;
+- (NSArray<WCContactData *> *)GetAllFriendContacts;
 
 @end
 
 @interface GroupStorage: NSObject
 
-- (id)GetGroupContact:(id)arg1;
+- (WCContactData *)GetGroupContact:(NSString *)session;
+- (NSArray<WCContactData *> *)GetAllGroups;
 
 @end
 
 @interface MMServiceCenter : NSObject
 
 + (id)defaultCenter;
-- (id)getService:(Class)arg1;
+- (id)getService:(Class)name;
 
 @end
 
