@@ -40,7 +40,7 @@
             GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
             NSMutableArray<WCContactData *> *array = [NSMutableArray array];
             [array addObjectsFromArray:[contactStorage GetAllFriendContacts]];
-            [array addObjectsFromArray:[groupStorage GetAllGroups]];
+            [array addObjectsFromArray:[groupStorage GetGroupContactList:0x2 ContactType:0x0]];
             array;
         });
         NSArray<WCContactData *> *results = ({

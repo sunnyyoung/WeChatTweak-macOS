@@ -65,7 +65,7 @@
 
 - (WCContactData *)GetGroupContact:(NSString *)session;
 - (NSArray<WCContactData *> *)GetAllGroups;
-
+- (NSArray<WCContactData *> *)GetGroupContactList:(NSInteger) arg1 ContactType:(NSInteger) arg2;
 @end
 
 @interface MMServiceCenter : NSObject
