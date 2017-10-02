@@ -8,16 +8,42 @@
 
 #import "WeChatTweak.h"
 #import "WeChatTweakHeaders.h"
+#import "fishhook.h"
 #import "NSBundle+WeChatTweak.h"
 #import "NSString+WeChatTweak.h"
 #import "TweakPreferecesController.h"
 #import "AlfredManager.h"
+
+// Global Function
+static NSArray<NSString *> *(*original_NSSearchPathForDirectoriesInDomains)(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde);
+NSArray<NSString *> *tweak_NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde) {
+    if (domainMask == NSUserDomainMask) {
+        NSMutableArray<NSString *> *directories = [original_NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde) mutableCopy];
+        [directories enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger index, BOOL * _Nonnull stop) {
+            switch (directory) {
+                case NSDocumentDirectory: directories[index] = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/com.tencent.xinWeChat/Data/Documents"]; break;
+                case NSLibraryDirectory: directories[index] = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/com.tencent.xinWeChat/Data/Library"]; break;
+                case NSApplicationSupportDirectory: directories[index] = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support"]; break;
+                case NSCachesDirectory: directories[index] = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/com.tencent.xinWeChat/Data/Library/Caches"]; break;
+                default: break;
+            }
+        }];
+        return directories;
+    } else {
+        return original_NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
+    }
+}
 
 @implementation NSObject (WeChatTweak)
 
 #pragma mark - Constructor
 
 static void __attribute__((constructor)) tweak(void) {
+    // Global Function Hook
+    rebind_symbols((struct rebinding[1]) {
+        { "NSSearchPathForDirectoriesInDomains", tweak_NSSearchPathForDirectoriesInDomains, (void *)&original_NSSearchPathForDirectoriesInDomains }
+    }, 1);
+    // Method Swizzling
     class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDidFinishLaunching:") withMethod:@selector(tweak_applicationDidFinishLaunching:) error:nil];
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationShouldTerminate:") withMethod:@selector(tweak_applicationShouldTerminate:) error:nil];
