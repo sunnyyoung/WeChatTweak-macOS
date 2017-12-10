@@ -43,7 +43,7 @@
 
 @interface WCContactData : NSObject
 
-@property(nonatomic) unsigned int m_uiBrandSubscriptionSettings;
+@property(nonatomic) unsigned int m_uiFriendScene;
 @property(retain, nonatomic) NSString *m_nsNickName;
 @property(retain, nonatomic) NSString *m_nsUsrName;
 @property(retain, nonatomic) NSString *m_nsAliasName;

@@ -46,7 +46,7 @@
         NSArray<WCContactData *> *results = ({
             NSMutableArray<WCContactData *> *results = [NSMutableArray array];
             for (WCContactData *contact in contacts) {
-                BOOL isFriend = contact.m_uiBrandSubscriptionSettings == 0;
+                BOOL isFriend = contact.m_uiFriendScene != 0;
                 BOOL containsNickName = [contact.m_nsNickName.lowercaseString containsString:keyword];
                 BOOL containsUsername = [contact.m_nsUsrName.lowercaseString containsString:keyword];
                 BOOL containsAliasName = [contact.m_nsAliasName.lowercaseString containsString:keyword];
