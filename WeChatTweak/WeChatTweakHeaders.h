@@ -11,6 +11,8 @@
 
 @interface WeChat : NSObject
 
+@property(nonatomic) BOOL isAppTerminating;
+
 + (instancetype)sharedInstance;
 - (void)lock:(id)block;
 - (void)showMainWindow;
@@ -92,6 +94,12 @@
 
 @end
 
+@interface LogoutCGI: NSObject
+
+- (void)sendLogoutCGIWithCompletion:(id)arg1;
+
+@end
+
 @protocol MASPreferencesViewController <NSObject>
 
 @property(readonly, nonatomic) NSString *toolbarItemLabel;
@@ -104,7 +112,7 @@
 
 @end
 
-@interface MASPreferencesWindowController : NSWindowController
+@interface MASPreferencesWindowController: NSWindowController
 
 - (id)initWithViewControllers:(NSArray *)arg1;
 
