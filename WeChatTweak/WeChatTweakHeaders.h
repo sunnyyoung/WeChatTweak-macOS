@@ -91,6 +91,7 @@
 
 - (BOOL)canAutoAuth;
 - (void)AutoAuth;
+- (void)onAuthOKOfUser:(id)arg1 withSessionKey:(id)arg2 withServerId:(id)arg3 autoAuthKey:(id)arg4 isAutoAuth:(BOOL)arg5;
 
 @end
 
