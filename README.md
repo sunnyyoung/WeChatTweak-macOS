@@ -17,6 +17,9 @@ A dynamic library tweak for WeChat macOS.
 
 ![](Screenshot/0x02.png)
 
+### LaunchBar action
+![](Screenshot/0x03.png)
+
 ## Feature
 
 - Prevent message revoked
