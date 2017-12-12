@@ -17,6 +17,9 @@
 
 ![](Screenshot/0x02.png)
 
+### LaunchBar action
+![](Screenshot/0x03.png)
+
 ## 功能
 
 - 阻止消息撤回
