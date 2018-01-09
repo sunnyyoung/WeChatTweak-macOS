@@ -1,7 +1,7 @@
 PODS:
-  - GCDWebServer (3.4.1):
-    - GCDWebServer/Core (= 3.4.1)
-  - GCDWebServer/Core (3.4.1)
+  - GCDWebServer (3.4.2):
+    - GCDWebServer/Core (= 3.4.2)
+  - GCDWebServer/Core (3.4.2)
   - JRSwizzle (1.0)
   - YYModel (1.0.4)
 
@@ -11,7 +11,7 @@ DEPENDENCIES:
   - YYModel
 
 SPEC CHECKSUMS:
-  GCDWebServer: 1db60034fe0e78a4a8524bd6c7cd97cd3c589870
+  GCDWebServer: 8d67ee9f634b4bb91eb4b8aee440318a5fc6debd
   JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 

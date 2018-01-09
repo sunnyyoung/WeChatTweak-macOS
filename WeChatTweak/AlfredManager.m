@@ -46,7 +46,7 @@
         NSArray<WCContactData *> *results = ({
             NSMutableArray<WCContactData *> *results = [NSMutableArray array];
             for (WCContactData *contact in contacts) {
-                BOOL isFriend = contact.m_uiFriendScene != 0;
+                BOOL isOfficialAccount = (contact.m_uiCertificationFlag >> 0x3 & 0x1) == 1;
                 BOOL containsNickName = [contact.m_nsNickName.lowercaseString containsString:keyword];
                 BOOL containsUsername = [contact.m_nsUsrName.lowercaseString containsString:keyword];
                 BOOL containsAliasName = [contact.m_nsAliasName.lowercaseString containsString:keyword];
@@ -54,7 +54,7 @@
                 BOOL containsNickNamePinyin = [contact.m_nsFullPY.lowercaseString containsString:keyword];
                 BOOL containsRemarkPinyin = [contact.m_nsRemarkPYFull.lowercaseString containsString:keyword];
                 BOOL matchRemarkShortPinyin = [contact.m_nsRemarkPYShort.lowercaseString isEqualToString:keyword];
-                if (isFriend && (containsNickName || containsUsername || containsAliasName || containsRemark || containsNickNamePinyin || containsRemarkPinyin || matchRemarkShortPinyin)) {
+                if (!isOfficialAccount && (containsNickName || containsUsername || containsAliasName || containsRemark || containsNickNamePinyin || containsRemarkPinyin || matchRemarkShortPinyin)) {
                     [results addObject:contact];
                 }
             }
