@@ -32,6 +32,7 @@ A dynamic library tweak for WeChat macOS.
 - Auto login without authentication
 - UI Interface settings panel
 - Alfred workflow support
+- Lauchbar action support
 
 ## Quick Start
 

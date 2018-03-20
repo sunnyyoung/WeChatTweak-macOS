@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+
+@interface NSString (MD5)
+
+- (NSString *)md5String;
+
+@end
 
 @interface WeChat : NSObject
 
@@ -44,6 +52,7 @@
 @interface WCContactData : NSObject
 
 @property(nonatomic) unsigned int m_uiCertificationFlag;
+@property(retain, nonatomic) NSString *m_nsHeadImgUrl;
 @property(retain, nonatomic) NSString *m_nsNickName;
 @property(retain, nonatomic) NSString *m_nsUsrName;
 @property(retain, nonatomic) NSString *m_nsAliasName;
@@ -51,6 +60,7 @@
 @property(retain, nonatomic) NSString *m_nsFullPY;
 @property(retain, nonatomic) NSString *m_nsRemarkPYShort;
 @property(retain, nonatomic) NSString *m_nsRemarkPYFull;
+@property(retain, nonatomic) NSString *wt_avatarPath;
 
 - (BOOL)isChatStatusNotifyOpen;
 
@@ -98,6 +108,12 @@
 @interface LogoutCGI: NSObject
 
 - (void)sendLogoutCGIWithCompletion:(id)arg1;
+
+@end
+
+@interface MMAvatarService: NSObject
+
+- (NSString *)avatarCachePath;
 
 @end
 

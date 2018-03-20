@@ -32,6 +32,7 @@
 - 重新打开应用无需手机认证
 - UI界面设置面板
 - 支持 Alfred workflow
+- 支持 Launchbar action
 
 ## 使用
 
