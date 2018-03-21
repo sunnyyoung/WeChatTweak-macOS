@@ -8,11 +8,13 @@
 
 #import "TweakPreferecesController.h"
 #import "NSBundle+WeChatTweak.h"
+#import "WTConfigManager.h"
 
 @interface TweakPreferecesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *autoAuthButton;
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
+@property (weak) IBOutlet NSPopUpButton *compressedJSONEnabledButton;
 
 @end
 
@@ -28,11 +30,13 @@
 }
 
 - (void)reloadData {
+    WTConfigManager *configManager = WTConfigManager.sharedInstance;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL enabledAutoAuth = [userDefaults boolForKey:WeChatTweakPreferenceAutoAuthKey];
     RevokeNotificationType notificationType = [userDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
     [self.autoAuthButton selectItemAtIndex:enabledAutoAuth ? 1 : 0];
     [self.notificationTypeButton selectItemAtIndex:notificationType];
+    [self.compressedJSONEnabledButton selectItemAtIndex:configManager.compressedJSONEnabled ? 0 : 1];
 }
 
 #pragma mark - Event method
@@ -46,6 +50,11 @@
 - (IBAction)switchNotificationTypeAction:(NSPopUpButton *)sender {
     RevokeNotificationType type = sender.indexOfSelectedItem;
     [[NSUserDefaults standardUserDefaults] setInteger:type forKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
+}
+
+- (IBAction)switchCompressedJSONEnabledAction:(NSPopUpButton *)sender {
+    BOOL enabled = sender.indexOfSelectedItem == 0;
+    WTConfigManager.sharedInstance.compressedJSONEnabled = enabled;
 }
 
 #pragma mark - MASPreferencesViewController

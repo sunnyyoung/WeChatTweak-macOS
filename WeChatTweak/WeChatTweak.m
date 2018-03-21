@@ -13,6 +13,7 @@
 #import "NSString+WeChatTweak.h"
 #import "TweakPreferecesController.h"
 #import "AlfredManager.h"
+#import "WTConfigManager.h"
 
 // Global Function
 static NSArray<NSString *> *(*original_NSSearchPathForDirectoriesInDomains)(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde);
@@ -60,6 +61,7 @@ static void __attribute__((constructor)) tweak(void) {
     class_addProperty(objc_getClass("WCContactData"), "wt_avatarPath", attrs, 4);
     class_addMethod(objc_getClass("WCContactData"), @selector(wt_avatarPath), method_getImplementation(class_getInstanceMethod(objc_getClass("WCContactData"), @selector(wt_avatarPath))), "@@:");
     class_addMethod(objc_getClass("WCContactData"), @selector(setWt_avatarPath:), method_getImplementation(class_getInstanceMethod(objc_getClass("WCContactData"), @selector(setWt_avatarPath:))), "v@:@");
+    class_addMethod(objc_getClass("WCContactData"), @selector(modelPropertyWhitelist), method_getImplementation(class_getClassMethod(objc_getClass("WCContactData"), @selector(modelPropertyWhitelist))), "v@:");
 }
 
 #pragma mark - No Revoke Message
@@ -196,6 +198,17 @@ static void __attribute__((constructor)) tweak(void) {
 - (void)setWt_avatarPath:(NSString *)avatarPath {
     // For readonly
     return;
+}
+
++ (NSArray *)modelPropertyWhitelist {
+    if (WTConfigManager.sharedInstance.compressedJSONEnabled) {
+        return @[@"wt_avatarPath",
+                 @"m_nsRemark",
+                 @"m_nsNickName",
+                 @"m_nsUsrName"];
+    } else {
+        return nil;
+    }
 }
 
 @end

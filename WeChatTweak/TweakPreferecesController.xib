@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TweakPreferecesController">
             <connections>
                 <outlet property="autoAuthButton" destination="5by-EJ-3f2" id="VIV-sZ-ybx"/>
+                <outlet property="compressedJSONEnabledButton" destination="ylY-lF-oFq" id="yqW-Bl-hNf"/>
                 <outlet property="notificationTypeButton" destination="6x2-KV-p8w" id="Kfn-2a-Yup"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -16,19 +17,19 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="430" height="92"/>
+            <rect key="frame" x="0.0" y="0.0" width="430" height="123"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFE-oR-GRm">
-                    <rect key="frame" x="58" y="55" width="111" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RFE-oR-GRm">
+                    <rect key="frame" x="58" y="86" width="111" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="免手机认证登陆：" id="UiV-zj-l6I">
                         <font key="font" size="13" name=".PingFangSC-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B87-eD-uhI">
-                    <rect key="frame" x="72" y="22" width="97" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B87-eD-uhI">
+                    <rect key="frame" x="72" y="53" width="97" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="消息撤回通知：" id="UKv-CM-nGt">
                         <font key="font" size="13" name=".PingFangSC-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -36,7 +37,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5by-EJ-3f2">
-                    <rect key="frame" x="173" y="50" width="64" height="26"/>
+                    <rect key="frame" x="173" y="81" width="64" height="26"/>
                     <popUpButtonCell key="cell" type="push" title="关闭" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Vcv-eD-OM9" id="8qB-Jj-tlv">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -56,7 +57,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6x2-KV-p8w">
-                    <rect key="frame" x="173" y="17" width="144" height="26"/>
+                    <rect key="frame" x="173" y="48" width="144" height="26"/>
                     <popUpButtonCell key="cell" type="push" title="跟随聊天通知设置" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="gec-CY-E1x" id="wek-GT-N5V">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -78,18 +79,60 @@
                         <action selector="switchNotificationTypeAction:" target="-2" id="xjO-Ck-wem"/>
                     </connections>
                 </popUpButton>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zsd-Bb-6l4">
+                    <rect key="frame" x="43" y="20" width="126" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Alfred JSON 压缩：" id="jHw-2a-B2t">
+                        <font key="font" size="13" name=".PingFangSC-Regular"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ylY-lF-oFq">
+                    <rect key="frame" x="173" y="15" width="64" height="26"/>
+                    <popUpButtonCell key="cell" type="push" title="开启" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="10G-t9-s4T" id="taL-8q-Quu">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="2qr-A3-Yo5">
+                            <items>
+                                <menuItem title="开启" state="on" id="10G-t9-s4T">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="关闭" id="MEN-Kg-wfj">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="switchCompressedJSONEnabledAction:" target="-2" id="HLt-oc-7An"/>
+                    </connections>
+                </popUpButton>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNm-y0-HmG">
+                    <rect key="frame" x="242" y="20" width="84" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="需重启客户端" id="2vl-mc-m3L">
+                        <font key="font" size="13" name=".PingFangSC-Regular"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="B87-eD-uhI" firstAttribute="trailing" secondItem="RFE-oR-GRm" secondAttribute="trailing" id="3p1-WF-TYr"/>
+                <constraint firstItem="zsd-Bb-6l4" firstAttribute="top" secondItem="B87-eD-uhI" secondAttribute="bottom" constant="16" id="62W-9V-E2u"/>
                 <constraint firstItem="RFE-oR-GRm" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="CWK-cO-DBz"/>
                 <constraint firstItem="5by-EJ-3f2" firstAttribute="centerY" secondItem="RFE-oR-GRm" secondAttribute="centerY" id="QLN-KI-HUD"/>
                 <constraint firstItem="RFE-oR-GRm" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="60" id="R8y-0p-4Sk"/>
                 <constraint firstItem="6x2-KV-p8w" firstAttribute="leading" secondItem="5by-EJ-3f2" secondAttribute="leading" id="WSG-53-r8r"/>
+                <constraint firstItem="zsd-Bb-6l4" firstAttribute="trailing" secondItem="RFE-oR-GRm" secondAttribute="trailing" id="Wlh-6X-UJN"/>
+                <constraint firstItem="kNm-y0-HmG" firstAttribute="centerY" secondItem="ylY-lF-oFq" secondAttribute="centerY" id="eMk-RJ-Mbw"/>
                 <constraint firstItem="6x2-KV-p8w" firstAttribute="centerY" secondItem="B87-eD-uhI" secondAttribute="centerY" id="gqp-om-e0O"/>
+                <constraint firstItem="ylY-lF-oFq" firstAttribute="centerY" secondItem="zsd-Bb-6l4" secondAttribute="centerY" id="h7g-u6-ZwV"/>
                 <constraint firstItem="B87-eD-uhI" firstAttribute="top" secondItem="RFE-oR-GRm" secondAttribute="bottom" constant="16" id="lG1-vw-epo"/>
+                <constraint firstItem="kNm-y0-HmG" firstAttribute="leading" secondItem="ylY-lF-oFq" secondAttribute="trailing" constant="10" id="urr-9v-Okd"/>
                 <constraint firstItem="5by-EJ-3f2" firstAttribute="leading" secondItem="RFE-oR-GRm" secondAttribute="trailing" constant="8" id="v9V-TW-Voc"/>
+                <constraint firstItem="ylY-lF-oFq" firstAttribute="leading" secondItem="5by-EJ-3f2" secondAttribute="leading" id="wQB-cU-fmf"/>
             </constraints>
-            <point key="canvasLocation" x="139" y="164"/>
+            <point key="canvasLocation" x="139" y="179.5"/>
         </customView>
     </objects>
 </document>
