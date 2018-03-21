@@ -20,7 +20,7 @@ function run(string) {
     return {
       title: i.m_nsRemark || i.m_nsNickName,
       subtitle: i.m_nsNickName,
-      icon: "icon.png",
+      icon: i.wt_avatarPath || 'icon.png',
       action: "open",
       actionArgument: i.m_nsUsrName
     }
