@@ -210,7 +210,6 @@
 				7DF842231F40583F00D42D79 /* Frameworks */,
 				7DF842241F40583F00D42D79 /* Headers */,
 				7DF842251F40583F00D42D79 /* Resources */,
-				B75BB08B5F9B62E8FF4DEE05 /* [CP] Copy Pods Resources */,
 				7DF842611F40592100D42D79 /* Export Framework */,
 			);
 			buildRules = (
@@ -267,21 +266,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B75BB08B5F9B62E8FF4DEE05 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WeChatTweak/Pods-WeChatTweak-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		CB198514792C1F69F3B65026 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

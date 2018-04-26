@@ -10,6 +10,12 @@ DEPENDENCIES:
   - JRSwizzle
   - YYModel
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - GCDWebServer
+    - JRSwizzle
+    - YYModel
+
 SPEC CHECKSUMS:
   GCDWebServer: 8d67ee9f634b4bb91eb4b8aee440318a5fc6debd
   JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
@@ -17,4 +23,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: af44d62b300e2c55cb63386ec4be3227b93c7761
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0
