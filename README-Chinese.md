@@ -1,6 +1,6 @@
 # WeChatTweak-macOS
 
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![README](https://img.shields.io/badge/README-English-blue.svg)](README.md)
 [![README](https://img.shields.io/badge/README-中文-blue.svg)](README-Chinese.md)
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
