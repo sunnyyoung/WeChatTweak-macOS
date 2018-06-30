@@ -91,7 +91,7 @@ static void __attribute__((constructor)) tweak(void) {
         if ([localMessageData isSendFromSelf]) {
             data.msgContent = replaceMessage;
         } else {
-            data.msgContent = [NSString stringWithFormat:@"[已拦截]\n%@", replaceMessage];
+            data.msgContent = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], replaceMessage];
         }
         data;
     });
@@ -109,7 +109,7 @@ static void __attribute__((constructor)) tweak(void) {
         GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
         WCContactData *groupContact = [groupStorage GetGroupContact:session];
         isChatStatusNotifyOpen = [groupContact isChatStatusNotifyOpen];
-        NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : @"群组";
+        NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
         userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
     }
 
@@ -140,7 +140,9 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
     NSMenu *menu = [[NSMenu alloc] init];
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"登录新的微信账号" action:@selector(openNewWeChatInstace:) keyEquivalent:@""];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.LoginAnotherAccount"]
+                                                      action:@selector(openNewWeChatInstace:)
+                                               keyEquivalent:@""];
     [menu insertItem:menuItem atIndex:0];
     return menu;
 }
@@ -214,14 +216,11 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 + (NSArray *)modelPropertyWhitelist {
-    if (WTConfigManager.sharedInstance.compressedJSONEnabled) {
-        return @[@"wt_avatarPath",
-                 @"m_nsRemark",
-                 @"m_nsNickName",
-                 @"m_nsUsrName"];
-    } else {
-        return nil;
-    }
+    NSArray *list =@[@"wt_avatarPath",
+                     @"m_nsRemark",
+                     @"m_nsNickName",
+                     @"m_nsUsrName"];
+    return WTConfigManager.sharedInstance.compressedJSONEnabled ? list : nil;
 }
 
 @end

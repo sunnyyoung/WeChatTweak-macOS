@@ -14,4 +14,8 @@
     return [NSBundle bundleWithIdentifier:@"net.sunnyyoung.WeChatTweak"];
 }
 
+- (NSString *)localizedStringForKey:(NSString *)key {
+    return [self localizedStringForKey:key value:nil table:nil];
+}
+
 @end
