@@ -17,6 +17,8 @@
 
 @implementation AlfredManager
 
+static int port = 48065;
+    
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static AlfredManager *shared;
@@ -34,6 +36,14 @@
     // Search contancts
     [self.server addHandlerForMethod:@"GET" path:@"/wechat/search" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         NSString *keyword = [request.query[@"keyword"] lowercaseString] ? : @"";
+        
+        NSString *hostname = request.headers[@"Host"];
+        NSString *url1 = [NSString stringWithFormat:@"127.0.0.1:%d", port];
+        NSString *url2 = [NSString stringWithFormat:@"localhost:%d", port];
+        if(!([hostname isEqualToString:url1] | [hostname isEqualToString:url2])){
+            return [GCDWebServerResponse responseWithStatusCode:404];
+        }
+        
         NSArray<WCContactData *> *contacts = ({
             MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
             ContactStorage *contactStorage = [serviceCenter getService:objc_getClass("ContactStorage")];
@@ -64,6 +74,14 @@
     }];
     // Start chat
     [self.server addHandlerForMethod:@"GET" path:@"/wechat/start" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        
+        NSString *hostname = request.headers[@"Host"];
+        NSString *url1 = [NSString stringWithFormat:@"127.0.0.1:%d", port];
+        NSString *url2 = [NSString stringWithFormat:@"localhost:%d", port];
+        if(!([hostname isEqualToString:url1] | [hostname isEqualToString:url2])){
+            return [GCDWebServerResponse responseWithStatusCode:404];
+        }
+        
         WCContactData *contact = ({
             NSString *session = request.query[@"session"];
             WCContactData *contact = nil;
@@ -86,7 +104,7 @@
         });
         return [GCDWebServerResponse responseWithStatusCode:200];
     }];
-    [self.server startWithOptions:@{GCDWebServerOption_Port: @(48065),
+    [self.server startWithOptions:@{GCDWebServerOption_Port: [NSNumber numberWithInt:port],
                                     GCDWebServerOption_BindToLocalhost: @(YES)} error:nil];
 }
 
