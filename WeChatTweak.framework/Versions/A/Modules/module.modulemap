@@ -1,0 +1,6 @@
+framework module WeChatTweak {
+  umbrella header "WeChatTweak.h"
+
+  export *
+  module * { export * }
+}
