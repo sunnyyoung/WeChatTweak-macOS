@@ -24,24 +24,9 @@
 		7DF8425B1F4058DD00D42D79 /* NSBundle+WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF842571F4058DD00D42D79 /* NSBundle+WeChatTweak.h */; };
 		7DF8425C1F4058DD00D42D79 /* NSBundle+WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF842581F4058DD00D42D79 /* NSBundle+WeChatTweak.m */; };
 		7DF842601F40590500D42D79 /* WeChatTweakHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8425F1F40590500D42D79 /* WeChatTweakHeaders.h */; };
-		7DF842621F40592800D42D79 /* WeChatTweak.framework in Export Framework */ = {isa = PBXBuildFile; fileRef = 7DF842271F40583F00D42D79 /* WeChatTweak.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7DF842651F40594400D42D79 /* Prefs-Tweak.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7DF842641F40594400D42D79 /* Prefs-Tweak.tiff */; };
 		D84599A16A2504BCF95DB436 /* libPods-WeChatTweak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 153504EC5C9196C0D85213CF /* libPods-WeChatTweak.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		7DF842611F40592100D42D79 /* Export Framework */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "${SRCROOT}";
-			dstSubfolderSpec = 0;
-			files = (
-				7DF842621F40592800D42D79 /* WeChatTweak.framework in Export Framework */,
-			);
-			name = "Export Framework";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		153504EC5C9196C0D85213CF /* libPods-WeChatTweak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeChatTweak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,7 +210,7 @@
 				7DF842231F40583F00D42D79 /* Frameworks */,
 				7DF842241F40583F00D42D79 /* Headers */,
 				7DF842251F40583F00D42D79 /* Resources */,
-				7DF842611F40592100D42D79 /* Export Framework */,
+				7DE5D07F218319DF00ABCE56 /* Export Framework */,
 			);
 			buildRules = (
 			);
@@ -285,6 +270,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7DE5D07F218319DF00ABCE56 /* Export Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Export Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FRAMEWORK=\"${TARGET_NAME}.framework\"\nrm -r \"${SRCROOT}/${FRAMEWORK}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FRAMEWORK}\" \"${SRCROOT}\"\n";
+		};
 		CB198514792C1F69F3B65026 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
