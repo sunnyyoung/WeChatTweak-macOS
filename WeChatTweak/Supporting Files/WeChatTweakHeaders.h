@@ -39,12 +39,14 @@
 
 @property(nonatomic) unsigned int messageType;
 @property(nonatomic) unsigned int msgStatus;
+@property(nonatomic) long long mesSvrID;
 @property(retain, nonatomic) NSString *toUsrName;
 @property(retain, nonatomic) NSString *fromUsrName;
 @property(retain, nonatomic) NSString *msgContent;
 @property(nonatomic) unsigned int msgCreateTime;
 @property(nonatomic) unsigned int mesLocalID;
 
+- (instancetype)initWithMsgType:(long long)arg1;
 - (BOOL)isSendFromSelf;
 
 @end

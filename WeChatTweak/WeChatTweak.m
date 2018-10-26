@@ -72,20 +72,19 @@ static void __attribute__((constructor)) tweak(void) {
 
 #pragma mark - No Revoke Message
 
-- (void)tweak_onRevokeMsg:(NSString *)message {
+- (void)tweak_onRevokeMsg:(MessageData *)message {
     // Decode message
-    NSString *session = [message tweak_subStringFrom:@"<session>" to:@"</session>"];
-    NSUInteger newMessageID = [message tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
-    NSString *replaceMessage = [message tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
-
+    NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
+    NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
+    NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
     // Prepare message data
     MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
     MessageData *promptMessageData = ({
-        MessageData *data = [[objc_getClass("MessageData") alloc] init];
-        data.messageType = 10000;
+        MessageData *data = [[objc_getClass("MessageData") alloc] initWithMsgType:10000];
         data.msgStatus = 4;
         data.toUsrName = localMessageData.toUsrName;
         data.fromUsrName = localMessageData.fromUsrName;
+        data.mesSvrID = localMessageData.mesSvrID;
         data.mesLocalID = localMessageData.mesLocalID;
         data.msgCreateTime = localMessageData.msgCreateTime;
         if ([localMessageData isSendFromSelf]) {
@@ -95,7 +94,7 @@ static void __attribute__((constructor)) tweak(void) {
         }
         data;
     });
-
+    
     // Prepare notification information
     MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
     NSUserNotification *userNotification = [[NSUserNotification alloc] init];
@@ -112,16 +111,18 @@ static void __attribute__((constructor)) tweak(void) {
         NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
         userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
     }
-
+    
+    // Delete message if it is revoke from myself
+    if ([localMessageData isSendFromSelf]) {
+        [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
+        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
+    } else {
+        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
+        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
+    }
+    
     // Dispatch notification
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Delete message if it is revoke from myself
-        if ([localMessageData isSendFromSelf]) {
-            [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
-            [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-        } else {
-            [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-        }
         // Deliver notification
         if (![localMessageData isSendFromSelf]) {
             RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
