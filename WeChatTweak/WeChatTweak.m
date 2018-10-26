@@ -206,8 +206,10 @@ static void __attribute__((constructor)) tweak(void) {
 #pragma mark - WCContact Data
 
 - (NSString *)wt_avatarPath {
-    MMAvatarService *avatarService = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("MMAvatarService")];
-    NSString *pathString = [NSString stringWithFormat:@"%@/%@", [avatarService avatarCachePath], [((WCContactData *)self).m_nsHeadImgUrl md5String]];
+    if (![objc_getClass("PathUtility") respondsToSelector:@selector(GetCurUserDocumentPath)]) {
+        return @"";
+    }
+    NSString *pathString = [NSString stringWithFormat:@"%@/Avatar/%@.jpg", [objc_getClass("PathUtility") GetCurUserDocumentPath], [((WCContactData *)self).m_nsUsrName md5String]];
     return [NSFileManager.defaultManager fileExistsAtPath:pathString] ? pathString : @"";
 }
 

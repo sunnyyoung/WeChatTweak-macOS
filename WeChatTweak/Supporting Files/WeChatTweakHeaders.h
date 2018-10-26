@@ -28,6 +28,12 @@
 
 @end
 
+@interface PathUtility : NSObject
+
++ (NSString *)GetCurUserDocumentPath;
+
+@end
+
 @interface MMSearchResultItem : NSObject
 
 @property(nonatomic) unsigned long long type; // 0 is single chat, 1 is group chat
