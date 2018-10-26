@@ -118,7 +118,6 @@ static void __attribute__((constructor)) tweak(void) {
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     } else {
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     }
     
     // Dispatch notification
