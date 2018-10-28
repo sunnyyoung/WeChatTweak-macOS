@@ -11,5 +11,6 @@
 @interface NSBundle (WeChatTweak)
 
 + (instancetype)tweakBundle;
+- (NSString *)localizedStringForKey:(NSString *)key;
 
 @end

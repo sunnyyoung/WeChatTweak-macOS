@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  WeChatTweak
+
+  Created by Sunny Young on 2018/6/30.
+  Copyright © 2018 Sunnyyoung. All rights reserved.
+*/
+
+"Tweak.Title.LoginAnotherAccount" = "登錄新的賬號";
+"Tweak.Title.Group" = "群組";
+"Tweak.Message.CatchARecalledMessage" = "[已攔截]\n%@";

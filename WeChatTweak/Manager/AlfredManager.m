@@ -17,6 +17,8 @@
 
 @implementation AlfredManager
 
+static int port = 48065;
+    
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static AlfredManager *shared;
@@ -34,19 +36,27 @@
     // Search contancts
     [self.server addHandlerForMethod:@"GET" path:@"/wechat/search" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         NSString *keyword = [request.query[@"keyword"] lowercaseString] ? : @"";
+        
+        NSString *hostname = request.headers[@"Host"];
+        NSString *url1 = [NSString stringWithFormat:@"127.0.0.1:%d", port];
+        NSString *url2 = [NSString stringWithFormat:@"localhost:%d", port];
+        if(!([hostname isEqualToString:url1] | [hostname isEqualToString:url2])){
+            return [GCDWebServerResponse responseWithStatusCode:404];
+        }
+        
         NSArray<WCContactData *> *contacts = ({
             MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
             ContactStorage *contactStorage = [serviceCenter getService:objc_getClass("ContactStorage")];
             GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
             NSMutableArray<WCContactData *> *array = [NSMutableArray array];
             [array addObjectsFromArray:[contactStorage GetAllFriendContacts]];
-            [array addObjectsFromArray:[groupStorage GetAllGroups]];
+            [array addObjectsFromArray:[groupStorage GetGroupContactList:2 ContactType:0]];
             array;
         });
         NSArray<WCContactData *> *results = ({
             NSMutableArray<WCContactData *> *results = [NSMutableArray array];
             for (WCContactData *contact in contacts) {
-                BOOL isFriend = contact.m_uiBrandSubscriptionSettings == 0;
+                BOOL isOfficialAccount = (contact.m_uiCertificationFlag >> 0x3 & 0x1) == 1;
                 BOOL containsNickName = [contact.m_nsNickName.lowercaseString containsString:keyword];
                 BOOL containsUsername = [contact.m_nsUsrName.lowercaseString containsString:keyword];
                 BOOL containsAliasName = [contact.m_nsAliasName.lowercaseString containsString:keyword];
@@ -54,7 +64,7 @@
                 BOOL containsNickNamePinyin = [contact.m_nsFullPY.lowercaseString containsString:keyword];
                 BOOL containsRemarkPinyin = [contact.m_nsRemarkPYFull.lowercaseString containsString:keyword];
                 BOOL matchRemarkShortPinyin = [contact.m_nsRemarkPYShort.lowercaseString isEqualToString:keyword];
-                if (isFriend && (containsNickName || containsUsername || containsAliasName || containsRemark || containsNickNamePinyin || containsRemarkPinyin || matchRemarkShortPinyin)) {
+                if (!isOfficialAccount && (containsNickName || containsUsername || containsAliasName || containsRemark || containsNickNamePinyin || containsRemarkPinyin || matchRemarkShortPinyin)) {
                     [results addObject:contact];
                 }
             }
@@ -64,6 +74,14 @@
     }];
     // Start chat
     [self.server addHandlerForMethod:@"GET" path:@"/wechat/start" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        
+        NSString *hostname = request.headers[@"Host"];
+        NSString *url1 = [NSString stringWithFormat:@"127.0.0.1:%d", port];
+        NSString *url2 = [NSString stringWithFormat:@"localhost:%d", port];
+        if(!([hostname isEqualToString:url1] | [hostname isEqualToString:url2])){
+            return [GCDWebServerResponse responseWithStatusCode:404];
+        }
+        
         WCContactData *contact = ({
             NSString *session = request.query[@"session"];
             WCContactData *contact = nil;
@@ -86,7 +104,7 @@
         });
         return [GCDWebServerResponse responseWithStatusCode:200];
     }];
-    [self.server startWithOptions:@{GCDWebServerOption_Port: @(48065),
+    [self.server startWithOptions:@{GCDWebServerOption_Port: [NSNumber numberWithInt:port],
                                     GCDWebServerOption_BindToLocalhost: @(YES)} error:nil];
 }
 

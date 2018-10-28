@@ -8,13 +8,29 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+
+@interface NSString (MD5)
+
+- (NSString *)md5String;
+
+@end
 
 @interface WeChat : NSObject
+
+@property(nonatomic) BOOL isAppTerminating;
 
 + (instancetype)sharedInstance;
 - (void)lock:(id)block;
 - (void)showMainWindow;
 - (void)startANewChatWithContact:(id)contact;
+
+@end
+
+@interface PathUtility : NSObject
+
++ (NSString *)GetCurUserDocumentPath;
 
 @end
 
@@ -29,19 +45,22 @@
 
 @property(nonatomic) unsigned int messageType;
 @property(nonatomic) unsigned int msgStatus;
+@property(nonatomic) long long mesSvrID;
 @property(retain, nonatomic) NSString *toUsrName;
 @property(retain, nonatomic) NSString *fromUsrName;
 @property(retain, nonatomic) NSString *msgContent;
 @property(nonatomic) unsigned int msgCreateTime;
 @property(nonatomic) unsigned int mesLocalID;
 
+- (instancetype)initWithMsgType:(long long)arg1;
 - (BOOL)isSendFromSelf;
 
 @end
 
 @interface WCContactData : NSObject
 
-@property(nonatomic) unsigned int m_uiBrandSubscriptionSettings;
+@property(nonatomic) unsigned int m_uiCertificationFlag;
+@property(retain, nonatomic) NSString *m_nsHeadImgUrl;
 @property(retain, nonatomic) NSString *m_nsNickName;
 @property(retain, nonatomic) NSString *m_nsUsrName;
 @property(retain, nonatomic) NSString *m_nsAliasName;
@@ -49,6 +68,7 @@
 @property(retain, nonatomic) NSString *m_nsFullPY;
 @property(retain, nonatomic) NSString *m_nsRemarkPYShort;
 @property(retain, nonatomic) NSString *m_nsRemarkPYFull;
+@property(retain, nonatomic) NSString *wt_avatarPath;
 
 - (BOOL)isChatStatusNotifyOpen;
 
@@ -65,6 +85,7 @@
 
 - (WCContactData *)GetGroupContact:(NSString *)session;
 - (NSArray<WCContactData *> *)GetAllGroups;
+- (NSArray<WCContactData *> *)GetGroupContactList:(NSInteger)arg1 ContactType:(NSInteger)arg2;
 
 @end
 
@@ -88,6 +109,19 @@
 
 - (BOOL)canAutoAuth;
 - (void)AutoAuth;
+- (void)onAuthOKOfUser:(id)arg1 withSessionKey:(id)arg2 withServerId:(id)arg3 autoAuthKey:(id)arg4 isAutoAuth:(BOOL)arg5;
+
+@end
+
+@interface LogoutCGI: NSObject
+
+- (void)sendLogoutCGIWithCompletion:(id)arg1;
+
+@end
+
+@interface MMAvatarService: NSObject
+
+- (NSString *)avatarCachePath;
 
 @end
 
@@ -103,7 +137,7 @@
 
 @end
 
-@interface MASPreferencesWindowController : NSWindowController
+@interface MASPreferencesWindowController: NSWindowController
 
 - (id)initWithViewControllers:(NSArray *)arg1;
 
