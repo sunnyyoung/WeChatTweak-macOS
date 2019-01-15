@@ -100,8 +100,14 @@ static void __attribute__((constructor)) tweak(void) {
             NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
             NSMutableString *msgContent = [NSMutableString stringWithString:tips];
             switch (localMessageData.messageType) {
-                case 1:  //Text
-                    [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent]; break;
+                case 1: { //Text
+                    if (localMessageData.msgContent.length) {
+                        [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
+                    } else {
+                        [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]];
+                    }
+                    break;
+                }
                 case 3:  //Photo
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Photo"]]; break;
                 case 34: //Voice
