@@ -102,7 +102,11 @@ static void __attribute__((constructor)) tweak(void) {
             switch (localMessageData.messageType) {
                 case 1: { //Text
                     if (localMessageData.msgContent.length) {
-                        [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
+                        if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
+                            [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
+                        } else {
+                            [msgContent appendFormat:@"\"%@\"", [localMessageData.msgContent componentsSeparatedByString:@":\n"].lastObject];
+                        }
                     } else {
                         [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]];
                     }
@@ -148,6 +152,9 @@ static void __attribute__((constructor)) tweak(void) {
         [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     } else {
+        if (localMessageData.messageType == 1) {
+            [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
+        }
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     }
     
