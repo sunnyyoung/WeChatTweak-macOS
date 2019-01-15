@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>18C54</string>
+	<string>18A391</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -27,17 +27,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>10B61</string>
+	<string>9F2000</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>18B71</string>
+	<string>17E189</string>
 	<key>DTSDKName</key>
-	<string>macosx10.14</string>
+	<string>macosx10.13</string>
 	<key>DTXcode</key>
-	<string>1010</string>
+	<string>0941</string>
 	<key>DTXcodeBuild</key>
-	<string>10B61</string>
+	<string>9F2000</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017年 Sunnyyoung. All rights reserved.</string>
 </dict>

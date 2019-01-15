@@ -81,6 +81,7 @@ static void __attribute__((constructor)) tweak(void) {
     NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
     NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
     NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
+
     // Prepare message data
     MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
     MessageData *promptMessageData = ({
@@ -94,7 +95,27 @@ static void __attribute__((constructor)) tweak(void) {
         if ([localMessageData isSendFromSelf]) {
             data.msgContent = replaceMessage;
         } else {
-            data.msgContent = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], replaceMessage];
+            NSString *fromUserName = [[replaceMessage stringByReplacingOccurrencesOfString:@"\"" withString:@""] componentsSeparatedByString:@" "].firstObject;
+            NSString *userRevoke = [NSString stringWithFormat:@"\"%@\" %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
+            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
+            NSMutableString *msgContent = [NSMutableString stringWithString:tips];
+            switch (localMessageData.messageType) {
+                case 1:  //Text
+                    [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent]; break;
+                case 3:  //Photo
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Photo"]]; break;
+                case 34: //Voice
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Voice"]]; break;
+                case 43: //Video
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
+                case 47: //Sticker
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
+                case 49: //Forward Link
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
+                default:
+                    [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
+            }
+            data.msgContent = msgContent;
         }
         data;
     });
