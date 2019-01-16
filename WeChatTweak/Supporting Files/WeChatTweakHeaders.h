@@ -11,6 +11,15 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+typedef NS_ENUM(unsigned int, MessageDataType) {
+    MessageDataTypeText     = 1,
+    MessageDataTypeImage    = 3,
+    MessageDataTypeVoice    = 34,
+    MessageDataTypeVideo    = 43,
+    MessageDataTypeSticker  = 47,
+    MessageDataTypeLink     = 49,
+};
+
 @interface NSString (MD5)
 
 - (NSString *)md5String;
@@ -43,7 +52,7 @@
 
 @interface MessageData: NSObject
 
-@property(nonatomic) unsigned int messageType;
+@property(nonatomic) MessageDataType messageType;
 @property(nonatomic) unsigned int msgStatus;
 @property(nonatomic) long long mesSvrID;
 @property(retain, nonatomic) NSString *toUsrName;

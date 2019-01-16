@@ -10,7 +10,7 @@
 "Tweak.Title.Group" = "群组";
 "Tweak.Message.CatchARecalledMessage" = "[已拦截]\n%@";
 "Tweak.Message.Recalled" = "撤回了";
-"Tweak.Message.Photo" = "图片";
+"Tweak.Message.Image" = "图片";
 "Tweak.Message.Voice" = "语音";
 "Tweak.Message.Video" = "视频";
 "Tweak.Message.Sticker" = "表情";

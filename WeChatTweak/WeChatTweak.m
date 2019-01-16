@@ -95,12 +95,12 @@ static void __attribute__((constructor)) tweak(void) {
         if ([localMessageData isSendFromSelf]) {
             data.msgContent = replaceMessage;
         } else {
-            NSString *fromUserName = [[replaceMessage stringByReplacingOccurrencesOfString:@"\"" withString:@""] componentsSeparatedByString:@" "].firstObject;
-            NSString *userRevoke = [NSString stringWithFormat:@"\"%@\" %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
+            NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
+            NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
             NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
             NSMutableString *msgContent = [NSMutableString stringWithString:tips];
             switch (localMessageData.messageType) {
-                case 1: { //Text
+                case MessageDataTypeText: {
                     if (localMessageData.msgContent.length) {
                         if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
                             [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
@@ -112,15 +112,15 @@ static void __attribute__((constructor)) tweak(void) {
                     }
                     break;
                 }
-                case 3:  //Photo
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Photo"]]; break;
-                case 34: //Voice
+                case MessageDataTypeImage:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Image"]]; break;
+                case MessageDataTypeVoice:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Voice"]]; break;
-                case 43: //Video
+                case MessageDataTypeVideo:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
-                case 47: //Sticker
+                case MessageDataTypeSticker:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
-                case 49: //Forward Link
+                case MessageDataTypeLink:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
                 default:
                     [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
@@ -152,7 +152,7 @@ static void __attribute__((constructor)) tweak(void) {
         [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     } else {
-        if (localMessageData.messageType == 1) {
+        if (localMessageData.messageType == MessageDataTypeText) {
             [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
         }
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
