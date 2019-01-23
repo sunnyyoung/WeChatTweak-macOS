@@ -81,6 +81,7 @@ static void __attribute__((constructor)) tweak(void) {
     NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
     NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
     NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
+
     // Prepare message data
     MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
     MessageData *promptMessageData = ({
@@ -94,7 +95,37 @@ static void __attribute__((constructor)) tweak(void) {
         if ([localMessageData isSendFromSelf]) {
             data.msgContent = replaceMessage;
         } else {
-            data.msgContent = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], replaceMessage];
+            NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
+            NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
+            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
+            NSMutableString *msgContent = [NSMutableString stringWithString:tips];
+            switch (localMessageData.messageType) {
+                case MessageDataTypeText: {
+                    if (localMessageData.msgContent.length) {
+                        if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
+                            [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
+                        } else {
+                            [msgContent appendFormat:@"\"%@\"", [localMessageData.msgContent componentsSeparatedByString:@":\n"].lastObject];
+                        }
+                    } else {
+                        [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]];
+                    }
+                    break;
+                }
+                case MessageDataTypeImage:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Image"]]; break;
+                case MessageDataTypeVoice:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Voice"]]; break;
+                case MessageDataTypeVideo:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
+                case MessageDataTypeSticker:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
+                case MessageDataTypeLink:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
+                default:
+                    [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
+            }
+            data.msgContent = msgContent;
         }
         data;
     });
@@ -121,6 +152,9 @@ static void __attribute__((constructor)) tweak(void) {
         [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     } else {
+        if (localMessageData.messageType == MessageDataTypeText) {
+            [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
+        }
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     }
     
