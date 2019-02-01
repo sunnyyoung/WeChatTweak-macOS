@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="TweakPreferecesController">
+        <customObject id="-2" userLabel="File's Owner" customClass="TweakPreferencesController">
             <connections>
                 <outlet property="autoAuthButton" destination="5by-EJ-3f2" id="VIV-sZ-ybx"/>
                 <outlet property="compressedJSONEnabledButton" destination="ylY-lF-oFq" id="yqW-Bl-hNf"/>
@@ -37,7 +37,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5by-EJ-3f2">
-                    <rect key="frame" x="192" y="81" width="90" height="26"/>
+                    <rect key="frame" x="192" y="81" width="91" height="25"/>
                     <popUpButtonCell key="cell" type="push" title="Disabled" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="axesIndependently" inset="2" selectedItem="Vcv-eD-OM9" id="8qB-Jj-tlv">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -57,7 +57,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6x2-KV-p8w">
-                    <rect key="frame" x="192" y="48" width="91" height="26"/>
+                    <rect key="frame" x="192" y="48" width="92" height="25"/>
                     <popUpButtonCell key="cell" type="push" title="Inherited" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="axesIndependently" inset="2" selectedItem="gec-CY-E1x" id="wek-GT-N5V">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -88,7 +88,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ylY-lF-oFq">
-                    <rect key="frame" x="192" y="15" width="90" height="26"/>
+                    <rect key="frame" x="192" y="15" width="91" height="25"/>
                     <popUpButtonCell key="cell" type="push" title="Disabled" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="axesIndependently" inset="2" selectedItem="MEN-Kg-wfj" id="taL-8q-Quu">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -108,7 +108,7 @@
                     </connections>
                 </popUpButton>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNm-y0-HmG">
-                    <rect key="frame" x="287" y="20" width="100" height="17"/>
+                    <rect key="frame" x="288" y="20" width="100" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" title="Need to restart" usesSingleLineMode="YES" id="2vl-mc-m3L">
                         <font key="font" size="13" name=".PingFangSC-Regular"/>
                         <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>

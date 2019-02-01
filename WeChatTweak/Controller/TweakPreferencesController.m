@@ -1,16 +1,16 @@
 //
-//  TweakPreferecesController.m
+//  TweakPreferencesController.m
 //  WeChatTweak
 //
 //  Created by Sunnyyoung on 2017/8/12.
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import "TweakPreferecesController.h"
+#import "TweakPreferencesController.h"
 #import "NSBundle+WeChatTweak.h"
 #import "WTConfigManager.h"
 
-@interface TweakPreferecesController () <MASPreferencesViewController>
+@interface TweakPreferencesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *autoAuthButton;
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation TweakPreferecesController
+@implementation TweakPreferencesController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
