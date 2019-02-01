@@ -11,7 +11,7 @@
 #import "fishhook.h"
 #import "NSBundle+WeChatTweak.h"
 #import "NSString+WeChatTweak.h"
-#import "TweakPreferecesController.h"
+#import "TweakPreferencesController.h"
 #import "AlfredManager.h"
 #import "WTConfigManager.h"
 
@@ -235,7 +235,7 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (id)tweak_initWithViewControllers:(NSArray *)arg1 {
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:arg1];
-    TweakPreferecesController *controller = [[TweakPreferecesController alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
+    TweakPreferencesController *controller = [[TweakPreferencesController alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
     [viewControllers addObject:controller];
     return [self tweak_initWithViewControllers:viewControllers];
 }
