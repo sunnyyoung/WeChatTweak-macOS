@@ -61,6 +61,7 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"FFSvrChatInfoMsgWithImgZZ") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
+    [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
     [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
 
     objc_property_attribute_t type = { "T", "@\"NSString\"" }; // NSString
@@ -176,6 +177,14 @@ static void __attribute__((constructor)) tweak(void) {
     return NO;
 }
 
++ (NSArray<NSRunningApplication *> *)tweak_runningApplicationsWithBundleIdentifier:(NSString *)bundleIdentifier {
+    if ([bundleIdentifier isEqualToString:NSBundle.mainBundle.bundleIdentifier]) {
+        return @[NSRunningApplication.currentApplication];
+    } else {
+        return [self tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
+    }
+}
+
 - (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.LoginAnotherAccount"]
@@ -186,7 +195,7 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)openNewWeChatInstace:(id)sender {
-    NSString *applicationPath = [[NSBundle mainBundle] bundlePath];
+    NSString *applicationPath = NSBundle.mainBundle.bundlePath;
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
@@ -197,8 +206,8 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    NSArray *instances = [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
+    NSString *bundleIdentifier = NSBundle.mainBundle.bundleIdentifier;
+    NSArray *instances = [NSRunningApplication tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
     // Detect multiple instance conflict
     BOOL hasInstance = instances.count == 1;
     BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
