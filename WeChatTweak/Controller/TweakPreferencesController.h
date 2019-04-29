@@ -1,5 +1,5 @@
 //
-//  TweakPreferecesController.h
+//  TweakPreferencesController.h
 //  WeChatTweak
 //
 //  Created by Sunnyyoung on 2017/8/12.
@@ -17,6 +17,6 @@ typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
 static NSString * const WeChatTweakPreferenceAutoAuthKey = @"WeChatTweakPreferenceAutoAuthKey";
 static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeChatTweakPreferenceRevokeNotificationTypeKey";
 
-@interface TweakPreferecesController : NSViewController
+@interface TweakPreferencesController : NSViewController
 
 @end

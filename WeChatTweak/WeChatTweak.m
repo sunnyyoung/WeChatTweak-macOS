@@ -11,7 +11,7 @@
 #import "fishhook.h"
 #import "NSBundle+WeChatTweak.h"
 #import "NSString+WeChatTweak.h"
-#import "TweakPreferecesController.h"
+#import "TweakPreferencesController.h"
 #import "AlfredManager.h"
 #import "WTConfigManager.h"
 
@@ -53,10 +53,15 @@ static void __attribute__((constructor)) tweak(void) {
     class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDidFinishLaunching:") withMethod:@selector(tweak_applicationDidFinishLaunching:) error:nil];
     [objc_getClass("LogoutCGI") jr_swizzleMethod:NSSelectorFromString(@"sendLogoutCGIWithCompletion:") withMethod:@selector(tweak_sendLogoutCGIWithCompletion:) error:nil];
+    [objc_getClass("LogoutCGI") jr_swizzleMethod:NSSelectorFromString(@"FFVCRecvDataAddDataToMsgChatMgrRecvZZ:") withMethod:@selector(tweak_sendLogoutCGIWithCompletion:) error:nil];
     [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"onAuthOKOfUser:withSessionKey:withServerId:autoAuthKey:isAutoAuth:") withMethod:@selector(tweak_onAuthOKOfUser:withSessionKey:withServerId:autoAuthKey:isAutoAuth:) error:nil];
     [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"ManualLogout") withMethod:@selector(tweak_ManualLogout) error:nil];
+    [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"FFAddSvrMsgImgVCZZ") withMethod:@selector(tweak_ManualLogout) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
+    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
+    [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"FFSvrChatInfoMsgWithImgZZ") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
+    [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
     [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
 
     objc_property_attribute_t type = { "T", "@\"NSString\"" }; // NSString
@@ -77,6 +82,7 @@ static void __attribute__((constructor)) tweak(void) {
     NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
     NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
     NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
+
     // Prepare message data
     MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
     MessageData *promptMessageData = ({
@@ -90,7 +96,37 @@ static void __attribute__((constructor)) tweak(void) {
         if ([localMessageData isSendFromSelf]) {
             data.msgContent = replaceMessage;
         } else {
-            data.msgContent = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], replaceMessage];
+            NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
+            NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
+            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
+            NSMutableString *msgContent = [NSMutableString stringWithString:tips];
+            switch (localMessageData.messageType) {
+                case MessageDataTypeText: {
+                    if (localMessageData.msgContent.length) {
+                        if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
+                            [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
+                        } else {
+                            [msgContent appendFormat:@"\"%@\"", [localMessageData.msgContent componentsSeparatedByString:@":\n"].lastObject];
+                        }
+                    } else {
+                        [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]];
+                    }
+                    break;
+                }
+                case MessageDataTypeImage:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Image"]]; break;
+                case MessageDataTypeVoice:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Voice"]]; break;
+                case MessageDataTypeVideo:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
+                case MessageDataTypeSticker:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
+                case MessageDataTypeLink:
+                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
+                default:
+                    [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
+            }
+            data.msgContent = msgContent;
         }
         data;
     });
@@ -117,6 +153,9 @@ static void __attribute__((constructor)) tweak(void) {
         [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     } else {
+        if (localMessageData.messageType == MessageDataTypeText) {
+            [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
+        }
         [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
     }
     
@@ -138,6 +177,14 @@ static void __attribute__((constructor)) tweak(void) {
     return NO;
 }
 
++ (NSArray<NSRunningApplication *> *)tweak_runningApplicationsWithBundleIdentifier:(NSString *)bundleIdentifier {
+    if ([bundleIdentifier isEqualToString:NSBundle.mainBundle.bundleIdentifier]) {
+        return @[NSRunningApplication.currentApplication];
+    } else {
+        return [self tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
+    }
+}
+
 - (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.LoginAnotherAccount"]
@@ -148,7 +195,7 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)openNewWeChatInstace:(id)sender {
-    NSString *applicationPath = [[NSBundle mainBundle] bundlePath];
+    NSString *applicationPath = NSBundle.mainBundle.bundlePath;
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
@@ -159,8 +206,8 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
     [self tweak_applicationDidFinishLaunching:notification];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    NSArray *instances = [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
+    NSString *bundleIdentifier = NSBundle.mainBundle.bundleIdentifier;
+    NSArray *instances = [NSRunningApplication tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
     // Detect multiple instance conflict
     BOOL hasInstance = instances.count == 1;
     BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
@@ -197,7 +244,7 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (id)tweak_initWithViewControllers:(NSArray *)arg1 {
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:arg1];
-    TweakPreferecesController *controller = [[TweakPreferecesController alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
+    TweakPreferencesController *controller = [[TweakPreferencesController alloc] initWithNibName:nil bundle:[NSBundle tweakBundle]];
     [viewControllers addObject:controller];
     return [self tweak_initWithViewControllers:viewControllers];
 }
