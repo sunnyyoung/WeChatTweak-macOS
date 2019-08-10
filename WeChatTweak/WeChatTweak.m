@@ -98,7 +98,7 @@ static void __attribute__((constructor)) tweak(void) {
         } else {
             NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
             NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
-            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.CatchARecalledMessage"], userRevoke];
+            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.InterceptedARecalledMessage"], userRevoke];
             NSMutableString *msgContent = [NSMutableString stringWithString:tips];
             switch (localMessageData.messageType) {
                 case MessageDataTypeText: {

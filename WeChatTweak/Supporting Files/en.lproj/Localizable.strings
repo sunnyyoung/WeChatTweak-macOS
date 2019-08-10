@@ -8,7 +8,7 @@
 
 "Tweak.Title.LoginAnotherAccount" = "Login new account";
 "Tweak.Title.Group" = "Group";
-"Tweak.Message.CatchARecalledMessage" = "[Catched]\n%@";
+"Tweak.Message.InterceptedARecalledMessage" = "[Intercepted a recalled message]\n%@";
 "Tweak.Message.Recalled" = "recalled";
 "Tweak.Message.Image" = "Image";
 "Tweak.Message.Voice" = "Voice";

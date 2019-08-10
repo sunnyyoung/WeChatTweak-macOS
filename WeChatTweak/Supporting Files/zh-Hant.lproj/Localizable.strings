@@ -8,7 +8,7 @@
 
 "Tweak.Title.LoginAnotherAccount" = "登錄新的賬號";
 "Tweak.Title.Group" = "群組";
-"Tweak.Message.CatchARecalledMessage" = "[已攔截]\n%@";
+"Tweak.Message.InterceptedARecalledMessage" = "[已攔截壹條撤回消息]\n%@";
 "Tweak.Message.Recalled" = "撤回了";
 "Tweak.Message.Image" = "图片";
 "Tweak.Message.Voice" = "语音";

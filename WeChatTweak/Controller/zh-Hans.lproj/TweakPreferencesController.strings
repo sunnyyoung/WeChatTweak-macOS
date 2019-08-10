@@ -11,7 +11,7 @@
 /* Class = "NSMenuItem"; title = "Disabled"; ObjectID = "MEN-Kg-wfj"; */
 "MEN-Kg-wfj.title" = "关闭";
 
-/* Class = "NSTextFieldCell"; title = "Message recall notification:"; ObjectID = "UKv-CM-nGt"; */
+/* Class = "NSTextFieldCell"; title = "Message recalled notification:"; ObjectID = "UKv-CM-nGt"; */
 "UKv-CM-nGt.title" = "消息撤回通知：";
 
 /* Class = "NSTextFieldCell"; title = "Auto login:"; ObjectID = "UiV-zj-l6I"; */
