@@ -5,4 +5,5 @@ target 'WeChatTweak' do
   pod 'JRSwizzle'
   pod 'GCDWebServer'
   pod 'YYModel'
+  pod 'MMKV'
 end

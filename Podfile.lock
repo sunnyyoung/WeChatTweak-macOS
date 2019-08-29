@@ -3,24 +3,28 @@ PODS:
     - GCDWebServer/Core (= 3.5.3)
   - GCDWebServer/Core (3.5.3)
   - JRSwizzle (1.0)
+  - MMKV (1.0.22)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
   - GCDWebServer
   - JRSwizzle
+  - MMKV
   - YYModel
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - GCDWebServer
     - JRSwizzle
+    - MMKV
     - YYModel
 
 SPEC CHECKSUMS:
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
   JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
+  MMKV: 99b05c376c0eb412b468ba1d3e6813502edeaa24
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: af44d62b300e2c55cb63386ec4be3227b93c7761
+PODFILE CHECKSUM: fb1b1e412c5f88813595570bd6f951a741cda575
 
 COCOAPODS: 1.7.5

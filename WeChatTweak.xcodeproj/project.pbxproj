@@ -17,6 +17,8 @@
 		7D9049FA1F82B708004E6370 /* NSString+WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D9049F71F82B6FB004E6370 /* NSString+WeChatTweak.h */; };
 		7DB8AFBE206211D900E683AE /* WTConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB8AFBC206211D900E683AE /* WTConfigManager.h */; };
 		7DB8AFBF206211D900E683AE /* WTConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB8AFBD206211D900E683AE /* WTConfigManager.m */; };
+		7DBA4467231812AB004CE2DB /* RecallCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DBA4465231812AB004CE2DB /* RecallCacheManager.h */; };
+		7DBA4468231812AB004CE2DB /* RecallCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBA4466231812AB004CE2DB /* RecallCacheManager.m */; };
 		7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8422A1F40583F00D42D79 /* WeChatTweak.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF842331F4058AB00D42D79 /* WeChatTweak.m */; };
 		7DF842521F4058C600D42D79 /* TweakPreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8424F1F4058C600D42D79 /* TweakPreferencesController.h */; };
@@ -45,6 +47,8 @@
 		7D9049F81F82B6FB004E6370 /* NSString+WeChatTweak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+WeChatTweak.m"; sourceTree = "<group>"; };
 		7DB8AFBC206211D900E683AE /* WTConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTConfigManager.h; sourceTree = "<group>"; };
 		7DB8AFBD206211D900E683AE /* WTConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTConfigManager.m; sourceTree = "<group>"; };
+		7DBA4465231812AB004CE2DB /* RecallCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecallCacheManager.h; sourceTree = "<group>"; };
+		7DBA4466231812AB004CE2DB /* RecallCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecallCacheManager.m; sourceTree = "<group>"; };
 		7DF842271F40583F00D42D79 /* WeChatTweak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WeChatTweak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF8422A1F40583F00D42D79 /* WeChatTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeChatTweak.h; sourceTree = "<group>"; };
 		7DF8422B1F40583F00D42D79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 				7D14E5A31F6447DB00D75132 /* AlfredManager.m */,
 				7DB8AFBC206211D900E683AE /* WTConfigManager.h */,
 				7DB8AFBD206211D900E683AE /* WTConfigManager.m */,
+				7DBA4465231812AB004CE2DB /* RecallCacheManager.h */,
+				7DBA4466231812AB004CE2DB /* RecallCacheManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -187,6 +193,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DBA4467231812AB004CE2DB /* RecallCacheManager.h in Headers */,
 				7D9049FA1F82B708004E6370 /* NSString+WeChatTweak.h in Headers */,
 				7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */,
 				7DF8425B1F4058DD00D42D79 /* NSBundle+WeChatTweak.h in Headers */,
@@ -241,6 +248,7 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				"zh-Hans",
@@ -316,6 +324,7 @@
 				7D14E5A51F6447DB00D75132 /* AlfredManager.m in Sources */,
 				7DF842531F4058C600D42D79 /* TweakPreferencesController.m in Sources */,
 				7D9049F91F82B6FB004E6370 /* NSString+WeChatTweak.m in Sources */,
+				7DBA4468231812AB004CE2DB /* RecallCacheManager.m in Sources */,
 				7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */,
 				7DB8AFBF206211D900E683AE /* WTConfigManager.m in Sources */,
 				7D9049F51F82A41A004E6370 /* fishhook.c in Sources */,
