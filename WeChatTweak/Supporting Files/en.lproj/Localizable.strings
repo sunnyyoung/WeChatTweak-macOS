@@ -16,3 +16,5 @@
 "Tweak.Message.Sticker" = "Sticker";
 "Tweak.Message.Link" = "Link";
 "Tweak.Message.AMessage" = "a message";
+"Tweak.MessageMenuItem.CopyLink" = "Copy Link";
+"Tweak.MessageMenuItem.OpenInBrowser" = "Open In Browser";

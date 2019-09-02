@@ -16,3 +16,5 @@
 "Tweak.Message.Sticker" = "表情";
 "Tweak.Message.Link" = "链接";
 "Tweak.Message.AMessage" = "一条消息";
+"Tweak.MessageMenuItem.CopyLink" = "複製鏈接";
+"Tweak.MessageMenuItem.OpenInBrowser" = "使用瀏覽器打開";

@@ -17,7 +17,8 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypeVoice    = 34,
     MessageDataTypeVideo    = 43,
     MessageDataTypeSticker  = 47,
-    MessageDataTypeLink     = 49,
+    MessageDataTypeAppUrl   = 49,
+    MessageDataTypePrompt   = 10000
 };
 
 @interface NSString (MD5)
@@ -149,5 +150,18 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 @interface MASPreferencesWindowController: NSWindowController
 
 - (id)initWithViewControllers:(NSArray *)arg1;
+
+@end
+
+@interface MMMessageTableItem : NSObject
+
+@property(retain, nonatomic) MessageData *message;
+
+@end
+
+@interface MMMessageCellView : NSTableCellView
+
+@property(retain, nonatomic) NSView *avatarImgView;
+@property(retain, nonatomic) MMMessageTableItem *messageTableItem;
 
 @end
