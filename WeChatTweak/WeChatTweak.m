@@ -63,6 +63,7 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"FFSvrChatInfoMsgWithImgZZ") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
     [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
+    [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"contextMenu") withMethod:@selector(tweak_contextMenu) error:nil];
 
     objc_property_attribute_t type = { "T", "@\"NSString\"" }; // NSString
     objc_property_attribute_t atom = { "N", "" }; // nonatomic
@@ -121,7 +122,7 @@ static void __attribute__((constructor)) tweak(void) {
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
                 case MessageDataTypeSticker:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
-                case MessageDataTypeLink:
+                case MessageDataTypeAppUrl:
                     [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
                 default:
                     [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
@@ -169,6 +170,38 @@ static void __attribute__((constructor)) tweak(void) {
             }
         }
     });
+}
+
+#pragma mark - AppUrlMessageMenu
+
+- (id)tweak_contextMenu {
+    MMMessageCellView *view = (MMMessageCellView *)self;
+    NSMenu *menu = (NSMenu *)[self tweak_contextMenu];
+    if (view.messageTableItem.message.messageType == MessageDataTypeAppUrl) {
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItem:({
+            NSMenuItem *copyUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.CopyLink"] action:@selector(tweakCopyUrl:) keyEquivalent:@""];
+            copyUrlItem;
+        })];
+        [menu addItem:({
+            NSMenuItem *openUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"] action:@selector(tweakOpenUrlItem:) keyEquivalent:@""];
+            openUrlItem;
+        })];
+    }
+    return menu;
+}
+
+- (void)tweakCopyUrl:(id)sender {
+    MMMessageCellView *cell = (MMMessageCellView *)self;
+    NSString *url = [cell.messageTableItem.message.msgContent tweak_subStringFrom:@"<url>" to:@"</url>"];
+    [[NSPasteboard generalPasteboard] clearContents];
+    [[NSPasteboard generalPasteboard] setString:url forType:NSStringPboardType];
+}
+
+- (void)tweakOpenUrlItem:(id)sender {
+    MMMessageCellView *cell = (MMMessageCellView *)self;
+    NSString *url = [cell.messageTableItem.message.msgContent tweak_subStringFrom:@"<url>" to:@"</url>"];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
 #pragma mark - Mutiple Instance
