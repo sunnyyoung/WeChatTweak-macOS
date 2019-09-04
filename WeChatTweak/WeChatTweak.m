@@ -175,8 +175,8 @@ static void __attribute__((constructor)) tweak(void) {
 #pragma mark - AppUrlMessageMenu
 
 - (id)tweak_contextMenu {
-    MMMessageCellView *view = (MMMessageCellView *)self;
     NSMenu *menu = (NSMenu *)[self tweak_contextMenu];
+    MMMessageCellView *view = (MMMessageCellView *)self;
     if (view.messageTableItem.message.messageType == MessageDataTypeAppUrl) {
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItem:({
@@ -192,16 +192,28 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)tweakCopyUrl:(id)sender {
-    MMMessageCellView *cell = (MMMessageCellView *)self;
-    NSString *url = [cell.messageTableItem.message.msgContent tweak_subStringFrom:@"<url>" to:@"</url>"];
-    [[NSPasteboard generalPasteboard] clearContents];
-    [[NSPasteboard generalPasteboard] setString:url forType:NSStringPboardType];
+    NSString *url = [self _tweakMessageContentUrl];
+    if (url.length) {
+        [[NSPasteboard generalPasteboard] clearContents];
+        [[NSPasteboard generalPasteboard] setString:url forType:NSStringPboardType];
+    }
 }
 
 - (void)tweakOpenUrlItem:(id)sender {
+    NSString *url = [self _tweakMessageContentUrl];
+    if (url.length) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (NSString *)_tweakMessageContentUrl {
     MMMessageCellView *cell = (MMMessageCellView *)self;
-    NSString *url = [cell.messageTableItem.message.msgContent tweak_subStringFrom:@"<url>" to:@"</url>"];
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    NSString *content = cell.messageTableItem.message.msgContent;
+    if ([content containsString:@"<url><![CDATA["]) {
+        return [content tweak_subStringFrom:@"<url><![CDATA[" to:@"]]></url>"];
+    } else {
+        return [content tweak_subStringFrom:@"<url>" to:@"</url>"];
+    }
 }
 
 #pragma mark - Mutiple Instance
