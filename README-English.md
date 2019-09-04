@@ -1,17 +1,17 @@
 # WeChatTweak-macOS
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
-[![README](https://img.shields.io/badge/README-English-blue.svg)](README.md)
-[![README](https://img.shields.io/badge/README-中文-blue.svg)](README-Chinese.md)
+[![README](https://img.shields.io/badge/README-English-blue.svg)](README-English.md)
+[![README](https://img.shields.io/badge/README-中文-blue.svg)](README.md)
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
 [![Backers on Open Collective](https://opencollective.com/WeChatTweak-macOS/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/WeChatTweak-macOS/sponsors/badge.svg)](#sponsors)
 
-微信 macOS 客户端 Tweak 动态库。
+A dynamic library tweak for WeChat macOS.
 
-## 截图
+## Screenshot
 
-### 整体预览
+### Overview
 
 ![Overview](Screenshot/0x01.png)
 
@@ -23,54 +23,57 @@
 
 ![LaunchBar](Screenshot/0x03.png)
 
-## 功能
+## Feature
 
-- 阻止消息撤回
-  - 消息列表通知
-  - 系统通知
-  - 正常撤回自己发出的消息
-- 客户端无限多开
-  - 右键 dock icon 登录新的微信账号
-  - 命令行执行：`open -n /Applications/WeChat.app`
-- 重新打开应用无需手机认证
-- UI界面设置面板
-- 支持 Alfred workflow
-- 支持 Launchbar action
+- Prevent message revoked
+  - Message list notification
+  - System notification
+  - Revoke message you sent
+- Multiple WeChat Instance
+  - Right click on the dock icon to login another WeChat account
+  - Run command: `open -n /Applications/WeChat.app`
+- URL type messages enhancement
+  - Support right-click copy link directly
+  - Support opened by the system default browser directly
+- Auto login without authentication
+- UI Interface settings panel
+- Alfred workflow support
+- Launchbar action support
 
-## 使用
+## Quick Start
 
-- `sudo make install` 安装或者更新动态库
-- `sudo make uninstall` 卸载动态库
-- open `WeChat.workflow` 安装 Alfred workflow
+- `sudo make install` Install or Upgrade the dylib
+- `sudo make uninstall` Uninstall the dylib
+- open `WeChat.workflow` Install Alfred workflow
 
-## 文档
+## Documentation
 
-获取更多信息, 请到 [Wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki)。
+For more informations, please go to the [Wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki).
 
-## 依赖
+## Dependency
 
 - [JRSwizzle](https://github.com/rentzsch/jrswizzle)
 - [insert_dylib](https://github.com/Tyilo/insert_dylib)
 
-## 参考
+## Reference
 
 - [微信 macOS 客户端无限多开功能实践](https://blog.sunnyyoung.net/wei-xin-macos-ke-hu-duan-wu-xian-duo-kai-gong-neng-shi-jian/)
 - [微信 macOS 客户端拦截撤回功能实践](https://blog.sunnyyoung.net/wei-xin-macos-ke-hu-duan-lan-jie-che-hui-gong-neng-shi-jian/)
 - [让微信 macOS 客户端支持 Alfred](https://blog.sunnyyoung.net/rang-wei-xin-macos-ke-hu-duan-zhi-chi-alfred/)
 
-## 贡献者
+## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 
-[![Contributors](https://opencollective.com/WeChatTweak-macOS/contributors.svg?width=890&button=false)](/graphs/contributors)
+[![Contributors](https://opencollective.com/WeChatTweak-macOS/contributors.svg?width=890&button=false)](https://github.com/Sunnyyoung/WeChatTweak-macOS/graphs/contributors)
 
-## 支持者
+## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/WeChatTweak-macOS#backer)]
 
 [![Backers](https://opencollective.com/WeChatTweak-macOS/backers.svg?width=890)](https://opencollective.com/WeChatTweak-macOS#backers)
 
-## 赞助者
+## Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/WeChatTweak-macOS#sponsor)]
 
