@@ -12,8 +12,17 @@
 
 - (NSString *)tweak_subStringFrom:(NSString *)beginString to:(NSString *)endString {
     NSRange begin = [self rangeOfString:beginString];
+    if (begin.location == NSNotFound) {
+        return nil;
+    }
     NSRange end = [self rangeOfString:endString];
+    if (end.location == NSNotFound) {
+        return nil;
+    }
     NSRange range = NSMakeRange(begin.location + begin.length, end.location - begin.location - begin.length);
+    if (range.location == NSNotFound) {
+        return nil;
+    }
     return [self substringWithRange:range];
 }
 
