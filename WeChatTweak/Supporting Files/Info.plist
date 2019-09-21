@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>9</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017年 Sunnyyoung. All rights reserved.</string>
 </dict>
