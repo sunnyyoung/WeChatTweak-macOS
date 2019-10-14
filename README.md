@@ -44,7 +44,7 @@
 
 - `sudo make install` 安装或者更新动态库
 - `sudo make uninstall` 卸载动态库
-- open `WeChat.workflow` 安装 Alfred workflow
+- open `WeChat.alfredworkflow` 安装 Alfred workflow
 
 ## 文档
 
