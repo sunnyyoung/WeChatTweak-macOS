@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <JRSwizzle/JRSwizzle.h>
+#import <CoreImage/CoreImage.h>
 
 FOUNDATION_EXPORT double WeChatTweakVersionNumber;
 FOUNDATION_EXPORT const unsigned char WeChatTweakVersionString[];

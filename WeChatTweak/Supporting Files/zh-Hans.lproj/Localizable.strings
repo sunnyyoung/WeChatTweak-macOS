@@ -18,3 +18,4 @@
 "Tweak.Message.AMessage" = "一条消息";
 "Tweak.MessageMenuItem.CopyLink" = "复制链接";
 "Tweak.MessageMenuItem.OpenInBrowser" = "使用浏览器打开";
+"Tweak.MessageMenuItem.IdentifyQRCode" = "识别二维码";
