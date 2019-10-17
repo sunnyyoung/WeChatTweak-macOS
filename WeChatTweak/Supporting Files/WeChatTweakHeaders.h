@@ -167,3 +167,9 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 @property(retain, nonatomic) MMMessageTableItem *messageTableItem;
 
 @end
+
+@interface MMImageMessageCellView : MMMessageCellView
+
+@property(retain, nonatomic) NSImage *displayedImage;
+
+@end

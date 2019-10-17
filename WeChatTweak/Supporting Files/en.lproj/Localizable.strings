@@ -18,3 +18,4 @@
 "Tweak.Message.AMessage" = "a message";
 "Tweak.MessageMenuItem.CopyLink" = "Copy Link";
 "Tweak.MessageMenuItem.OpenInBrowser" = "Open In Browser";
+"Tweak.MessageMenuItem.IdentifyQRCode" = "Identify QRCode";
