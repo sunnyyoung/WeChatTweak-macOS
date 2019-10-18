@@ -247,7 +247,18 @@ static void __attribute__((constructor)) tweak(void) {
             CIQRCodeFeature *result = results.firstObject;
             NSString *content = result.messageString;
             if (content.length) {
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:content]];
+                NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+                [pasteboard clearContents];
+                [pasteboard setString:content forType:NSStringPboardType];
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:({
+                    NSUserNotification *notification = [[NSUserNotification alloc] init];
+                    notification.informativeText = [NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCodeNotification"];
+                    notification;
+                })];
+                NSURL *url = [NSURL URLWithString:content];
+                if ([url.scheme containsString:@"http"]) {
+                    [[NSWorkspace sharedWorkspace] openURL:url];
+                }
             }
         }
     }
