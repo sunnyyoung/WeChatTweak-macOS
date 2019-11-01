@@ -31,3 +31,6 @@
 
 /* Class = "NSTextFieldCell"; title = "Alfred JSON compressing:"; ObjectID = "jHw-2a-B2t"; */
 "jHw-2a-B2t.title" = "Alfred JSON compressing:";
+
+/* Class = "NSTextFieldCell"; title = "Message recalled background color:"; ObjectID = "8uI-sB-Jzm"; */
+"8uI-sB-Jzm.title" = "Message recalled background color:";

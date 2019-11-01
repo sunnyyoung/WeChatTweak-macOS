@@ -7,6 +7,7 @@
 //
 
 #import "WeChatTweakHeaders.h"
+#import "NSColor+WeChatTweak.h"
 
 typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
     RevokeNotificationTypeFollow = 0,

@@ -9,12 +9,14 @@
 #import "TweakPreferencesController.h"
 #import "NSBundle+WeChatTweak.h"
 #import "WTConfigManager.h"
+#import "TweakColorView.h"
 
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *autoAuthButton;
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
 @property (weak) IBOutlet NSPopUpButton *compressedJSONEnabledButton;
+@property (weak) IBOutlet TweakColorView *recallColorView;
 
 @end
 
@@ -22,6 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSClickGestureRecognizer *click = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(recallColorAction:)];
+    [self.recallColorView addGestureRecognizer:click];
+    self.recallColorView.backgroundColor = [NSColor tweak_revokeBackgroundColor];
 }
 
 - (void)viewWillAppear {
@@ -55,6 +60,24 @@
 - (IBAction)switchCompressedJSONEnabledAction:(NSPopUpButton *)sender {
     BOOL enabled = sender.indexOfSelectedItem == 0;
     WTConfigManager.sharedInstance.compressedJSONEnabled = enabled;
+}
+
+- (void)recallColorAction:(id)sender {
+    NSColorPanel *colorPanel = [NSColorPanel sharedColorPanel];
+    colorPanel.mode = NSColorPanelModeRGB;
+    [colorPanel setAction:@selector(changeColorAction:)];
+    [colorPanel setTarget:self];
+    [colorPanel orderFront:nil];
+    colorPanel.color = self.recallColorView.backgroundColor;
+}
+
+- (void)changeColorAction:(NSColorPanel *)sender {
+    NSColor *color = sender.color;
+    self.recallColorView.backgroundColor = color;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [userDefaults setObject:colorData forKey:WeChatTweakPreferenceRevokeBackgroundColorKey];
+    [userDefaults synchronize];
 }
 
 #pragma mark - MASPreferencesViewController

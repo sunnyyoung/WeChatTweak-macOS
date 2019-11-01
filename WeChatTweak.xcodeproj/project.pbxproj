@@ -27,6 +27,10 @@
 		7DF8425C1F4058DD00D42D79 /* NSBundle+WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF842581F4058DD00D42D79 /* NSBundle+WeChatTweak.m */; };
 		7DF842601F40590500D42D79 /* WeChatTweakHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8425F1F40590500D42D79 /* WeChatTweakHeaders.h */; };
 		7DF842651F40594400D42D79 /* Prefs-Tweak.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7DF842641F40594400D42D79 /* Prefs-Tweak.tiff */; };
+		9CB3C3CB236BFE38002F060C /* TweakColorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB3C3C9236BFE38002F060C /* TweakColorView.h */; };
+		9CB3C3CC236BFE38002F060C /* TweakColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB3C3CA236BFE38002F060C /* TweakColorView.m */; };
+		9CB3C3CF236C131D002F060C /* NSColor+WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB3C3CD236C131D002F060C /* NSColor+WeChatTweak.h */; };
+		9CB3C3D0236C131D002F060C /* NSColor+WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB3C3CE236C131D002F060C /* NSColor+WeChatTweak.m */; };
 		D84599A16A2504BCF95DB436 /* libPods-WeChatTweak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 153504EC5C9196C0D85213CF /* libPods-WeChatTweak.a */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +63,10 @@
 		7DF842581F4058DD00D42D79 /* NSBundle+WeChatTweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+WeChatTweak.m"; sourceTree = "<group>"; };
 		7DF8425F1F40590500D42D79 /* WeChatTweakHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeChatTweakHeaders.h; sourceTree = "<group>"; };
 		7DF842641F40594400D42D79 /* Prefs-Tweak.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Prefs-Tweak.tiff"; sourceTree = "<group>"; };
+		9CB3C3C9236BFE38002F060C /* TweakColorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TweakColorView.h; sourceTree = "<group>"; };
+		9CB3C3CA236BFE38002F060C /* TweakColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TweakColorView.m; sourceTree = "<group>"; };
+		9CB3C3CD236C131D002F060C /* NSColor+WeChatTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+WeChatTweak.h"; sourceTree = "<group>"; };
+		9CB3C3CE236C131D002F060C /* NSColor+WeChatTweak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+WeChatTweak.m"; sourceTree = "<group>"; };
 		A82E6F61C63DBD47219BB308 /* Pods-WeChatTweak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeChatTweak.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeChatTweak/Pods-WeChatTweak.debug.xcconfig"; sourceTree = "<group>"; };
 		B418F83DA5D4A992F73514A9 /* Pods-WeChatTweak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeChatTweak.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeChatTweak/Pods-WeChatTweak.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +121,8 @@
 				7DF842581F4058DD00D42D79 /* NSBundle+WeChatTweak.m */,
 				7D9049F71F82B6FB004E6370 /* NSString+WeChatTweak.h */,
 				7D9049F81F82B6FB004E6370 /* NSString+WeChatTweak.m */,
+				9CB3C3CD236C131D002F060C /* NSColor+WeChatTweak.h */,
+				9CB3C3CE236C131D002F060C /* NSColor+WeChatTweak.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -157,14 +167,15 @@
 		7DF842291F40583F00D42D79 /* WeChatTweak */ = {
 			isa = PBXGroup;
 			children = (
-				7DF8422A1F40583F00D42D79 /* WeChatTweak.h */,
-				7DF842331F4058AB00D42D79 /* WeChatTweak.m */,
-				7D5AAF3720DF4BB300860EEE /* Vendor */,
 				7D5AAF3620DF4BA400860EEE /* Category */,
 				7D5AAF3520DF4B9700860EEE /* Controller */,
 				7D5AAF3320DF4B7B00860EEE /* Manager */,
 				7DF842631F40594400D42D79 /* Resources */,
 				7D5AAF3820DF4BC400860EEE /* Supporting Files */,
+				7D5AAF3720DF4BB300860EEE /* Vendor */,
+				9CB3C3C8236BFE06002F060C /* View */,
+				7DF8422A1F40583F00D42D79 /* WeChatTweak.h */,
+				7DF842331F4058AB00D42D79 /* WeChatTweak.m */,
 			);
 			path = WeChatTweak;
 			sourceTree = "<group>";
@@ -175,6 +186,15 @@
 				7DF842641F40594400D42D79 /* Prefs-Tweak.tiff */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9CB3C3C8236BFE06002F060C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9CB3C3C9236BFE38002F060C /* TweakColorView.h */,
+				9CB3C3CA236BFE38002F060C /* TweakColorView.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		FEFA9C3F34481028661EEC5A /* Pods */ = {
@@ -197,10 +217,12 @@
 				7D9049FA1F82B708004E6370 /* NSString+WeChatTweak.h in Headers */,
 				7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */,
 				7DF8425B1F4058DD00D42D79 /* NSBundle+WeChatTweak.h in Headers */,
+				9CB3C3CB236BFE38002F060C /* TweakColorView.h in Headers */,
 				7DB8AFBE206211D900E683AE /* WTConfigManager.h in Headers */,
 				7D9049F61F82A41A004E6370 /* fishhook.h in Headers */,
 				7D14E5A41F6447DB00D75132 /* AlfredManager.h in Headers */,
 				7DF842601F40590500D42D79 /* WeChatTweakHeaders.h in Headers */,
+				9CB3C3CF236C131D002F060C /* NSColor+WeChatTweak.h in Headers */,
 				7DF842521F4058C600D42D79 /* TweakPreferencesController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,12 +343,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CB3C3CC236BFE38002F060C /* TweakColorView.m in Sources */,
 				7D14E5A51F6447DB00D75132 /* AlfredManager.m in Sources */,
 				7DF842531F4058C600D42D79 /* TweakPreferencesController.m in Sources */,
 				7D9049F91F82B6FB004E6370 /* NSString+WeChatTweak.m in Sources */,
 				7DBA4468231812AB004CE2DB /* RecallCacheManager.m in Sources */,
 				7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */,
 				7DB8AFBF206211D900E683AE /* WTConfigManager.m in Sources */,
+				9CB3C3D0236C131D002F060C /* NSColor+WeChatTweak.m in Sources */,
 				7D9049F51F82A41A004E6370 /* fishhook.c in Sources */,
 				7DF8425C1F4058DD00D42D79 /* NSBundle+WeChatTweak.m in Sources */,
 			);

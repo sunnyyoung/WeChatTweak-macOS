@@ -108,7 +108,8 @@ static void __attribute__((constructor)) tweak(void) {
         *stop = YES;
         view.hidden = !style;
     }];
-    ((MMMessageCellView *)self).layer.backgroundColor = style ? [NSColor.yellowColor colorWithAlphaComponent:0.3].CGColor : ((MMMessageCellView *)self).layer.backgroundColor;
+    NSColor *color = [NSColor tweak_revokeBackgroundColor];
+    ((MMMessageCellView *)self).layer.backgroundColor = style ? color.CGColor : ((MMMessageCellView *)self).layer.backgroundColor;
 }
 
 - (void)tweak_layout {
