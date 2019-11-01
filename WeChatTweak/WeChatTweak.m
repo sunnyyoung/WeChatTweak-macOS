@@ -211,6 +211,12 @@ static void __attribute__((constructor)) tweak(void) {
             NSMenuItem *openUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"] action:@selector(tweakOpenUrlItem:) keyEquivalent:@""];
             openUrlItem;
         })];
+    } else if (view.messageTableItem.message.messageType == MessageDataTypeImage) {
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItem:({
+            NSMenuItem *qrCodeItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"] action:@selector(tweakIdentifyQRCode:) keyEquivalent:@""];
+            qrCodeItem;
+        })];
     }
     return menu;
 }
@@ -227,6 +233,34 @@ static void __attribute__((constructor)) tweak(void) {
     NSString *url = [self _tweakMessageContentUrl];
     if (url.length) {
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (void)tweakIdentifyQRCode:(id)sender {
+    MMImageMessageCellView *cell = (MMImageMessageCellView *)self;
+    NSImage *image = cell.displayedImage;
+    if (image) {
+        NSData *imageData = [image TIFFRepresentation];
+        CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh}];
+        NSArray *results = [detector featuresInImage:[CIImage imageWithData:imageData]];
+        if (results.count) {
+            CIQRCodeFeature *result = results.firstObject;
+            NSString *content = result.messageString;
+            if (content.length) {
+                NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+                [pasteboard clearContents];
+                [pasteboard setString:content forType:NSStringPboardType];
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:({
+                    NSUserNotification *notification = [[NSUserNotification alloc] init];
+                    notification.informativeText = [NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCodeNotification"];
+                    notification;
+                })];
+                NSURL *url = [NSURL URLWithString:content];
+                if ([url.scheme containsString:@"http"]) {
+                    [[NSWorkspace sharedWorkspace] openURL:url];
+                }
+            }
+        }
     }
 }
 
