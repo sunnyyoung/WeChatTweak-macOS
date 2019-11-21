@@ -7,6 +7,7 @@
 //
 
 #import "RecallCacheManager.h"
+#import "WeChatTweakHeaders.h"
 
 @interface RecallCacheManager()
 
@@ -33,12 +34,14 @@
     return shared;
 }
 
-+ (void)insertRevokedMessageID:(long long)messageID {
-    [RecallCacheManager.sharedInstance.kv setBool:YES forKey:@(messageID).stringValue];
++ (void)insertRevokedMessage:(MessageData *)message {
+    NSString *identifer = [NSString stringWithFormat:@"%lld-%ud", message.mesSvrID, message.msgCreateTime];
+    [RecallCacheManager.sharedInstance.kv setBool:YES forKey:identifer];
 }
 
-+ (BOOL)containsRevokedMessageID:(long long)messageID {
-    return [RecallCacheManager.sharedInstance.kv containsKey:@(messageID).stringValue];
++ (BOOL)containsRevokedMessage:(MessageData *)message {
+    NSString *identifer = [NSString stringWithFormat:@"%lld-%ud", message.mesSvrID, message.msgCreateTime];
+    return [RecallCacheManager.sharedInstance.kv containsKey:identifer];
 }
 
 @end

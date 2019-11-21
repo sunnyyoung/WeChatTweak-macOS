@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <MMKV/MMKV.h>
 
+@class MessageData;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RecallCacheManager : NSObject
 
 + (instancetype)sharedInstance;
 
-+ (void)insertRevokedMessageID:(long long)messageID;
-+ (BOOL)containsRevokedMessageID:(long long)messageID;
++ (void)insertRevokedMessage:(MessageData *)message;
++ (BOOL)containsRevokedMessage:(MessageData *)message;
 
 @end
 

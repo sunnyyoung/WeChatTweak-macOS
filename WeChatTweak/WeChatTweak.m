@@ -100,7 +100,7 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_populateWithMessage:(MMMessageTableItem *)tableItem {
     [self tweak_populateWithMessage:tableItem];
-    BOOL style = [RecallCacheManager containsRevokedMessageID:tableItem.message.mesSvrID] && tableItem.message.messageType != MessageDataTypePrompt;
+    BOOL style = [RecallCacheManager containsRevokedMessage:tableItem.message] && tableItem.message.messageType != MessageDataTypePrompt;
     [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
         if (view.tag != 9527) {
             return ;
@@ -144,7 +144,7 @@ static void __attribute__((constructor)) tweak(void) {
     
     // Get message data
     MessageData *messageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
-    [RecallCacheManager insertRevokedMessageID:messageData.mesSvrID];
+    [RecallCacheManager insertRevokedMessage:messageData];
     
     // Prepare notification information
     MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
