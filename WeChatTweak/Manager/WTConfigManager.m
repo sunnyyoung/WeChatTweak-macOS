@@ -9,6 +9,7 @@
 #import "WTConfigManager.h"
 
 static NSString * const WeChatTweakCompressedJSONEnabledKey = @"WeChatTweakCompressedJSONEnabledKey";
+static NSString * const WeChatTweakRevokedMessageStyleKey = @"WeChatTweakRevokedMessageStyleKey";
 
 @interface WTConfigManager()
 
@@ -34,6 +35,7 @@ static NSString * const WeChatTweakCompressedJSONEnabledKey = @"WeChatTweakCompr
         } else {
             _compressedJSONEnabled = YES;
         }
+        _revokedMessageStyle = [userDefaults integerForKey:WeChatTweakRevokedMessageStyleKey];
     }
     return self;
 }
@@ -43,6 +45,12 @@ static NSString * const WeChatTweakCompressedJSONEnabledKey = @"WeChatTweakCompr
 - (void)setCompressedJSONEnabled:(BOOL)compressedJSONEnabled {
     _compressedJSONEnabled = compressedJSONEnabled;
     [NSUserDefaults.standardUserDefaults setBool:compressedJSONEnabled forKey:WeChatTweakCompressedJSONEnabledKey];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
+- (void)setRevokedMessageStyle:(WTRevokedMessageStyle)revokedMessageStyle {
+    _revokedMessageStyle = revokedMessageStyle;
+    [NSUserDefaults.standardUserDefaults setInteger:revokedMessageStyle forKey:WeChatTweakRevokedMessageStyleKey];
     [NSUserDefaults.standardUserDefaults synchronize];
 }
 
