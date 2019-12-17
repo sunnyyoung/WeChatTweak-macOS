@@ -35,9 +35,6 @@
 		7D14E5A21F6447DB00D75132 /* AlfredManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfredManager.h; sourceTree = "<group>"; };
 		7D14E5A31F6447DB00D75132 /* AlfredManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfredManager.m; sourceTree = "<group>"; };
 		7D54A05F20E74E4600CB5306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TweakPreferencesController.xib; sourceTree = "<group>"; };
-		7D54A06320E74E5A00CB5306 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TweakPreferencesController.strings; sourceTree = "<group>"; };
-		7D54A06520E74E8200CB5306 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TweakPreferencesController.strings"; sourceTree = "<group>"; };
-		7D54A06720E74E8E00CB5306 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TweakPreferencesController.strings"; sourceTree = "<group>"; };
 		7D54A07020E74FFD00CB5306 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7D54A07120E7535F00CB5306 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		7D54A07220E7536300CB5306 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -49,6 +46,9 @@
 		7DB8AFBD206211D900E683AE /* WTConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTConfigManager.m; sourceTree = "<group>"; };
 		7DBA4465231812AB004CE2DB /* RecallCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecallCacheManager.h; sourceTree = "<group>"; };
 		7DBA4466231812AB004CE2DB /* RecallCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecallCacheManager.m; sourceTree = "<group>"; };
+		7DF7065D23A8B69000DEA8F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TweakPreferencesController.xib; sourceTree = "<group>"; };
+		7DF7065E23A8B69A00DEA8F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/TweakPreferencesController.xib"; sourceTree = "<group>"; };
+		7DF7065F23A8B6A400DEA8F6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/TweakPreferencesController.xib"; sourceTree = "<group>"; };
 		7DF842271F40583F00D42D79 /* WeChatTweak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WeChatTweak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF8422A1F40583F00D42D79 /* WeChatTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeChatTweak.h; sourceTree = "<group>"; };
 		7DF8422B1F40583F00D42D79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -248,7 +248,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 				"zh-Hans",
@@ -339,9 +338,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D54A05F20E74E4600CB5306 /* Base */,
-				7D54A06320E74E5A00CB5306 /* en */,
-				7D54A06520E74E8200CB5306 /* zh-Hans */,
-				7D54A06720E74E8E00CB5306 /* zh-Hant */,
+				7DF7065D23A8B69000DEA8F6 /* en */,
+				7DF7065E23A8B69A00DEA8F6 /* zh-Hans */,
+				7DF7065F23A8B6A400DEA8F6 /* zh-Hant */,
 			);
 			name = TweakPreferencesController.xib;
 			sourceTree = "<group>";

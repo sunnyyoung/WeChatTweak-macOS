@@ -138,7 +138,7 @@ static void __attribute__((constructor)) tweak(void) {
 #pragma mark - No Revoke Message
 
 - (void)tweak_onRevokeMsg:(MessageData *)message {
-    [self tweak_onRevokeMsg:message];
+    [self tweak_onRevokeMsg:message sessionMessageList:nil];
 }
 
 - (void)tweak_onRevokeMsg:(MessageData *)message sessionMessageList:(nullable id)sessionMessageList {
