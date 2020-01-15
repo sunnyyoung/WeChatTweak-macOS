@@ -70,7 +70,7 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"initWithFrame:") withMethod:@selector(tweak_initWithFrame:) error:nil];
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"populateWithMessage:") withMethod:@selector(tweak_populateWithMessage:) error:nil];
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"layout") withMethod:@selector(tweak_layout) error:nil];
-    
+
     objc_property_attribute_t type = { "T", "@\"NSString\"" }; // NSString
     objc_property_attribute_t atom = { "N", "" }; // nonatomic
     objc_property_attribute_t ownership = { "&", "" }; // C = copy & = strong
@@ -319,8 +319,45 @@ static void __attribute__((constructor)) tweak(void) {
             NSMenuItem *qrCodeItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"] action:@selector(tweakIdentifyQRCode:) keyEquivalent:@""];
             qrCodeItem;
         })];
+    } else if (view.messageTableItem.message.messageType == MessageDataTypeSticker) {
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItem:({
+            NSMenuItem *exportStickerItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.ExportSticker"] action:@selector(tweakExportSticker:) keyEquivalent:@""];
+            exportStickerItem;
+        })];
     }
     return menu;
+}
+
+- (void)tweakExportSticker:(id)sender {
+    MMMessageCellView *cell = (MMMessageCellView *)self;
+    MessageData *messageData = cell.messageTableItem.message;
+    NSString *content = messageData.msgContent;
+    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:content];
+    NSDictionary *emojiDictionary = dictionary[@"emoji"];
+    if (![emojiDictionary objectForKey:@"_md5"]) {
+        return;
+    }
+    NSString *stickerMD5 = emojiDictionary[@"_md5"];
+    if (!stickerMD5.length) {
+        return;
+    }
+    NSString *localID = [messageData savingImageFileNameWithLocalID];
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setNameFieldStringValue:localID];
+    [panel setAllowsOtherFileTypes:YES];
+    [panel setAllowedFileTypes:@[@"gif"]];
+    [panel setExtensionHidden:NO];
+    [panel setCanCreateDirectories:YES];
+    [panel beginSheetModalForWindow:cell.window completionHandler:^(NSModalResponse result) {
+        if (result == NSModalResponseOK) {
+            NSString *path = panel.URL.path;
+            MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
+            EmoticonMgr *emoticonMgr = [serviceCenter getService:objc_getClass("EmoticonMgr")];
+            NSData *stickerData = [emoticonMgr getEmotionDataWithMD5:stickerMD5];
+            [stickerData writeToFile:path atomically:YES];
+        }
+    }];
 }
 
 - (void)tweakCopyUrl:(id)sender {
