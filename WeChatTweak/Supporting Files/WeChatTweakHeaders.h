@@ -65,6 +65,7 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 - (instancetype)initWithMsgType:(long long)arg1;
 - (BOOL)isSendFromSelf;
 - (id)getChatNameForCurMsg;
+- (id)savingImageFileNameWithLocalID;
 
 @end
 
