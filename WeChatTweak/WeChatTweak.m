@@ -333,12 +333,12 @@ static void __attribute__((constructor)) tweak(void) {
     MMMessageCellView *cell = (MMMessageCellView *)self;
     MessageData *messageData = cell.messageTableItem.message;
     NSString *content = messageData.msgContent;
-    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:content];
-    NSDictionary *emojiDictionary = dictionary[@"emoji"];
-    if (![emojiDictionary objectForKey:@"_md5"]) {
+    NSString *emoji = [[content tweak_subStringFrom:@"<msg>" to:@"</msg>"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:emoji];
+    if (![dictionary objectForKey:@"_md5"]) {
         return;
     }
-    NSString *stickerMD5 = emojiDictionary[@"_md5"];
+    NSString *stickerMD5 = dictionary[@"_md5"];
     if (!stickerMD5.length) {
         return;
     }
