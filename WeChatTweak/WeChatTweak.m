@@ -16,6 +16,8 @@
 #import "WTConfigManager.h"
 #import "RecallCacheManager.h"
 
+static NSString * const WeChatTweakOpenNewWeChatKey = @"WeChatTweakOpenNewWeChatKey";
+
 // Global Function
 static NSString *(*original_NSHomeDirectory)(void);
 static NSArray<NSString *> *(*original_NSSearchPathForDirectoriesInDomains)(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde);
@@ -281,7 +283,8 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 + (NSArray<NSRunningApplication *> *)tweak_runningApplicationsWithBundleIdentifier:(NSString *)bundleIdentifier {
-    if ([bundleIdentifier isEqualToString:NSBundle.mainBundle.bundleIdentifier]) {
+    BOOL openNewWeChat = [NSUserDefaults.standardUserDefaults boolForKey:WeChatTweakOpenNewWeChatKey];
+    if (openNewWeChat && [bundleIdentifier isEqualToString:NSBundle.mainBundle.bundleIdentifier] ) {
         return @[NSRunningApplication.currentApplication];
     } else {
         return [self tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
@@ -298,11 +301,16 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)openNewWeChatInstace:(id)sender {
+    [NSUserDefaults.standardUserDefaults setBool:YES forKey:WeChatTweakOpenNewWeChatKey];
+    [NSUserDefaults.standardUserDefaults synchronize];
     NSString *applicationPath = NSBundle.mainBundle.bundlePath;
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/open";
     task.arguments = @[@"-n", applicationPath];
     [task launch];
+    [task waitUntilExit];
+    [NSUserDefaults.standardUserDefaults removeObjectForKey:WeChatTweakOpenNewWeChatKey];
+    [NSUserDefaults.standardUserDefaults synchronize];
 }
 
 #pragma mark - Auto Auth
