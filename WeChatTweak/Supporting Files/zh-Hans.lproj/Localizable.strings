@@ -20,3 +20,4 @@
 "Tweak.MessageMenuItem.OpenInBrowser" = "使用浏览器打开";
 "Tweak.MessageMenuItem.IdentifyQRCode" = "识别二维码";
 "Tweak.MessageMenuItem.IdentifyQRCodeNotification" = "识别结果已复制到粘贴板";
+"Tweak.MessageMenuItem.ExportSticker" = "导出表情";

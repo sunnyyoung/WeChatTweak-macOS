@@ -65,6 +65,7 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 - (instancetype)initWithMsgType:(long long)arg1;
 - (BOOL)isSendFromSelf;
 - (id)getChatNameForCurMsg;
+- (id)savingImageFileNameWithLocalID;
 
 @end
 
@@ -171,5 +172,21 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 @interface MMImageMessageCellView : MMMessageCellView
 
 @property(retain, nonatomic) NSImage *displayedImage;
+
+@end
+
+@interface MMService : NSObject
+
+@end
+
+@interface EmoticonMgr : MMService
+
+- (id)getEmotionDataWithMD5:(id)arg1;
+
+@end
+
+@interface NSDictionary (XMLDictionary)
+
++ (id)dictionaryWithXMLString:(id)arg1;
 
 @end
