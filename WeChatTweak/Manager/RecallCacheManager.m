@@ -35,12 +35,12 @@
 }
 
 + (void)insertRevokedMessage:(MessageData *)message {
-    NSString *identifer = [NSString stringWithFormat:@"%lld-%ud", message.mesSvrID, message.msgCreateTime];
+    NSString *identifer = [NSString stringWithFormat:@"%ud-%lld-%ud", message.mesLocalID, message.mesSvrID, message.msgCreateTime];
     [RecallCacheManager.sharedInstance.kv setBool:YES forKey:identifer];
 }
 
 + (BOOL)containsRevokedMessage:(MessageData *)message {
-    NSString *identifer = [NSString stringWithFormat:@"%lld-%ud", message.mesSvrID, message.msgCreateTime];
+    NSString *identifer = [NSString stringWithFormat:@"%ud-%lld-%ud", message.mesLocalID, message.mesSvrID, message.msgCreateTime];
     return [RecallCacheManager.sharedInstance.kv containsKey:identifer];
 }
 

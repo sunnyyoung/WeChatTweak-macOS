@@ -20,3 +20,4 @@
 "Tweak.MessageMenuItem.OpenInBrowser" = "Open In Browser";
 "Tweak.MessageMenuItem.IdentifyQRCode" = "Identify QRCode";
 "Tweak.MessageMenuItem.IdentifyQRCodeNotification" = "The result of the recognition has been copied to the pasteboard";
+"Tweak.MessageMenuItem.ExportSticker" = "Export Sticker";
