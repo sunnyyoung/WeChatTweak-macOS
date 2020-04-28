@@ -28,10 +28,12 @@ install::
 	@if [ -d "${APP_PATH}/${FRAMEWORK_PATH}" ]; then\
 		rm -rf ${APP_PATH}/${FRAMEWORK_PATH};\
 		cp -R ${FRAMEWORK_PATH} ${APP_PATH};\
+		chmod -R 755 ${APP_PATH}/${FRAMEWORK_PATH};\
 		echo "Framework found! Replace with new framework successfully!";\
 	else \
 		cp ${APP_PATH}/${APP_NAME} ${APP_PATH}/${BACKUP_NAME};\
 		cp -R ${FRAMEWORK_PATH} ${APP_PATH};\
+		chmod -R 755 ${APP_PATH}/${FRAMEWORK_PATH};\
 		./insert_dylib @executable_path/${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} ${APP_PATH}/${APP_NAME} --all-yes;\
 		echo "Install successfully!";\
 	fi
