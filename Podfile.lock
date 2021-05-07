@@ -1,7 +1,7 @@
 PODS:
-  - GCDWebServer (3.5.3):
-    - GCDWebServer/Core (= 3.5.3)
-  - GCDWebServer/Core (3.5.3)
+  - GCDWebServer (3.5.4):
+    - GCDWebServer/Core (= 3.5.4)
+  - GCDWebServer/Core (3.5.4)
   - JRSwizzle (1.0)
   - MMKV (1.0.23)
   - YYModel (1.0.4)
@@ -20,11 +20,11 @@ SPEC REPOS:
     - YYModel
 
 SPEC CHECKSUMS:
-  GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
+  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
   MMKV: 031ae51aedc0af1b250922f7ed8a6b6ee2f94c4c
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: fb1b1e412c5f88813595570bd6f951a741cda575
+PODFILE CHECKSUM: ae0e3cae9898443a58d6ff3b8332b51018abc753
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1
