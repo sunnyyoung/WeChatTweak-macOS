@@ -49,11 +49,6 @@ $ sudo make install   # Install or Upgrade the framework
 $ sudo make uninstall # Uninstall the framework
 ```
 
-## Dependency
-
-- [JRSwizzle](https://github.com/rentzsch/jrswizzle)
-- [insert_dylib](https://github.com/Tyilo/insert_dylib)
-
 ## Reference
 
 - [微信 macOS 客户端无限多开功能实践](https://blog.sunnyyoung.net/wei-xin-macos-ke-hu-duan-wu-xian-duo-kai-gong-neng-shi-jian/)
