@@ -49,10 +49,14 @@ $ sudo make install   # 安装或者更新动态库
 $ sudo make uninstall # 卸载动态库
 ```
 
-## 依赖
+## FAQ
 
-- [JRSwizzle](https://github.com/rentzsch/jrswizzle)
-- [insert_dylib](https://github.com/Tyilo/insert_dylib)
+1. 功能失效？  
+  当前支持并经验证版本：`3.0.2`，若使用上仍有问题请 [Submit issue](https://github.com/Sunnyyoung/WeChatTweak-macOS/issues/new).
+2. Issue 没有响应 or 回复？  
+  开源项目，用爱发电，耐心等。
+3. 兼容旧版本客户端吗？  
+  不，为了降低维护成本和保证更新速度，默认只支持最新 App Store 版本客户端。
 
 ## 参考
 
