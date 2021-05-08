@@ -108,16 +108,6 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 
 @end
 
-@interface MessageService: NSObject
-
-- (id)GetMsgData:(id)arg1 svrId:(unsigned long long)arg2;
-- (void)DelMsg:(id)arg1 msgList:(id)arg2 isDelAll:(BOOL)arg3 isManual:(BOOL)arg4;
-- (void)AddLocalMsg:(id)arg1 msgData:(id)arg2;
-- (void)notifyDelMsgOnMainThread:(id)arg1 msgData:(id)arg2;
-- (void)notifyAddRevokePromptMsgOnMainThread:(id)arg1 msgData:(id)arg2;
-
-@end
-
 @interface AccountService: NSObject
 
 - (BOOL)canAutoAuth;
