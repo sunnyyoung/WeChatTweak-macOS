@@ -9,6 +9,7 @@ debug::
 	DYLD_INSERT_LIBRARIES=${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} &
 
 install::
+	@xattr -rd com.apple.quarantine . ;
 	@if ! [[ $EUID -eq 0 ]]; then\
     	echo "This script should be run using sudo or as the root user.";\
     	exit 1;\
@@ -39,6 +40,7 @@ install::
 	fi
 
 uninstall::
+	@xattr -rd com.apple.quarantine . ;
 	@if ! [[ $EUID -eq 0 ]]; then\
     	echo "This script should be run using sudo or as the root user.";\
     	exit 1;\
@@ -55,7 +57,7 @@ uninstall::
 	@rm -rf ${APP_PATH}/${DYLIB_NAME};
 	@rm -rf ${APP_PATH}/${FRAMEWORK_PATH};
 	@mv ${APP_PATH}/${BACKUP_NAME} ${APP_PATH}/${APP_NAME};
-	@echo "Uninstall successfully";
+	@echo "Uninstall successfully!";
 
 clean::
 	rm -rf ${FRAMEWORK_PATH}
