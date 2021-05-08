@@ -21,7 +21,7 @@ static NSString * const WeChatTweakOpenNewWeChatKey = @"WeChatTweakOpenNewWeChat
 // Global Function
 static NSString *(*original_NSHomeDirectory)(void);
 static NSArray<NSString *> *(*original_NSSearchPathForDirectoriesInDomains)(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde);
-NSString *tweak_NSHomeDirectory() {
+NSString *tweak_NSHomeDirectory(void) {
     return [original_NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Containers/com.tencent.xinWeChat/Data/"];
 }
 NSArray<NSString *> *tweak_NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, BOOL expandTilde) {
@@ -63,6 +63,7 @@ static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_onRevokeMsg:sessionMessageList:) error:nil];
+    [objc_getClass("FFProcessReqsvrZZ") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_onRevokeMsg:sessionMessageList:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"FFSvrChatInfoMsgWithImgZZ") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
@@ -144,23 +145,38 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (void)tweak_onRevokeMsg:(MessageData *)message sessionMessageList:(nullable id)sessionMessageList {
-    switch (WTConfigManager.sharedInstance.revokedMessageStyle) {
-        case WTRevokedMessageStylePlain:
-            [self handleRevokedMessageIntoClassicStyle:message]; break;
-        case WTRevokedMessageStyleMask:
-            [self handleRevokedMessageIntoMaskStyle:message]; break;
-        default:
-            break;
+    // - (id)GetMsgData:(id)arg1 svrId:(unsigned long long)arg2;
+    SEL GetMsgDataSelector = NSSelectorFromString(@"GetMsgData:svrId:");
+    if (![self respondsToSelector:GetMsgDataSelector]) {
+        // Fallback to origin method
+        return [self tweak_onRevokeMsg:message sessionMessageList:sessionMessageList];
     }
-}
-
-- (void)handleRevokedMessageIntoClassicStyle:(MessageData *)message {
     // Decode message
     NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
     NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
     NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
+    // Get message data
+    MessageData *messageData = ((id (*)(id, SEL, id, unsigned long long))objc_msgSend)(self, GetMsgDataSelector, session, newMessageID);
+    if (messageData.isSendFromSelf) {
+        // Fallback to origin method
+        [self tweak_onRevokeMsg:message sessionMessageList:sessionMessageList];
+    } else {
+        switch (WTConfigManager.sharedInstance.revokedMessageStyle) {
+            case WTRevokedMessageStylePlain:
+                [self handleRevokedMessageIntoClassicStyleWithSession:session messageData:messageData replaceMessage:replaceMessage];
+                break;
+            case WTRevokedMessageStyleMask:
+                [self handleRevokedMessageIntoMaskStyleWithSession:session messageData:messageData replaceMessage:replaceMessage];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+- (void)handleRevokedMessageIntoClassicStyleWithSession:(NSString *)session messageData:(MessageData *)messageData replaceMessage:(NSString *)replaceMessage {
     // Prepare message data
-    MessageData *localMessageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
+    MessageData *localMessageData = messageData;
     MessageData *promptMessageData = ({
         MessageData *data = [[objc_getClass("MessageData") alloc] initWithMsgType:10000];
         data.msgStatus = 4;
@@ -169,9 +185,7 @@ static void __attribute__((constructor)) tweak(void) {
         data.mesSvrID = localMessageData.mesSvrID;
         data.mesLocalID = localMessageData.mesLocalID;
         data.msgCreateTime = localMessageData.msgCreateTime;
-        if ([localMessageData isSendFromSelf]) {
-            data.msgContent = replaceMessage;
-        } else {
+        data.msgContent = ({
             NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
             NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
             NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.InterceptedARecalledMessage"], userRevoke];
@@ -202,8 +216,8 @@ static void __attribute__((constructor)) tweak(void) {
                 default:
                     [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
             }
-            data.msgContent = msgContent;
-        }
+            msgContent.copy;
+        });
         data;
     });
     // Prepare notification information
@@ -222,35 +236,22 @@ static void __attribute__((constructor)) tweak(void) {
         NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
         userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
     }
-    // Delete message if it is revoke from myself
-    if ([localMessageData isSendFromSelf]) {
-        [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
-        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-    } else {
-        if (localMessageData.messageType == MessageDataTypeText) {
-            [((MessageService *)self) DelMsg:session msgList:@[localMessageData] isDelAll:NO isManual:YES];
-        }
-        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
+    // - (void)AddLocalMsg:(id)arg1 msgData:(id)arg2;
+    SEL addMsgSelector = NSSelectorFromString(@"AddLocalMsg:msgData:");
+    if ([self respondsToSelector:addMsgSelector]) {
+        ((void (*)(id, SEL, id, id))objc_msgSend)(self, addMsgSelector, session, promptMessageData);
     }
     // Dispatch notification
     dispatch_async(dispatch_get_main_queue(), ^{
         // Deliver notification
-        if (![localMessageData isSendFromSelf]) {
-            RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-            if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-            }
+        RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
+        if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
+            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
         }
     });
 }
 
-- (void)handleRevokedMessageIntoMaskStyle:(MessageData *)message {
-    // Decode message
-    NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
-    NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
-    NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
-    // Get message data
-    MessageData *messageData = [((MessageService *)self) GetMsgData:session svrId:newMessageID];
+- (void)handleRevokedMessageIntoMaskStyleWithSession:(NSString *)session messageData:(MessageData *)messageData replaceMessage:(NSString *)replaceMessage {
     [RecallCacheManager insertRevokedMessage:messageData];
     // Prepare notification information
     MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
@@ -268,34 +269,12 @@ static void __attribute__((constructor)) tweak(void) {
         NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
         userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
     }
-    if ([messageData isSendFromSelf]) {
-        MessageData *promptMessageData = ({
-            MessageData *data = [[objc_getClass("MessageData") alloc] initWithMsgType:MessageDataTypePrompt];
-            data.msgStatus = 4;
-            data.toUsrName = messageData.toUsrName;
-            data.fromUsrName = messageData.fromUsrName;
-            data.mesSvrID = messageData.mesSvrID;
-            data.mesLocalID = messageData.mesLocalID;
-            data.msgCreateTime = messageData.msgCreateTime;
-            data.msgContent = replaceMessage;
-            data;
-        });
-        // Delete message if it is revoke from myself
-        [((MessageService *)self) DelMsg:session msgList:@[messageData] isDelAll:NO isManual:YES];
-        [((MessageService *)self) AddLocalMsg:session msgData:promptMessageData];
-    } else {
-        // Invoke message reloading
-        [((MessageService *)self) notifyDelMsgOnMainThread:messageData.getChatNameForCurMsg msgData:messageData];
-        [((MessageService *)self) notifyAddRevokePromptMsgOnMainThread:messageData.getChatNameForCurMsg msgData:messageData];
-    }
     // Dispatch notification
     dispatch_async(dispatch_get_main_queue(), ^{
         // Deliver notification
-        if (![messageData isSendFromSelf]) {
-            RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-            if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-            }
+        RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
+        if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
+            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
         }
     });
 }
@@ -515,10 +494,12 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 + (NSArray *)modelPropertyWhitelist {
-    NSArray *list =@[@"wt_avatarPath",
-                     @"m_nsRemark",
-                     @"m_nsNickName",
-                     @"m_nsUsrName"];
+    NSArray *list =@[
+        @"wt_avatarPath",
+        @"m_nsRemark",
+        @"m_nsNickName",
+        @"m_nsUsrName"
+    ];
     return WTConfigManager.sharedInstance.compressedJSONEnabled ? list : nil;
 }
 
