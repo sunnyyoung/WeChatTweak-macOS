@@ -1,36 +1,7 @@
-# Created by https://www.gitignore.io
-
-### macOS ###
-# General
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -52,6 +23,35 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
 ### Xcode ###
 # Xcode
@@ -78,35 +78,37 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 
+## Gcc Patch
+/*.gcno
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
 ### Xcode Patch ###
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
-/*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-## Obj-C/Swift specific
+### Objective-C/Swift ###
 *.hmap
-*.ipa
-*.dSYM.zip
-*.dSYM
 
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
 
-# CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+### CocoaPods ###
+## CocoaPods GitIgnore Template
 
+# CocoaPods - Only use to conserve bandwidth / Save time on Pushing
+#           - Also handy if you have a large number of dependant pods
+#           - AS PER https://guides.cocoapods.org/using/using-cocoapods.html NEVER IGNORE THE LOCK FILE
 Pods/
 
-# Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
-
+### Carthage ###
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
@@ -114,27 +116,31 @@ Pods/
 
 Carthage/Build
 
-# fastlane
+### fastlane ###
+# fastlane - A streamlined workflow tool for Cocoa deployment
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
 # screenshots whenever they are needed.
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/#source-control
 
+# fastlane specific
 fastlane/report.xml
+
+# deliver temporary files
 fastlane/Preview.html
+
+# snapshot generated screenshots
 fastlane/screenshots/**/*.png
+fastlane/screenshots/screenshots.html
+
+# scan temporary files
 fastlane/test_output
 
-# Code Injection
-#
-# After new code Injection tools there's a generated folder /iOSInjectionProject
-# https://github.com/johnno1962/injectionforxcode
+# Fastlane.swift runner binary
+fastlane/FastlaneRunner
 
-iOSInjectionProject/
+### Project ###
 
-# Gems
-#
-# Bundler gems
-
-Gems/
+Gems
+WeChatTweak.framework
