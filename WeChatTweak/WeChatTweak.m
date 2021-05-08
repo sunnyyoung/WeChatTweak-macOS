@@ -281,29 +281,40 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (id)tweak_contextMenu {
     NSMenu *menu = (NSMenu *)[self tweak_contextMenu];
-    MMMessageCellView *view = (MMMessageCellView *)self;
-    if (view.messageTableItem.message.messageType == MessageDataTypeAppUrl) {
-        [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItem:({
-            NSMenuItem *copyUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.CopyLink"] action:@selector(tweakCopyUrl:) keyEquivalent:@""];
-            copyUrlItem;
-        })];
-        [menu addItem:({
-            NSMenuItem *openUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"] action:@selector(tweakOpenUrlItem:) keyEquivalent:@""];
-            openUrlItem;
-        })];
-    } else if (view.messageTableItem.message.messageType == MessageDataTypeImage) {
-        [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItem:({
-            NSMenuItem *qrCodeItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"] action:@selector(tweakIdentifyQRCode:) keyEquivalent:@""];
-            qrCodeItem;
-        })];
-    } else if (view.messageTableItem.message.messageType == MessageDataTypeSticker) {
-        [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItem:({
-            NSMenuItem *exportStickerItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.ExportSticker"] action:@selector(tweakExportSticker:) keyEquivalent:@""];
-            exportStickerItem;
-        })];
+    switch (((MMMessageCellView *)self).messageTableItem.message.messageType) {
+        case MessageDataTypeAppUrl:
+            [menu addItem:NSMenuItem.separatorItem];
+            [menu addItem:({
+                NSMenuItem *copyUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.CopyLink"]
+                                                                     action:@selector(tweakCopyURL:)
+                                                              keyEquivalent:@""];
+                copyUrlItem;
+            })];
+            [menu addItem:({
+                NSMenuItem *openUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"]
+                                                                     action:@selector(tweakOpenURL:)
+                                                              keyEquivalent:@""];
+                openUrlItem;
+            })];
+            break;
+        case MessageDataTypeImage:
+            [menu addItem:NSMenuItem.separatorItem];
+            [menu addItem:({
+                NSMenuItem *qrCodeItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"]
+                                                                    action:@selector(tweakIdentifyQRCode:)
+                                                             keyEquivalent:@""];
+                qrCodeItem;
+            })];
+        case MessageDataTypeSticker:
+            [menu addItem:NSMenuItem.separatorItem];
+            [menu addItem:({
+                NSMenuItem *exportStickerItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.ExportSticker"]
+                                                                           action:@selector(tweakExportSticker:)
+                                                                    keyEquivalent:@""];
+                exportStickerItem;
+            })];
+        default:
+            break;
     }
     return menu;
 }
@@ -339,18 +350,18 @@ static void __attribute__((constructor)) tweak(void) {
     }];
 }
 
-- (void)tweakCopyUrl:(id)sender {
+- (void)tweakCopyURL:(id)sender {
     NSString *url = [self _tweakMessageContentUrl];
     if (url.length) {
-        [[NSPasteboard generalPasteboard] clearContents];
-        [[NSPasteboard generalPasteboard] setString:url forType:NSStringPboardType];
+        [NSPasteboard.generalPasteboard clearContents];
+        [NSPasteboard.generalPasteboard setString:url forType:NSStringPboardType];
     }
 }
 
-- (void)tweakOpenUrlItem:(id)sender {
+- (void)tweakOpenURL:(id)sender {
     NSString *url = [self _tweakMessageContentUrl];
     if (url.length) {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+        [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:url]];
     }
 }
 
