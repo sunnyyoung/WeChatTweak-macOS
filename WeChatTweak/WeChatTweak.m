@@ -53,11 +53,6 @@ static void __attribute__((constructor)) tweak(void) {
     // Method Swizzling
     class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDidFinishLaunching:") withMethod:@selector(tweak_applicationDidFinishLaunching:) error:nil];
-    [objc_getClass("LogoutCGI") jr_swizzleMethod:NSSelectorFromString(@"sendLogoutCGIWithCompletion:") withMethod:@selector(tweak_sendLogoutCGIWithCompletion:) error:nil];
-    [objc_getClass("LogoutCGI") jr_swizzleMethod:NSSelectorFromString(@"FFVCRecvDataAddDataToMsgChatMgrRecvZZ:") withMethod:@selector(tweak_sendLogoutCGIWithCompletion:) error:nil];
-    [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"onAuthOKOfUser:withSessionKey:withServerId:autoAuthKey:isAutoAuth:") withMethod:@selector(tweak_onAuthOKOfUser:withSessionKey:withServerId:autoAuthKey:isAutoAuth:) error:nil];
-    [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"ManualLogout") withMethod:@selector(tweak_ManualLogout) error:nil];
-    [objc_getClass("AccountService") jr_swizzleMethod:NSSelectorFromString(@"FFAddSvrMsgImgVCZZ") withMethod:@selector(tweak_ManualLogout) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
     [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_onRevokeMsg:sessionMessageList:) error:nil];
@@ -435,42 +430,11 @@ static void __attribute__((constructor)) tweak(void) {
     [task waitUntilExit];
 }
 
-#pragma mark - Auto Auth
+#pragma mark - Alfred
 
 - (void)tweak_applicationDidFinishLaunching:(NSNotification *)notification {
+    [AlfredManager.sharedInstance startListener];
     [self tweak_applicationDidFinishLaunching:notification];
-    NSString *bundleIdentifier = NSBundle.mainBundle.bundleIdentifier;
-    NSArray *instances = [NSRunningApplication tweak_runningApplicationsWithBundleIdentifier:bundleIdentifier];
-    // Detect multiple instance conflict
-    BOOL hasInstance = instances.count == 1;
-    BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
-    if (hasInstance && enabledAutoAuth) {
-        AccountService *accountService = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("AccountService")];
-        if ([accountService canAutoAuth]) {
-            [accountService AutoAuth];
-        }
-    }
-}
-
-- (void)tweak_onAuthOKOfUser:(id)arg1 withSessionKey:(id)arg2 withServerId:(id)arg3 autoAuthKey:(id)arg4 isAutoAuth:(BOOL)arg5 {
-    [[AlfredManager sharedInstance] startListener];
-    [self tweak_onAuthOKOfUser:arg1 withSessionKey:arg2 withServerId:arg3 autoAuthKey:arg4 isAutoAuth:arg5];
-}
-
-- (void)tweak_sendLogoutCGIWithCompletion:(id)completion {
-    BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
-    WeChat *wechat = [objc_getClass("WeChat") sharedInstance];
-    if (enabledAutoAuth && wechat.isAppTerminating) {
-        return;
-    }
-    [self tweak_sendLogoutCGIWithCompletion:completion];
-}
-
-- (void)tweak_ManualLogout {
-    BOOL enabledAutoAuth = [[NSUserDefaults standardUserDefaults] boolForKey:WeChatTweakPreferenceAutoAuthKey];
-    if (!enabledAutoAuth) {
-        [self tweak_ManualLogout];
-    }
 }
 
 #pragma mark - Preferences Window

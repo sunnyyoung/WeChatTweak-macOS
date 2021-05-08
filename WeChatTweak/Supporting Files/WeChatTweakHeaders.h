@@ -11,6 +11,12 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
+    RevokeNotificationTypeFollow = 0,
+    RevokeNotificationTypeReceiveAll,
+    RevokeNotificationTypeDisable,
+};
+
 typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypeText     = 1,
     MessageDataTypeImage    = 3,
@@ -21,6 +27,9 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypePrompt   = 10000
 };
 
+static NSString * const WeChatTweakPreferenceAutoAuthKey = @"WeChatTweakPreferenceAutoAuthKey";
+static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeChatTweakPreferenceRevokeNotificationTypeKey";
+
 @interface NSString (MD5)
 
 - (NSString *)md5String;
@@ -28,8 +37,6 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 @end
 
 @interface WeChat : NSObject
-
-@property(nonatomic) BOOL isAppTerminating;
 
 + (instancetype)sharedInstance;
 - (void)lock:(id)block;
@@ -112,19 +119,19 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 
 - (BOOL)canAutoAuth;
 - (void)AutoAuth;
-- (void)onAuthOKOfUser:(id)arg1 withSessionKey:(id)arg2 withServerId:(id)arg3 autoAuthKey:(id)arg4 isAutoAuth:(BOOL)arg5;
-
-@end
-
-@interface LogoutCGI: NSObject
-
-- (void)sendLogoutCGIWithCompletion:(id)arg1;
 
 @end
 
 @interface MMAvatarService: NSObject
 
 - (NSString *)avatarCachePath;
+
+@end
+
+@interface MMSessionMgr: NSObject
+
+- (void)loadSessionData;
+- (void)loadBrandSessionData;
 
 @end
 

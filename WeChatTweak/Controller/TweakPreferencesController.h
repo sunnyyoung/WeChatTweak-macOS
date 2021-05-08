@@ -8,15 +8,6 @@
 
 #import "WeChatTweakHeaders.h"
 
-typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
-    RevokeNotificationTypeFollow = 0,
-    RevokeNotificationTypeReceiveAll,
-    RevokeNotificationTypeDisable,
-};
-
-static NSString * const WeChatTweakPreferenceAutoAuthKey = @"WeChatTweakPreferenceAutoAuthKey";
-static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeChatTweakPreferenceRevokeNotificationTypeKey";
-
 @interface TweakPreferencesController : NSViewController
 
 @end
