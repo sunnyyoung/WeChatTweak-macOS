@@ -42,13 +42,12 @@
 
 ## 使用
 
-- `sudo make install` 安装或者更新动态库
-- `sudo make uninstall` 卸载动态库
-- open `WeChat.alfredworkflow` 安装 Alfred workflow
+🚀 [下载最新版](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
-## 文档
-
-获取更多信息, 请到 [Wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki)。
+```bash
+$ sudo make install   # 安装或者更新动态库
+$ sudo make uninstall # 卸载动态库
+```
 
 ## 依赖
 
@@ -65,7 +64,7 @@
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 
-[![Contributors](https://opencollective.com/WeChatTweak-macOS/contributors.svg?width=890&button=false)](/graphs/contributors)
+[![Contributors](https://opencollective.com/WeChatTweak-macOS/contributors.svg?width=890&button=false)](https://github.com/Sunnyyoung/WeChatTweak-macOS/graphs/contributors)
 
 ## 支持者
 

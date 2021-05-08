@@ -40,15 +40,14 @@ A dynamic library tweak for WeChat macOS.
 - Alfred workflow support
 - Launchbar action support
 
-## Quick Start
+## Usage
 
-- `sudo make install` Install or Upgrade the dylib
-- `sudo make uninstall` Uninstall the dylib
-- open `WeChat.workflow` Install Alfred workflow
+🚀 [Download latest release](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
-## Documentation
-
-For more informations, please go to the [Wiki](https://github.com/Sunnyyoung/WeChatTweak-macOS/wiki).
+```bash
+$ sudo make install   # Install or Upgrade the framework
+$ sudo make uninstall # Uninstall the framework
+```
 
 ## Dependency
 
