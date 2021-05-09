@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+show_downloads: true
+github:
+  zip_url: https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip
