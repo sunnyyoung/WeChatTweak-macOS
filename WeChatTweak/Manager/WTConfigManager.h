@@ -11,7 +11,7 @@
 #import <objc/message.h>
 
 typedef NS_ENUM(NSUInteger, WTRevokedMessageStyle) {
-    WTRevokedMessageStylePlain = 0,
+    WTRevokedMessageStyleClassic = 0,
     WTRevokedMessageStyleMask
 };
 

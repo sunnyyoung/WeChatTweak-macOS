@@ -14,7 +14,6 @@
 #import "TweakPreferencesController.h"
 #import "AlfredManager.h"
 #import "WTConfigManager.h"
-#import "RecallCacheManager.h"
 
 // Global Function
 static NSString *(*original_NSHomeDirectory)(void);
@@ -53,19 +52,12 @@ static void __attribute__((constructor)) tweak(void) {
     // Method Swizzling
     class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");
     [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDidFinishLaunching:") withMethod:@selector(tweak_applicationDidFinishLaunching:) error:nil];
-    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"onRevokeMsg:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
-    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:") withMethod:@selector(tweak_onRevokeMsg:) error:nil];
-    [objc_getClass("MessageService") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_onRevokeMsg:sessionMessageList:) error:nil];
-    [objc_getClass("FFProcessReqsvrZZ") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_onRevokeMsg:sessionMessageList:) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"FFSvrChatInfoMsgWithImgZZ") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
     [objc_getClass("MASPreferencesWindowController") jr_swizzleMethod:NSSelectorFromString(@"initWithViewControllers:") withMethod:@selector(tweak_initWithViewControllers:) error:nil];
     
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"contextMenu") withMethod:@selector(tweak_contextMenu) error:nil];
-    [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"initWithFrame:") withMethod:@selector(tweak_initWithFrame:) error:nil];
-    [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"populateWithMessage:") withMethod:@selector(tweak_populateWithMessage:) error:nil];
-    [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"layout") withMethod:@selector(tweak_layout) error:nil];
 
     objc_property_attribute_t type = { "T", "@\"NSString\"" }; // NSString
     objc_property_attribute_t atom = { "N", "" }; // nonatomic
@@ -76,200 +68,6 @@ static void __attribute__((constructor)) tweak(void) {
     class_addMethod(objc_getClass("WCContactData"), @selector(wt_avatarPath), method_getImplementation(class_getInstanceMethod(objc_getClass("WCContactData"), @selector(wt_avatarPath))), "@@:");
     class_addMethod(objc_getClass("WCContactData"), @selector(setWt_avatarPath:), method_getImplementation(class_getInstanceMethod(objc_getClass("WCContactData"), @selector(setWt_avatarPath:))), "v@:@");
     class_addMethod(objc_getClass("WCContactData"), @selector(modelPropertyWhitelist), method_getImplementation(class_getClassMethod(objc_getClass("WCContactData"), @selector(modelPropertyWhitelist))), "v@:");
-}
-
-- (instancetype)tweak_initWithFrame:(NSRect)arg1 {
-    MMMessageCellView *view = (MMMessageCellView *)[self tweak_initWithFrame:arg1];
-    NSTextField *revokeTextField = [[NSTextField alloc] init];
-    revokeTextField.hidden = YES;
-    revokeTextField.editable = NO;
-    revokeTextField.selectable = NO;
-    revokeTextField.bordered = NO;
-    revokeTextField.drawsBackground = NO;
-    revokeTextField.usesSingleLineMode = YES;
-    revokeTextField.tag = 9527;
-    revokeTextField.stringValue = @"[已撤回]";
-    revokeTextField.font = [NSFont systemFontOfSize:10];
-    revokeTextField.textColor = [NSColor lightGrayColor];
-    [view addSubview:revokeTextField];
-    return view;
-}
-
-- (void)tweak_populateWithMessage:(MMMessageTableItem *)tableItem {
-    [self tweak_populateWithMessage:tableItem];
-    BOOL style = [RecallCacheManager containsRevokedMessage:tableItem.message] && tableItem.message.messageType != MessageDataTypePrompt;
-    [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
-        if (view.tag != 9527) {
-            return ;
-        }
-        *stop = YES;
-        view.hidden = !style;
-    }];
-    ((MMMessageCellView *)self).layer.backgroundColor = style ? [NSColor.yellowColor colorWithAlphaComponent:0.3].CGColor : ((MMMessageCellView *)self).layer.backgroundColor;
-}
-
-- (void)tweak_layout {
-    [self tweak_layout];
-    __block NSTextField *label = nil;
-    [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
-        if (view.tag != 9527) {
-            return ;
-        }
-        *stop = YES;
-        label = view;
-    }];
-    if (label == nil) {
-        return;
-    }
-    label.frame = ({
-        NSView *avatarView = ((MMMessageCellView *)self).avatarImgView;
-        CGFloat x = CGRectGetMidX(avatarView.frame) - CGRectGetWidth(label.frame) / 2.0;
-        CGFloat y = CGRectGetMinY(avatarView.frame) - CGRectGetHeight(label.frame);
-        NSRect fuck = [label.stringValue boundingRectWithSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX) options:kNilOptions attributes:nil];
-        NSRect frame = NSMakeRect(x, y, CGRectGetWidth(fuck), CGRectGetHeight(fuck));
-        frame;
-    });
-}
-
-#pragma mark - No Revoke Message
-
-- (void)tweak_onRevokeMsg:(MessageData *)message {
-    [self tweak_onRevokeMsg:message sessionMessageList:nil];
-}
-
-- (void)tweak_onRevokeMsg:(MessageData *)message sessionMessageList:(nullable id)sessionMessageList {
-    // - (id)GetMsgData:(id)arg1 svrId:(unsigned long long)arg2;
-    SEL GetMsgDataSelector = NSSelectorFromString(@"GetMsgData:svrId:");
-    if (![self respondsToSelector:GetMsgDataSelector]) {
-        // Fallback to origin method
-        return [self tweak_onRevokeMsg:message sessionMessageList:sessionMessageList];
-    }
-    // Decode message
-    NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
-    NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
-    NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
-    // Get message data
-    MessageData *messageData = ((id (*)(id, SEL, id, unsigned long long))objc_msgSend)(self, GetMsgDataSelector, session, newMessageID);
-    if (messageData.isSendFromSelf) {
-        // Fallback to origin method
-        [self tweak_onRevokeMsg:message sessionMessageList:sessionMessageList];
-    } else {
-        switch (WTConfigManager.sharedInstance.revokedMessageStyle) {
-            case WTRevokedMessageStylePlain:
-                [self handleRevokedMessageIntoClassicStyleWithSession:session messageData:messageData replaceMessage:replaceMessage];
-                break;
-            case WTRevokedMessageStyleMask:
-                [self handleRevokedMessageIntoMaskStyleWithSession:session messageData:messageData replaceMessage:replaceMessage];
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-- (void)handleRevokedMessageIntoClassicStyleWithSession:(NSString *)session messageData:(MessageData *)messageData replaceMessage:(NSString *)replaceMessage {
-    // Prepare message data
-    MessageData *localMessageData = messageData;
-    MessageData *promptMessageData = ({
-        MessageData *data = [[objc_getClass("MessageData") alloc] initWithMsgType:10000];
-        data.msgStatus = 4;
-        data.toUsrName = localMessageData.toUsrName;
-        data.fromUsrName = localMessageData.fromUsrName;
-        data.mesSvrID = localMessageData.mesSvrID;
-        data.mesLocalID = localMessageData.mesLocalID;
-        data.msgCreateTime = localMessageData.msgCreateTime;
-        data.msgContent = ({
-            NSString *fromUserName = [replaceMessage componentsSeparatedByString:@" "].firstObject;
-            NSString *userRevoke = [NSString stringWithFormat:@"%@ %@ ", fromUserName, [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Recalled"]];
-            NSString *tips = [NSString stringWithFormat:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.InterceptedARecalledMessage"], userRevoke];
-            NSMutableString *msgContent = [NSMutableString stringWithString:tips];
-            switch (localMessageData.messageType) {
-                case MessageDataTypeText: {
-                    if (localMessageData.msgContent.length) {
-                        if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
-                            [msgContent appendFormat:@"\"%@\"", localMessageData.msgContent];
-                        } else {
-                            [msgContent appendFormat:@"\"%@\"", [localMessageData.msgContent componentsSeparatedByString:@":\n"].lastObject];
-                        }
-                    } else {
-                        [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]];
-                    }
-                    break;
-                }
-                case MessageDataTypeImage:
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Image"]]; break;
-                case MessageDataTypeVoice:
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Voice"]]; break;
-                case MessageDataTypeVideo:
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Video"]]; break;
-                case MessageDataTypeSticker:
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Sticker"]]; break;
-                case MessageDataTypeAppUrl:
-                    [msgContent appendFormat:@"<%@>", [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.Link"]]; break;
-                default:
-                    [msgContent appendString:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.AMessage"]]; break;
-            }
-            msgContent.copy;
-        });
-        data;
-    });
-    // Prepare notification information
-    MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
-    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
-    BOOL isChatStatusNotifyOpen = YES;
-    if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
-        ContactStorage *contactStorage = [serviceCenter getService:objc_getClass("ContactStorage")];
-        WCContactData *contact = [contactStorage GetContact:session];
-        isChatStatusNotifyOpen = [contact isChatStatusNotifyOpen];
-        userNotification.informativeText = replaceMessage;
-    } else {
-        GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
-        WCContactData *groupContact = [groupStorage GetGroupContact:session];
-        isChatStatusNotifyOpen = [groupContact isChatStatusNotifyOpen];
-        NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
-        userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
-    }
-    // - (void)AddLocalMsg:(id)arg1 msgData:(id)arg2;
-    SEL addMsgSelector = NSSelectorFromString(@"AddLocalMsg:msgData:");
-    if ([self respondsToSelector:addMsgSelector]) {
-        ((void (*)(id, SEL, id, id))objc_msgSend)(self, addMsgSelector, session, promptMessageData);
-    }
-    // Dispatch notification
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Deliver notification
-        RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-        if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
-            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-        }
-    });
-}
-
-- (void)handleRevokedMessageIntoMaskStyleWithSession:(NSString *)session messageData:(MessageData *)messageData replaceMessage:(NSString *)replaceMessage {
-    [RecallCacheManager insertRevokedMessage:messageData];
-    // Prepare notification information
-    MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
-    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
-    BOOL isChatStatusNotifyOpen = YES;
-    if ([session rangeOfString:@"@chatroom"].location == NSNotFound) {
-        ContactStorage *contactStorage = [serviceCenter getService:objc_getClass("ContactStorage")];
-        WCContactData *contact = [contactStorage GetContact:session];
-        isChatStatusNotifyOpen = [contact isChatStatusNotifyOpen];
-        userNotification.informativeText = replaceMessage;
-    } else {
-        GroupStorage *groupStorage = [serviceCenter getService:objc_getClass("GroupStorage")];
-        WCContactData *groupContact = [groupStorage GetGroupContact:session];
-        isChatStatusNotifyOpen = [groupContact isChatStatusNotifyOpen];
-        NSString *groupName = groupContact.m_nsNickName.length ? groupContact.m_nsNickName : [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.Group"];
-        userNotification.informativeText = [NSString stringWithFormat:@"%@: %@", groupName, replaceMessage];
-    }
-    // Dispatch notification
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Deliver notification
-        RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-        if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeFollow && isChatStatusNotifyOpen)) {
-            [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
-        }
-    });
 }
 
 #pragma mark - AppUrlMessageMenu

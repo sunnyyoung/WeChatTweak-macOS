@@ -135,6 +135,27 @@ static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeCha
 
 @end
 
+@interface RevokeMsgItem : NSObject
+
+@property (nonatomic, assign) unsigned int createTime;
+@property (nonatomic, retain) NSString *svrId;
+@property (nonatomic, retain) NSString *content;
+
+@end
+
+@interface MMRevokeMsgDB : NSObject
+
+- (BOOL)insertRevokeMsg:(id)msg;
+- (id)getRevokeMsg:(NSString *)svrId;
+
+@end
+
+@interface MMRevokeMsgService : NSObject
+
+@property (nonatomic, strong) MMRevokeMsgDB *db;
+
+@end
+
 @protocol MASPreferencesViewController <NSObject>
 
 @property(readonly, nonatomic) NSString *toolbarItemLabel;
