@@ -6,6 +6,7 @@
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
 [![Backers on Open Collective](https://opencollective.com/WeChatTweak-macOS/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/WeChatTweak-macOS/sponsors/badge.svg)](#sponsors)
+[![GitHub release (latest by date and asset)](https://img.shields.io/github/downloads/Sunnyyoung/WeChatTweak-macOS/latest/WeChatTweak-macOS.zip?label=Download&logo=wechat&style=social)](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 A dynamic library tweak for WeChat macOS.
 
@@ -25,14 +26,16 @@ A dynamic library tweak for WeChat macOS.
 
 ## Feature
 
-- Prevent message revoked
+- Anti message revoked
   - Message list notification
   - System notification
   - Revoke message you sent
 - Multiple WeChat Instance
-  - Right click on the dock icon to login another WeChat account
+  - Launch from Dock menu
   - Run command: `open -n /Applications/WeChat.app`
-- URL type messages enhancement
+- Messages enhancement
+  - Support stickers exporting
+  - Support QRCode identifying
   - Support right-click copy link directly
   - Support opened by the system default browser directly
 - Auto login without authentication
@@ -41,8 +44,6 @@ A dynamic library tweak for WeChat macOS.
 - Launchbar action support
 
 ## Usage
-
-🚀 [Download latest release](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 ```bash
 $ sudo make install   # Install or Upgrade the framework

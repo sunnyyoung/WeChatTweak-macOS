@@ -6,6 +6,7 @@
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
 [![Backers on Open Collective](https://opencollective.com/WeChatTweak-macOS/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/WeChatTweak-macOS/sponsors/badge.svg)](#sponsors)
+[![GitHub release (latest by date and asset)](https://img.shields.io/github/downloads/Sunnyyoung/WeChatTweak-macOS/latest/WeChatTweak-macOS.zip?label=下载&logo=wechat&style=social)](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 微信 macOS 客户端增强 Tweak 动态库。
 
@@ -30,9 +31,11 @@
   - 系统通知
   - 正常撤回自己发出的消息
 - 客户端无限多开
-  - 右键 dock icon 登录新的微信账号
+  - 右键 Dock icon 登录新的微信账号
   - 命令行执行：`open -n /Applications/WeChat.app`
-- 链接类型消息增强
+- 消息处理增强
+  - 支持任意表情导出
+  - 支持二维码识别
   - 支持右键直接复制链接
   - 支持由系统默认浏览器直接打开
 - 重新打开应用无需手机认证
@@ -41,8 +44,6 @@
 - 支持 Launchbar action
 
 ## 使用
-
-🚀 [下载最新版](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 ```bash
 $ sudo make install   # 安装或者更新动态库
