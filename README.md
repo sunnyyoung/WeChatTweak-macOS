@@ -58,6 +58,8 @@ $ sudo make uninstall # 卸载动态库
   开源项目，用爱发电，耐心等。
 3. 兼容旧版本客户端吗？  
   不，为了降低维护成本和保证更新速度，默认只支持最新 App Store 版本客户端。
+4. 安装出现错误：`Can not find the framework, please build first.`  
+  下载的是源码文件需要自行编译，开箱即用请点击：[![GitHub release (latest by date and asset)](https://img.shields.io/github/downloads/Sunnyyoung/WeChatTweak-macOS/latest/WeChatTweak-macOS.zip?label=下载&logo=wechat&style=social)](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 ## 参考
 
