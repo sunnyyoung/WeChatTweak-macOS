@@ -20,6 +20,7 @@ install::
 	fi
 	@if ! [ -d "${FRAMEWORK_PATH}" ]; then\
 		echo "Can not find the framework, please build first.";\
+		echo "Or download the latest release zip: \033[33;32mhttps://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest\033[0m.";\
 		exit 1;\
 	fi
 	@if [ -f "${APP_PATH}/${DYLIB_NAME}" ]; then\
