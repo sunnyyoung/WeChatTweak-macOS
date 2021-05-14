@@ -46,6 +46,7 @@ A dynamic library tweak for WeChat macOS.
 ## Usage
 
 ```bash
+$ cd WeChatTweak-macOS
 $ sudo make install   # Install or Upgrade the framework
 $ sudo make uninstall # Uninstall the framework
 ```
