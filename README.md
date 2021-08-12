@@ -54,7 +54,7 @@ $ sudo make uninstall # 卸载动态库
 ## FAQ
 
 1. 功能失效？  
-  当前支持并经验证版本：`3.0.2`，若使用上仍有问题请 [Submit issue](https://github.com/Sunnyyoung/WeChatTweak-macOS/issues/new).
+  请提交 **issue** 然后等待，或提交 **pull request** 一起发电。
 2. Issue 没有响应 or 回复？  
   开源项目，用爱发电，耐心等。
 3. 兼容旧版本客户端吗？  
