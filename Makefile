@@ -1,4 +1,5 @@
 APP_PATH=/Applications/WeChat.app/Contents/MacOS
+TMP_PATH=/tmp
 APP_NAME=WeChat
 BACKUP_NAME=WeChat.bak
 FRAMEWORK_PATH=WeChatTweak.framework
@@ -33,10 +34,12 @@ install::
 		chmod -R 755 ${APP_PATH}/${FRAMEWORK_PATH};\
 		echo "Framework found! Replace with new framework successfully!";\
 	else \
-		cp ${APP_PATH}/${APP_NAME} ${APP_PATH}/${BACKUP_NAME};\
 		cp -R ${FRAMEWORK_PATH} ${APP_PATH};\
 		chmod -R 755 ${APP_PATH}/${FRAMEWORK_PATH};\
-		./insert_dylib @executable_path/${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} ${APP_PATH}/${APP_NAME} --all-yes;\
+		cp ${APP_PATH}/${APP_NAME} ${APP_PATH}/${BACKUP_NAME};\
+		./insert_dylib @executable_path/${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} ${TMP_PATH}/${APP_NAME} --all-yes;\
+		codesign --force --deep --sign - ${TMP_PATH}/${APP_NAME};\
+		cp ${TMP_PATH}/${APP_NAME} ${APP_PATH}/${APP_NAME};\
 		echo "Install successfully!";\
 	fi
 
