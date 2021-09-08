@@ -11,7 +11,7 @@
 @implementation NSBundle (WeChatTweak)
 
 + (instancetype)tweakBundle {
-    return [NSBundle bundleWithIdentifier:@"net.sunnyyoung.WeChatTweak"];
+    return [NSBundle bundleWithIdentifier:@"app.tweaks.WeChatTweak"];
 }
 
 - (NSString *)localizedStringForKey:(NSString *)key {
