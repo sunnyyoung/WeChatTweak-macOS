@@ -300,7 +300,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FRAMEWORK=\"${TARGET_NAME}.framework\"\nrm -r \"${SRCROOT}/${FRAMEWORK}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FRAMEWORK}\" \"${SRCROOT}\"\n";
+			shellScript = "FRAMEWORK=\"${TARGET_NAME}.framework\"\nln -sf \"${BUILT_PRODUCTS_DIR}/${FRAMEWORK}\" \"${SRCROOT}\"\n";
 		};
 		CB198514792C1F69F3B65026 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
