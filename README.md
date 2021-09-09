@@ -45,11 +45,19 @@
 
 ## 使用
 
-```bash
-$ cd WeChatTweak-macOS
-$ sudo make install   # 安装或者更新动态库
-$ sudo make uninstall # 卸载动态库
-```
+**首次使用**安装 [WeChatTweak-CLI](https://github.com/Sunnyyoung/WeChatTweak-CLI):
+
+  ```bash
+  $ brew tap sunnyyoung/repo
+  $ brew install wechattweak-cli
+  ```
+
+安装/更新/卸载 Tweak:
+
+  ```bash
+  $ sudo wechattweak-cli --install   # 安装
+  $ sudo wechattweak-cli --uninstall # 卸载
+  ```
 
 ## FAQ
 

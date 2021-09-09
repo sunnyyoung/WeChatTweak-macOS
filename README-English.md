@@ -45,11 +45,19 @@ A dynamic library tweak for WeChat macOS.
 
 ## Usage
 
-```bash
-$ cd WeChatTweak-macOS
-$ sudo make install   # Install or Upgrade the framework
-$ sudo make uninstall # Uninstall the framework
-```
+Install command line tool [WeChatTweak-CLI](https://github.com/Sunnyyoung/WeChatTweak-CLI):
+
+  ```bash
+  $ brew tap sunnyyoung/repo
+  $ brew install wechattweak-cli
+  ```
+
+Install/Upgrade/Uninstall Tweak:
+
+  ```bash
+  $ sudo wechattweak-cli --install   # Install
+  $ sudo wechattweak-cli --uninstall # Uninstall
+  ```
 
 ## Reference
 
