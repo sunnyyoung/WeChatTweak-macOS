@@ -6,7 +6,6 @@
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
 [![Backers on Open Collective](https://opencollective.com/WeChatTweak-macOS/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/WeChatTweak-macOS/sponsors/badge.svg)](#sponsors)
-[![GitHub release (latest by date and asset)](https://img.shields.io/github/downloads/Sunnyyoung/WeChatTweak-macOS/latest/WeChatTweak-macOS.zip?label=下载&logo=wechat&style=social)](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
 
 微信 macOS 客户端增强 Tweak 动态库。
 
@@ -52,7 +51,7 @@
   $ brew install wechattweak-cli
   ```
 
-安装/更新/卸载 Tweak:
+安装/更新/卸载 Tweak:
 
   ```bash
   $ sudo wechattweak-cli --install   # 安装
@@ -67,9 +66,7 @@
   开源项目，用爱发电，耐心等。
 3. 兼容旧版本客户端吗？  
   不，为了降低维护成本和保证更新速度，默认只支持最新 App Store 版本客户端。
-4. 安装出现错误：`Can not find the framework, please build first.`  
-  下载的是源码文件需要自行编译，开箱即用请点击：[![GitHub release (latest by date and asset)](https://img.shields.io/github/downloads/Sunnyyoung/WeChatTweak-macOS/latest/WeChatTweak-macOS.zip?label=下载&logo=wechat&style=social)](https://github.com/Sunnyyoung/WeChatTweak-macOS/releases/latest/download/WeChatTweak-macOS.zip)
-5. 会封号吗？  
+4. 会封号吗？  
   在**只使用该工具**的情况下**没有**出现过封号/风险提示，若有**使用过其他同类工具**则有可能会出现封号/风险提示，因此风险自负。
 
 ## 参考
