@@ -4,24 +4,8 @@
 [![README](https://img.shields.io/badge/README-English-blue.svg)](README-English.md)
 [![README](https://img.shields.io/badge/README-中文-blue.svg)](README.md)
 [![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
-[![Backers on Open Collective](https://opencollective.com/WeChatTweak-macOS/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/WeChatTweak-macOS/sponsors/badge.svg)](#sponsors)
 
 微信 macOS 客户端增强 Tweak 动态库。
-
-## 截图
-
-### 整体预览
-
-![Overview](Screenshot/0x01.png)
-
-### Alfred workflow
-
-![Alfred](Screenshot/0x02.png)
-
-### LaunchBar action
-
-![LaunchBar](Screenshot/0x03.png)
 
 ## 功能
 
@@ -58,6 +42,20 @@
   $ sudo wechattweak-cli --uninstall # 卸载
   ```
 
+## 截图
+
+### 整体预览
+
+![Overview](Screenshot/0x01.png)
+
+### Alfred workflow
+
+![Alfred](Screenshot/0x02.png)
+
+### LaunchBar action
+
+![LaunchBar](Screenshot/0x03.png)
+
 ## FAQ
 
 1. 功能失效？  
@@ -84,27 +82,6 @@
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 
 [![Contributors](https://opencollective.com/WeChatTweak-macOS/contributors.svg?width=890&button=false)](https://github.com/Sunnyyoung/WeChatTweak-macOS/graphs/contributors)
-
-## 支持者
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/WeChatTweak-macOS#backer)]
-
-[![Backers](https://opencollective.com/WeChatTweak-macOS/backers.svg?width=890)](https://opencollective.com/WeChatTweak-macOS#backers)
-
-## 赞助者
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/WeChatTweak-macOS#sponsor)]
-
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/0/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/0/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/1/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/1/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/2/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/2/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/3/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/3/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/4/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/4/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/5/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/5/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/6/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/6/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/7/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/7/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/8/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/8/website)
-[![Sponsor](https://opencollective.com/WeChatTweak-macOS/sponsor/9/avatar.svg)](https://opencollective.com/WeChatTweak-macOS/sponsor/9/website)
 
 ## License
 
