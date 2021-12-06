@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![README](https://img.shields.io/badge/README-English-blue.svg)](README-English.md)
 [![README](https://img.shields.io/badge/README-中文-blue.svg)](README.md)
-[![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/joinchat/B0vW8kPU5OrwdC1qRbaqRA)
+[![README](https://img.shields.io/badge/Telegram-WeChatTweak-brightgreen.svg)](https://t.me/wechattweak)
 
 A dynamic library tweak for WeChat macOS.
 
