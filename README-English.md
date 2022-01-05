@@ -21,7 +21,7 @@ A dynamic library tweak for WeChat macOS.
   - Support QRCode identifying
   - Support right-click copy link directly
   - Support opened by the system default browser directly
-- Auto login without authentication
+- ~~Auto login without authentication~~ (Already supported by official)
 - UI Interface settings panel
 - Alfred workflow support
 - Launchbar action support
