@@ -10,6 +10,7 @@
 "Tweak.Title.Group" = "Group";
 "Tweak.Message.InterceptedARecalledMessage" = "[Intercepted a recalled message]\n%@";
 "Tweak.Message.Recalled" = "recalled";
+"Tweak.Message.RecalledMark" = "[Recalled]";
 "Tweak.Message.Image" = "Image";
 "Tweak.Message.Voice" = "Voice";
 "Tweak.Message.Video" = "Video";

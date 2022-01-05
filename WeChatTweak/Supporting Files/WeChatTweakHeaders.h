@@ -27,7 +27,6 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypePrompt   = 10000
 };
 
-static NSString * const WeChatTweakPreferenceAutoAuthKey = @"WeChatTweakPreferenceAutoAuthKey";
 static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeChatTweakPreferenceRevokeNotificationTypeKey";
 
 @interface NSString (MD5)
@@ -112,13 +111,6 @@ static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeCha
 
 + (id)defaultCenter;
 - (id)getService:(Class)name;
-
-@end
-
-@interface AccountService: NSObject
-
-- (BOOL)canAutoAuth;
-- (void)AutoAuth;
 
 @end
 

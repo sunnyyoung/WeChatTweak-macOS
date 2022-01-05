@@ -1,0 +1,42 @@
+
+/* Class = "NSMenuItem"; title = "开启"; ObjectID = "10G-t9-s4T"; */
+"10G-t9-s4T.title" = "开启";
+
+/* Class = "NSTextFieldCell"; title = "需重启客户端"; ObjectID = "2vl-mc-m3L"; */
+"2vl-mc-m3L.title" = "需重启客户端";
+
+/* Class = "NSMenuItem"; title = "开启"; ObjectID = "KQg-jN-y9a"; */
+"KQg-jN-y9a.title" = "开启";
+
+/* Class = "NSMenuItem"; title = "关闭"; ObjectID = "MEN-Kg-wfj"; */
+"MEN-Kg-wfj.title" = "关闭";
+
+/* Class = "NSTextFieldCell"; title = "消息撤回通知："; ObjectID = "UKv-CM-nGt"; */
+"UKv-CM-nGt.title" = "消息撤回通知：";
+
+/* Class = "NSMenuItem"; title = "关闭"; ObjectID = "Uk9-Oc-Jtv"; */
+"Uk9-Oc-Jtv.title" = "关闭";
+
+/* Class = "NSMenuItem"; title = "关闭"; ObjectID = "Vcv-eD-OM9"; */
+"Vcv-eD-OM9.title" = "关闭";
+
+/* Class = "NSMenuItem"; title = "全部接收"; ObjectID = "da4-aJ-lEy"; */
+"da4-aJ-lEy.title" = "全部接收";
+
+/* Class = "NSMenuItem"; title = "遮罩"; ObjectID = "gH0-wV-Bx0"; */
+"gH0-wV-Bx0.title" = "遮罩";
+
+/* Class = "NSMenuItem"; title = "跟随聊天设置"; ObjectID = "gec-CY-E1x"; */
+"gec-CY-E1x.title" = "跟随聊天设置";
+
+/* Class = "NSTextFieldCell"; title = "Alfred JSON 压缩："; ObjectID = "jHw-2a-B2t"; */
+"jHw-2a-B2t.title" = "Alfred JSON 压缩：";
+
+/* Class = "NSTextFieldCell"; title = "试验性功能"; ObjectID = "lHs-du-a6F"; */
+"lHs-du-a6F.title" = "试验性功能";
+
+/* Class = "NSTextFieldCell"; title = "消息撤回样式："; ObjectID = "mPT-nA-idf"; */
+"mPT-nA-idf.title" = "消息撤回样式：";
+
+/* Class = "NSMenuItem"; title = "经典"; ObjectID = "wRC-UO-k1G"; */
+"wRC-UO-k1G.title" = "经典";

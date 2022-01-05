@@ -12,7 +12,6 @@
 
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
-@property (weak) IBOutlet NSPopUpButton *autoAuthButton;
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
 @property (weak) IBOutlet NSPopUpButton *compressedJSONEnabledButton;
 @property (weak) IBOutlet NSPopUpButton *revokedMessageStyleButton;
@@ -33,21 +32,13 @@
 - (void)reloadData {
     WTConfigManager *configManager = WTConfigManager.sharedInstance;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL enabledAutoAuth = [userDefaults boolForKey:WeChatTweakPreferenceAutoAuthKey];
     RevokeNotificationType notificationType = [userDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-    [self.autoAuthButton selectItemAtIndex:enabledAutoAuth ? 1 : 0];
     [self.notificationTypeButton selectItemAtIndex:notificationType];
     [self.compressedJSONEnabledButton selectItemAtIndex:configManager.compressedJSONEnabled ? 0 : 1];
     [self.revokedMessageStyleButton selectItemAtIndex:configManager.revokedMessageStyle];
 }
 
 #pragma mark - Event method
-
-- (IBAction)switchAutoAuthAction:(NSPopUpButton *)sender {
-    BOOL enabled = sender.indexOfSelectedItem == 1;
-    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:WeChatTweakPreferenceAutoAuthKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
 
 - (IBAction)switchNotificationTypeAction:(NSPopUpButton *)sender {
     RevokeNotificationType type = sender.indexOfSelectedItem;

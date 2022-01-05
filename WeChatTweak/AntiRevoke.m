@@ -188,7 +188,7 @@ static void __attribute__((constructor)) tweak(void) {
     revokeTextField.drawsBackground = NO;
     revokeTextField.usesSingleLineMode = YES;
     revokeTextField.tag = 9527;
-    revokeTextField.stringValue = @"[已撤回]";
+    revokeTextField.stringValue = [NSBundle.tweakBundle localizedStringForKey:@"Tweak.Message.RecalledMark"];
     revokeTextField.font = [NSFont systemFontOfSize:10];
     revokeTextField.textColor = [NSColor lightGrayColor];
     [revokeTextField sizeToFit];

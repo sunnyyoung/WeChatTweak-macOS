@@ -10,6 +10,7 @@
 "Tweak.Title.Group" = "群組";
 "Tweak.Message.InterceptedARecalledMessage" = "[已攔截壹條撤回消息]\n%@";
 "Tweak.Message.Recalled" = "撤回了";
+"Tweak.Message.RecalledMark" = "[已撤回]";
 "Tweak.Message.Image" = "图片";
 "Tweak.Message.Voice" = "语音";
 "Tweak.Message.Video" = "视频";
