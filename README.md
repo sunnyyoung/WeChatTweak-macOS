@@ -68,7 +68,8 @@
 5. 安装出现 `codesign_allocate helper tool cannot be found or used` 错误？  
   该错误为系统问题，暂未清楚原因，一般情况下重新执行安装操作即可。
 6. 安装完打开微信客户端提示 `没有权限打开应用程序`？  
-  先卸载，再重新安装一次即可，如仍无法解决请重启电脑。
+  先卸载，再重新安装一次即可，如仍无法解决请重启电脑。实在搞不定的，到 [issues](https://github.com/Sunnyyoung/WeChatTweak-macOS/issues?q=) 里找找类似问题并尝试解决。
+7. 理性讨论。
 
 ## 参考
 
