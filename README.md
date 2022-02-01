@@ -37,8 +37,8 @@
 安装/更新/卸载 Tweak:
 
   ```bash
-  $ sudo wechattweak-cli --install   # 安装
-  $ sudo wechattweak-cli --uninstall # 卸载
+  $ sudo wechattweak-cli install   # 安装/更新
+  $ sudo wechattweak-cli uninstall # 卸载
   ```
 
 ## 截图
