@@ -75,6 +75,13 @@ static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeCha
 
 @end
 
+@interface ReaderWrap : NSObject
+
+@property(retain, nonatomic) NSString *m_nsTitle;
+@property(retain, nonatomic) NSString *m_nsUrl;
+
+@end
+
 @interface WCContactData : NSObject
 
 @property(nonatomic) unsigned int m_uiCertificationFlag;
@@ -182,6 +189,19 @@ static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeCha
 @interface MMImageMessageCellView : MMMessageCellView
 
 @property(retain, nonatomic) NSImage *displayedImage;
+
+@end
+
+@interface MMAppSingleReaderMessageCellView : MMMessageCellView
+
+@property(retain, nonatomic) ReaderWrap *readerData;
+
+@end
+
+@interface MMAppMultipleReaderMessageCellView : MMMessageCellView
+
+@property(retain, nonatomic) NSArray<ReaderWrap *> *readerMessages;
+@property(assign, nonatomic) NSUInteger selectedReaderWrapIndex;
 
 @end
 

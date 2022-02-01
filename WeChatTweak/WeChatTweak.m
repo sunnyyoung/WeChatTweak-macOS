@@ -73,93 +73,94 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (id)tweak_contextMenu {
     NSMenu *menu = (NSMenu *)[self tweak_contextMenu];
-    switch (((MMMessageCellView *)self).messageTableItem.message.messageType) {
-        case MessageDataTypeAppUrl:
-            [menu addItem:NSMenuItem.separatorItem];
-            [menu addItem:({
-                NSMenuItem *copyUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.CopyLink"]
-                                                                     action:@selector(tweakCopyURL:)
-                                                              keyEquivalent:@""];
-                copyUrlItem;
-            })];
-            [menu addItem:({
-                NSMenuItem *openUrlItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"]
-                                                                     action:@selector(tweakOpenURL:)
-                                                              keyEquivalent:@""];
-                openUrlItem;
-            })];
-            break;
-        case MessageDataTypeImage:
-            [menu addItem:NSMenuItem.separatorItem];
-            [menu addItem:({
-                NSMenuItem *qrCodeItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"]
-                                                                    action:@selector(tweakIdentifyQRCode:)
-                                                             keyEquivalent:@""];
-                qrCodeItem;
-            })];
-        case MessageDataTypeSticker:
-            [menu addItem:NSMenuItem.separatorItem];
-            [menu addItem:({
-                NSMenuItem *exportStickerItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.ExportSticker"]
-                                                                           action:@selector(tweakExportSticker:)
-                                                                    keyEquivalent:@""];
-                exportStickerItem;
-            })];
-        default:
-            break;
+    if ([self isKindOfClass:objc_getClass("MMMessageCellView")]) {
+        switch (((MMMessageCellView *)self).messageTableItem.message.messageType) {
+            case MessageDataTypeAppUrl: {
+                ReaderWrap *wrap = ({
+                    ReaderWrap *wrap = nil;
+                    if ([self isKindOfClass:objc_getClass("MMAppSingleReaderMessageCellView")]) {
+                        MMAppSingleReaderMessageCellView *cell = (MMAppSingleReaderMessageCellView *)self;
+                        wrap = cell.readerData;
+                    } else if ([self isKindOfClass:objc_getClass("MMAppMultipleReaderMessageCellView")]) {
+                        MMAppMultipleReaderMessageCellView *cell = (MMAppMultipleReaderMessageCellView *)self;
+                        wrap = (cell.selectedReaderWrapIndex < cell.readerMessages.count) ? cell.readerMessages[cell.selectedReaderWrapIndex] : nil;
+                    } else {
+                        wrap = nil;
+                    }
+                    wrap;
+                });
+                if (wrap) {
+                    [menu addItem:NSMenuItem.separatorItem];
+                    [menu addItem:({
+                        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.CopyLink"]
+                                                                      action:@selector(tweakCopyLink:)
+                                                               keyEquivalent:@"c"];
+                        item.target = wrap;
+                        item;
+                    })];
+                    [menu addItem:({
+                        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInBrowser"]
+                                                                             action:@selector(tweakOpenLink:)
+                                                                      keyEquivalent:@"o"];
+                        item.target = wrap;
+                        item;
+                    })];
+                }
+                break;
+            }
+            case MessageDataTypeImage: {
+                [menu addItem:NSMenuItem.separatorItem];
+                [menu addItem:({
+                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCode"]
+                                                                  action:@selector(tweakIdentifyQRCode:)
+                                                           keyEquivalent:@"i"];
+                    item.target = self;
+                    item;
+                })];
+                break;
+            }
+            case MessageDataTypeSticker: {
+                [menu addItem:NSMenuItem.separatorItem];
+                [menu addItem:({
+                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.ExportSticker"]
+                                                                  action:@selector(tweakExportSticker:)
+                                                           keyEquivalent:@"e"];
+                    item.target = self;
+                    item;
+                })];
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
     return menu;
 }
 
-- (void)tweakExportSticker:(id)sender {
-    MMMessageCellView *cell = (MMMessageCellView *)self;
-    MessageData *messageData = cell.messageTableItem.message;
-    NSString *content = messageData.msgContent;
-    NSString *emoji = [[content tweak_subStringFrom:@"<msg>" to:@"</msg>"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:emoji];
-    if (![dictionary objectForKey:@"_md5"]) {
+- (void)tweakCopyLink:(NSMenuItem *)sender {
+    ReaderWrap *wrap = sender.target;
+    if (!wrap) {
         return;
     }
-    NSString *stickerMD5 = dictionary[@"_md5"];
-    if (!stickerMD5.length) {
-        return;
-    }
-    NSString *localID = [messageData savingImageFileNameWithLocalID];
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setNameFieldStringValue:localID];
-    [panel setAllowsOtherFileTypes:YES];
-    [panel setAllowedFileTypes:@[@"gif"]];
-    [panel setExtensionHidden:NO];
-    [panel setCanCreateDirectories:YES];
-    [panel beginSheetModalForWindow:cell.window completionHandler:^(NSModalResponse result) {
-        if (result == NSModalResponseOK) {
-            NSString *path = panel.URL.path;
-            MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
-            EmoticonMgr *emoticonMgr = [serviceCenter getService:objc_getClass("EmoticonMgr")];
-            NSData *stickerData = [emoticonMgr getEmotionDataWithMD5:stickerMD5];
-            [stickerData writeToFile:path atomically:YES];
-        }
-    }];
-}
-
-- (void)tweakCopyURL:(id)sender {
-    NSString *url = [self _tweakMessageContentUrl];
-    if (url.length) {
+    if (wrap.m_nsUrl) {
         [NSPasteboard.generalPasteboard clearContents];
-        [NSPasteboard.generalPasteboard setString:url forType:NSStringPboardType];
+        [NSPasteboard.generalPasteboard setString:wrap.m_nsUrl forType:NSStringPboardType];
     }
 }
 
-- (void)tweakOpenURL:(id)sender {
-    NSString *url = [self _tweakMessageContentUrl];
-    if (url.length) {
-        [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:url]];
+- (void)tweakOpenLink:(NSMenuItem *)sender {
+    ReaderWrap *wrap = sender.target;
+    if (!wrap) {
+        return;
+    }
+    if (wrap.m_nsUrl && [NSURL URLWithString:wrap.m_nsUrl]) {
+        [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:wrap.m_nsUrl]];
     }
 }
 
-- (void)tweakIdentifyQRCode:(id)sender {
-    MMImageMessageCellView *cell = (MMImageMessageCellView *)self;
-    NSImage *image = cell.displayedImage;
+- (void)tweakIdentifyQRCode:(NSMenuItem *)sender {
+    NSImage *image = ((MMImageMessageCellView *)self).displayedImage;
     if (image) {
         NSData *imageData = [image TIFFRepresentation];
         CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh}];
@@ -176,23 +177,34 @@ static void __attribute__((constructor)) tweak(void) {
                     notification.informativeText = [NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.IdentifyQRCodeNotification"];
                     notification;
                 })];
-                NSURL *url = [NSURL URLWithString:content];
-                if ([url.scheme containsString:@"http"]) {
-                    [[NSWorkspace sharedWorkspace] openURL:url];
-                }
             }
         }
     }
 }
 
-- (NSString *)_tweakMessageContentUrl {
-    MMMessageCellView *cell = (MMMessageCellView *)self;
-    NSString *content = cell.messageTableItem.message.msgContent;
-    if ([content containsString:@"<url><![CDATA["]) {
-        return [content tweak_subStringFrom:@"<url><![CDATA[" to:@"]]></url>"];
-    } else {
-        return [content tweak_subStringFrom:@"<url>" to:@"</url>"];
+- (void)tweakExportSticker:(NSMenuItem *)sender {
+    MMMessageCellView *cell = (MMMessageCellView *)sender.target;
+    MessageData *messageData = cell.messageTableItem.message;
+    NSString *localID = [messageData savingImageFileNameWithLocalID];
+    NSString *md5 = [NSDictionary dictionaryWithXMLString:[messageData.msgContent componentsSeparatedByString:@"\n"].lastObject][@"emoji"][@"_md5"];
+    if (!localID.length || !md5.length) {
+        return;
     }
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setNameFieldStringValue:localID];
+    [panel setAllowsOtherFileTypes:YES];
+    [panel setAllowedFileTypes:@[@"gif"]];
+    [panel setExtensionHidden:NO];
+    [panel setCanCreateDirectories:YES];
+    [panel beginSheetModalForWindow:cell.window completionHandler:^(NSModalResponse result) {
+        if (result == NSModalResponseOK) {
+            NSString *path = panel.URL.path;
+            MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
+            EmoticonMgr *emoticonMgr = [serviceCenter getService:objc_getClass("EmoticonMgr")];
+            NSData *stickerData = [emoticonMgr getEmotionDataWithMD5:md5];
+            [stickerData writeToFile:path atomically:YES];
+        }
+    }];
 }
 
 #pragma mark - Mutiple Instance
