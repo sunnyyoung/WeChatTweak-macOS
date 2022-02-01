@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import "WeChatTweakHeaders.h"
+#import "WeChatTweak.h"
 
 @interface TweakPreferencesController : NSViewController
 

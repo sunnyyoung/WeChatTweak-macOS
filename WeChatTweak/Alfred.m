@@ -1,13 +1,13 @@
 //
-//  AlfredManager.m
+//  Alfred.m
 //  WeChatTweak
 //
 //  Created by Sunnyyoung on 2017/9/10.
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import "AlfredManager.h"
-#import "WeChatTweakHeaders.h"
+#import "Alfred.h"
+#import "WeChatTweak.h"
 
 @interface AlfredManager()
 
@@ -18,6 +18,10 @@
 @implementation AlfredManager
 
 static int port = 48065;
+
++ (void)load {
+    [AlfredManager.sharedInstance startListener];
+}
     
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;

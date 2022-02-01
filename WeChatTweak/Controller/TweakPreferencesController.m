@@ -8,7 +8,6 @@
 
 #import "TweakPreferencesController.h"
 #import "NSBundle+WeChatTweak.h"
-#import "WTConfigManager.h"
 
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
@@ -30,12 +29,11 @@
 }
 
 - (void)reloadData {
-    WTConfigManager *configManager = WTConfigManager.sharedInstance;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     RevokeNotificationType notificationType = [userDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
     [self.notificationTypeButton selectItemAtIndex:notificationType];
-    [self.compressedJSONEnabledButton selectItemAtIndex:configManager.compressedJSONEnabled ? 0 : 1];
-    [self.revokedMessageStyleButton selectItemAtIndex:configManager.revokedMessageStyle];
+    [self.compressedJSONEnabledButton selectItemAtIndex:WeChatTweak.compressedJSONEnabled ? 0 : 1];
+    [self.revokedMessageStyleButton selectItemAtIndex:WeChatTweak.revokedMessageStyle];
 }
 
 #pragma mark - Event method
@@ -47,11 +45,11 @@
 
 - (IBAction)switchCompressedJSONEnabledAction:(NSPopUpButton *)sender {
     BOOL enabled = sender.indexOfSelectedItem == 0;
-    WTConfigManager.sharedInstance.compressedJSONEnabled = enabled;
+    WeChatTweak.compressedJSONEnabled = enabled;
 }
 
 - (IBAction)switchRevokedMessageStyleButton:(NSPopUpButton *)sender {
-    WTConfigManager.sharedInstance.revokedMessageStyle = sender.indexOfSelectedItem;
+    WeChatTweak.revokedMessageStyle = sender.indexOfSelectedItem;
 }
 
 #pragma mark - MASPreferencesViewController

@@ -6,10 +6,10 @@
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import <JRSwizzle/JRSwizzle.h>
 
 typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
     RevokeNotificationTypeFollow = 0,

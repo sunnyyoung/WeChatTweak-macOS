@@ -6,9 +6,7 @@
 //  Copyright © 2021 Sunnyyoung. All rights reserved.
 //
 
-#import "AntiRevoke.h"
-#import "WeChatTweakHeaders.h"
-#import "WTConfigManager.h"
+#import "WeChatTweak.h"
 #import "NSString+WeChatTweak.h"
 #import "NSBundle+WeChatTweak.h"
 
@@ -39,7 +37,7 @@ static void __attribute__((constructor)) tweak(void) {
         // Fallback to origin method
         [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
     } else {
-        switch (WTConfigManager.sharedInstance.revokedMessageStyle) {
+        switch (WeChatTweak.revokedMessageStyle) {
             case WTRevokedMessageStyleClassic:
                 [self handleRevokedMessageIntoClassicStyleWithSession:session messageData:messageData replaceMessage:replaceMessage];
                 break;
