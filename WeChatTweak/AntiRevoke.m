@@ -7,7 +7,6 @@
 //
 
 #import "WeChatTweak.h"
-#import "NSString+WeChatTweak.h"
 #import "NSBundle+WeChatTweak.h"
 
 @implementation NSObject (AntiRevoke)
@@ -28,11 +27,12 @@ static void __attribute__((constructor)) tweak(void) {
         return [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
     }
     // Decode message
-    NSString *session = [message.msgContent tweak_subStringFrom:@"<session>" to:@"</session>"];
-    NSUInteger newMessageID = [message.msgContent tweak_subStringFrom:@"<newmsgid>" to:@"</newmsgid>"].longLongValue;
-    NSString *replaceMessage = [message.msgContent tweak_subStringFrom:@"<replacemsg><![CDATA[" to:@"]]></replacemsg>"];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:message.msgContent];
+    NSString *session = dictionary[@"revokemsg"][@"session"];
+    NSString *newMessageID = dictionary[@"revokemsg"][@"newmsgid"];
+    NSString *replaceMessage = dictionary[@"revokemsg"][@"replacemsg"];
     // Get message data
-    MessageData *messageData = ((id (*)(id, SEL, id, unsigned long long))objc_msgSend)(self, GetMsgDataSelector, session, newMessageID);
+    MessageData *messageData = ((id (*)(id, SEL, id, unsigned long long))objc_msgSend)(self, GetMsgDataSelector, session, newMessageID.longLongValue);
     if (messageData.isSendFromSelf) {
         // Fallback to origin method
         [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
