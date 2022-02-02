@@ -197,22 +197,22 @@ static void __attribute__((constructor)) tweak(void) {
 - (void)tweak_populateWithMessage:(MMMessageTableItem *)tableItem {
     [self tweak_populateWithMessage:tableItem];
     MMRevokeMsgService *service = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("MMRevokeMsgService")];
-    BOOL style = tableItem.message.messageType != MessageDataTypePrompt && [service.db getRevokeMsg:@(tableItem.message.mesSvrID).stringValue] != NULL;
+    BOOL recalled = tableItem.message ? (tableItem.message.messageType != MessageDataTypePrompt && [service.db getRevokeMsg:@(tableItem.message.mesSvrID).stringValue] != NULL) : NO;
     [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
         if (view.tag != 9527) {
             return ;
         }
         *stop = YES;
-        view.hidden = !style;
+        view.hidden = !recalled;
     }];
-    ((MMMessageCellView *)self).layer.backgroundColor = style ? [NSColor.systemYellowColor colorWithAlphaComponent:0.3].CGColor : ((MMMessageCellView *)self).layer.backgroundColor;
+    ((MMMessageCellView *)self).layer.backgroundColor = recalled ? [NSColor.systemYellowColor colorWithAlphaComponent:0.3].CGColor : nil;
 }
 
 - (void)tweak_layout {
     [self tweak_layout];
     [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
         if (view.tag != 9527) {
-            return ;
+            return;
         }
         *stop = YES;
         view.frame = ({
