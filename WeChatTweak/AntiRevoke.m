@@ -197,7 +197,7 @@ static void __attribute__((constructor)) tweak(void) {
 - (void)tweak_populateWithMessage:(MMMessageTableItem *)tableItem {
     [self tweak_populateWithMessage:tableItem];
     MMRevokeMsgService *service = [[objc_getClass("MMServiceCenter") defaultCenter] getService:objc_getClass("MMRevokeMsgService")];
-    BOOL recalled = tableItem.message ? (tableItem.message.messageType != MessageDataTypePrompt && [service.db getRevokeMsg:@(tableItem.message.mesSvrID).stringValue] != NULL) : NO;
+    BOOL recalled = tableItem.message ? (tableItem.message.messageType != MessageDataTypePrompt && tableItem.message.msgStatus == 4 && [service.db getRevokeMsg:@(tableItem.message.mesSvrID).stringValue] != NULL) : NO;
     [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
         if (view.tag != 9527) {
             return ;
