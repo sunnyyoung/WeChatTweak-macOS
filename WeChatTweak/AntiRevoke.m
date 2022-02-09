@@ -27,7 +27,7 @@ static void __attribute__((constructor)) tweak(void) {
         return [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
     }
     // Decode message
-    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:message.msgContent];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:[message.msgContent componentsSeparatedByCharactersInSet:NSCharacterSet.newlineCharacterSet].lastObject];
     NSString *session = dictionary[@"revokemsg"][@"session"];
     NSString *newMessageID = dictionary[@"revokemsg"][@"newmsgid"];
     NSString *replaceMessage = dictionary[@"revokemsg"][@"replacemsg"];
