@@ -12,7 +12,6 @@
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
-@property (weak) IBOutlet NSPopUpButton *compressedJSONEnabledButton;
 @property (weak) IBOutlet NSPopUpButton *revokedMessageStyleButton;
 
 @end
@@ -32,7 +31,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     RevokeNotificationType notificationType = [userDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
     [self.notificationTypeButton selectItemAtIndex:notificationType];
-    [self.compressedJSONEnabledButton selectItemAtIndex:WeChatTweak.compressedJSONEnabled ? 0 : 1];
     [self.revokedMessageStyleButton selectItemAtIndex:WeChatTweak.revokedMessageStyle];
 }
 
@@ -41,11 +39,6 @@
 - (IBAction)switchNotificationTypeAction:(NSPopUpButton *)sender {
     RevokeNotificationType type = sender.indexOfSelectedItem;
     [[NSUserDefaults standardUserDefaults] setInteger:type forKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-}
-
-- (IBAction)switchCompressedJSONEnabledAction:(NSPopUpButton *)sender {
-    BOOL enabled = sender.indexOfSelectedItem == 0;
-    WeChatTweak.compressedJSONEnabled = enabled;
 }
 
 - (IBAction)switchRevokedMessageStyleButton:(NSPopUpButton *)sender {

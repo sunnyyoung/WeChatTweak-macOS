@@ -8,19 +8,9 @@
 
 #import "WeChatTweak.h"
 
-static NSString * const WeChatTweakCompressedJSONEnabledKey = @"WeChatTweakCompressedJSONEnabledKey";
 static NSString * const WeChatTweakRevokedMessageStyleKey = @"WeChatTweakRevokedMessageStyleKey";
 
 @implementation WeChatTweak
-
-+ (BOOL)compressedJSONEnabled {
-    return [NSUserDefaults.standardUserDefaults boolForKey:WeChatTweakCompressedJSONEnabledKey];
-}
-
-+ (void)setCompressedJSONEnabled:(BOOL)compressedJSONEnabled {
-    [NSUserDefaults.standardUserDefaults setBool:compressedJSONEnabled forKey:WeChatTweakCompressedJSONEnabledKey];
-    [NSUserDefaults.standardUserDefaults synchronize];
-}
 
 + (WTRevokedMessageStyle)revokedMessageStyle {
     return [NSUserDefaults.standardUserDefaults integerForKey:WeChatTweakRevokedMessageStyleKey];

@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Sunnyyoung. All rights reserved.
 //
 
-#import <YYModel/YYModel.h>
+#import <objc/runtime.h>
 #import <GCDWebServer/GCDWebServer.h>
 #import <GCDWebServer/GCDWebServerDataResponse.h>
 
