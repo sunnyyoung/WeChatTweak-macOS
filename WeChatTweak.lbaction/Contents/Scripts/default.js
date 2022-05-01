@@ -16,17 +16,25 @@ function run(string) {
     return [];
   }
 
-  return result.data.map(function (i) {
-    return {
-      title: i.m_nsRemark || i.m_nsNickName,
-      subtitle: i.m_nsNickName,
-      icon: i.wt_avatarPath || 'icon.png',
+  var arr=[];
+  var jsonArr=result.data.items;
+   jsonArr.forEach(function (i) {
+    arr.push( {
+      title: i.title,
+      subtitle: i.subtitle,
+      icon: i.icon.path,
       action: "open",
-      actionArgument: i.m_nsUsrName
-    }
+      actionArgument: i.arg
+    })
   });
+ 
+
+  // return JSON.stringify(result.data);
+  return arr;
+
 }
 
 function open(id) {
+  LaunchBar.hide()
   HTTP.get('http://localhost:48065/wechat/start?session=' + id);
 }
