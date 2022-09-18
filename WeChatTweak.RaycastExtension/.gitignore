@@ -1,0 +1,8 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+package-lock.json
+
+# misc
+.DS_Store

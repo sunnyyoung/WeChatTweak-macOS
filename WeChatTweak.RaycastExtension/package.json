@@ -1,0 +1,39 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "wechattweak",
+  "title": "WeChatTweak",
+  "description": "A Raycast extension for WeChatTweak.",
+  "icon": "icon.png",
+  "author": "viko16",
+  "categories": [
+    "Productivity"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Search your friends...",
+      "description": "快速搜索好友",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.39.3",
+    "@raycast/utils": "^1.4.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.5.1",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "ray publish"
+  }
+}
