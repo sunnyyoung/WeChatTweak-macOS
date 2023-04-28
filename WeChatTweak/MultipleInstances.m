@@ -14,7 +14,7 @@
 static void __attribute__((constructor)) tweak(void) {
     [objc_getClass("CUtility") jr_swizzleClassMethod:NSSelectorFromString(@"HasWechatInstance") withClassMethod:@selector(tweak_HasWechatInstance) error:nil];
     [objc_getClass("NSRunningApplication") jr_swizzleClassMethod:NSSelectorFromString(@"runningApplicationsWithBundleIdentifier:") withClassMethod:@selector(tweak_runningApplicationsWithBundleIdentifier:) error:nil];
-    class_addMethod(objc_getClass("AppDelegate"), @selector(applicationDockMenu:), method_getImplementation(class_getInstanceMethod(objc_getClass("AppDelegate"), @selector(tweak_applicationDockMenu:))), "@:@");
+    [objc_getClass("AppDelegate") jr_swizzleMethod:NSSelectorFromString(@"applicationDockMenu:") withMethod:@selector(tweak_applicationDockMenu:) error:nil];
 }
 
 + (BOOL)tweak_HasWechatInstance {
@@ -30,11 +30,23 @@ static void __attribute__((constructor)) tweak(void) {
 }
 
 - (NSMenu *)tweak_applicationDockMenu:(NSApplication *)sender {
-    NSMenu *menu = [[NSMenu alloc] init];
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.LoginAnotherAccount"]
+    NSMenu *menu = [self tweak_applicationDockMenu:sender];
+    NSMenuItem *menuItem = ({
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.Title.LoginAnotherAccount"]
                                                       action:@selector(openNewWeChatInstace:)
                                                keyEquivalent:@""];
-    [menu insertItem:menuItem atIndex:0];
+        item.tag = 9527;
+        item;
+    });
+    __block BOOL added = NO;
+    [menu.itemArray enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.tag == 9527) {
+            *stop = added = YES;
+        }
+    }];
+    if (!added) {
+        [menu insertItem:menuItem atIndex:0];
+    }
     return menu;
 }
 
