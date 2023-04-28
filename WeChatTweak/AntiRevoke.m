@@ -83,8 +83,8 @@ static void __attribute__((constructor)) tweak(void) {
     // Dispatch notification
     dispatch_async(dispatch_get_main_queue(), ^{
         // Deliver notification
-        RevokeNotificationType notificationType = [[NSUserDefaults standardUserDefaults] integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-        if (notificationType == RevokeNotificationTypeReceiveAll || (notificationType == RevokeNotificationTypeInherited && isChatStatusNotifyOpen)) {
+        WeChatTweakNotificationType notificationType = WeChatTweak.notificationType;
+        if (notificationType == WeChatTweakNotificationTypeReceiveAll || (notificationType == WeChatTweakNotificationTypeInherited && isChatStatusNotifyOpen)) {
             [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
         }
     });
@@ -119,7 +119,7 @@ static void __attribute__((constructor)) tweak(void) {
         *stop = YES;
         view.hidden = !recalled;
     }];
-    ((MMMessageCellView *)self).layer.backgroundColor = recalled ? [NSColor.systemYellowColor colorWithAlphaComponent:0.3].CGColor : nil;
+    ((MMMessageCellView *)self).layer.backgroundColor = recalled ? WeChatTweak.maskColor.CGColor : nil;
 }
 
 - (void)tweak_layout {

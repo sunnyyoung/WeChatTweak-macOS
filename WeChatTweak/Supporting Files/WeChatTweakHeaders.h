@@ -11,12 +11,6 @@
 #import <objc/message.h>
 #import <JRSwizzle/JRSwizzle.h>
 
-typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
-    RevokeNotificationTypeInherited = 0,
-    RevokeNotificationTypeReceiveAll,
-    RevokeNotificationTypeDisable,
-};
-
 typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypeText     = 1,
     MessageDataTypeImage    = 3,
@@ -26,8 +20,6 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
     MessageDataTypeAppUrl   = 49,
     MessageDataTypePrompt   = 10000
 };
-
-static NSString * const WeChatTweakPreferenceRevokeNotificationTypeKey = @"WeChatTweakPreferenceRevokeNotificationTypeKey";
 
 @interface NSString (MD5)
 

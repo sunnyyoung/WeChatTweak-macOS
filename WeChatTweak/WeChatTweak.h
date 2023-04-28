@@ -11,6 +11,15 @@
 FOUNDATION_EXPORT double WeChatTweakVersionNumber;
 FOUNDATION_EXPORT const unsigned char WeChatTweakVersionString[];
 
+typedef NS_ENUM(NSUInteger, WeChatTweakNotificationType) {
+    WeChatTweakNotificationTypeInherited = 0,
+    WeChatTweakNotificationTypeReceiveAll,
+    WeChatTweakNotificationTypeDisable
+};
+
 @interface WeChatTweak : NSObject
+
+@property (class, assign) WeChatTweakNotificationType notificationType;
+@property (class, nonnull) NSColor *maskColor;
 
 @end

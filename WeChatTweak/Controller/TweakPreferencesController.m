@@ -12,6 +12,7 @@
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
+@property (weak) IBOutlet NSColorWell *maskColorWell;
 
 @end
 
@@ -19,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [NSColorPanel.sharedColorPanel setShowsAlpha:YES];
 }
 
 - (void)viewWillAppear {
@@ -27,13 +29,18 @@
 }
 
 - (void)reloadData {
-    [self.notificationTypeButton selectItemAtIndex:[NSUserDefaults.standardUserDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey]];
+    self.maskColorWell.color = WeChatTweak.maskColor;
+    [self.notificationTypeButton selectItemAtIndex:WeChatTweak.notificationType];
 }
 
 #pragma mark - Event method
 
 - (IBAction)switchNotificationTypeAction:(NSPopUpButton *)sender {
-    [NSUserDefaults.standardUserDefaults setInteger:sender.indexOfSelectedItem forKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
+    WeChatTweak.notificationType = sender.indexOfSelectedItem;
+}
+
+- (IBAction)changeMaskColorAction:(NSColorWell *)sender {
+    WeChatTweak.maskColor = sender.color;
 }
 
 #pragma mark - MASPreferencesViewController
