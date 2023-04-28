@@ -10,3 +10,6 @@
 
 /* Class = "NSMenuItem"; title = "Inherited"; ObjectID = "gec-CY-E1x"; */
 "gec-CY-E1x.title" = "Inherited";
+
+/* Class = "NSTextFieldCell"; title = "Recall mask color:"; ObjectID = "3xl-c5-YvI"; */
+"3xl-c5-YvI.title" = "Recall mask color:";

@@ -10,3 +10,6 @@
 
 /* Class = "NSMenuItem"; title = "Inherited"; ObjectID = "gec-CY-E1x"; */
 "gec-CY-E1x.title" = "跟隨聊天設置";
+
+/* Class = "NSTextFieldCell"; title = "Recall mask color:"; ObjectID = "3xl-c5-YvI"; */
+"3xl-c5-YvI.title" = "撤回遮罩顏色";
