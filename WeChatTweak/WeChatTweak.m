@@ -8,17 +8,6 @@
 
 #import "WeChatTweak.h"
 
-static NSString * const WeChatTweakRevokedMessageStyleKey = @"WeChatTweakRevokedMessageStyleKey";
-
 @implementation WeChatTweak
-
-+ (WTRevokedMessageStyle)revokedMessageStyle {
-    return [NSUserDefaults.standardUserDefaults integerForKey:WeChatTweakRevokedMessageStyleKey];
-}
-
-+ (void)setRevokedMessageStyle:(WTRevokedMessageStyle)revokedMessageStyle {
-    [NSUserDefaults.standardUserDefaults setInteger:revokedMessageStyle forKey:WeChatTweakRevokedMessageStyleKey];
-    [NSUserDefaults.standardUserDefaults synchronize];
-}
 
 @end

@@ -12,7 +12,6 @@
 @interface TweakPreferencesController () <MASPreferencesViewController>
 
 @property (weak) IBOutlet NSPopUpButton *notificationTypeButton;
-@property (weak) IBOutlet NSPopUpButton *revokedMessageStyleButton;
 
 @end
 
@@ -28,21 +27,13 @@
 }
 
 - (void)reloadData {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    RevokeNotificationType notificationType = [userDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-    [self.notificationTypeButton selectItemAtIndex:notificationType];
-    [self.revokedMessageStyleButton selectItemAtIndex:WeChatTweak.revokedMessageStyle];
+    [self.notificationTypeButton selectItemAtIndex:[NSUserDefaults.standardUserDefaults integerForKey:WeChatTweakPreferenceRevokeNotificationTypeKey]];
 }
 
 #pragma mark - Event method
 
 - (IBAction)switchNotificationTypeAction:(NSPopUpButton *)sender {
-    RevokeNotificationType type = sender.indexOfSelectedItem;
-    [[NSUserDefaults standardUserDefaults] setInteger:type forKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
-}
-
-- (IBAction)switchRevokedMessageStyleButton:(NSPopUpButton *)sender {
-    WeChatTweak.revokedMessageStyle = sender.indexOfSelectedItem;
+    [NSUserDefaults.standardUserDefaults setInteger:sender.indexOfSelectedItem forKey:WeChatTweakPreferenceRevokeNotificationTypeKey];
 }
 
 #pragma mark - MASPreferencesViewController

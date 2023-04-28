@@ -8,17 +8,5 @@
 /* Class = "NSMenuItem"; title = "All"; ObjectID = "da4-aJ-lEy"; */
 "da4-aJ-lEy.title" = "All";
 
-/* Class = "NSMenuItem"; title = "Mask"; ObjectID = "gH0-wV-Bx0"; */
-"gH0-wV-Bx0.title" = "Mask";
-
 /* Class = "NSMenuItem"; title = "Inherited"; ObjectID = "gec-CY-E1x"; */
 "gec-CY-E1x.title" = "Inherited";
-
-/* Class = "NSTextFieldCell"; title = "Experimental feature"; ObjectID = "lHs-du-a6F"; */
-"lHs-du-a6F.title" = "Experimental feature";
-
-/* Class = "NSTextFieldCell"; title = "Revoked message style:"; ObjectID = "mPT-nA-idf"; */
-"mPT-nA-idf.title" = "Revoked message style:";
-
-/* Class = "NSMenuItem"; title = "Classic"; ObjectID = "wRC-UO-k1G"; */
-"wRC-UO-k1G.title" = "Classic";

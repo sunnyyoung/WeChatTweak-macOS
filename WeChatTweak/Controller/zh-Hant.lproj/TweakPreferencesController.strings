@@ -8,17 +8,5 @@
 /* Class = "NSMenuItem"; title = "All"; ObjectID = "da4-aJ-lEy"; */
 "da4-aJ-lEy.title" = "全部接收";
 
-/* Class = "NSMenuItem"; title = "Mask"; ObjectID = "gH0-wV-Bx0"; */
-"gH0-wV-Bx0.title" = "遮罩";
-
 /* Class = "NSMenuItem"; title = "Inherited"; ObjectID = "gec-CY-E1x"; */
 "gec-CY-E1x.title" = "跟隨聊天設置";
-
-/* Class = "NSTextFieldCell"; title = "Experimental feature"; ObjectID = "lHs-du-a6F"; */
-"lHs-du-a6F.title" = "試驗性功能";
-
-/* Class = "NSTextFieldCell"; title = "Revoked message style:"; ObjectID = "mPT-nA-idf"; */
-"mPT-nA-idf.title" = "消息撤回樣式：";
-
-/* Class = "NSMenuItem"; title = "Classic"; ObjectID = "wRC-UO-k1G"; */
-"wRC-UO-k1G.title" = "經典";

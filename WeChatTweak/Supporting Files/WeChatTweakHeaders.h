@@ -12,7 +12,7 @@
 #import <JRSwizzle/JRSwizzle.h>
 
 typedef NS_ENUM(NSUInteger, RevokeNotificationType) {
-    RevokeNotificationTypeFollow = 0,
+    RevokeNotificationTypeInherited = 0,
     RevokeNotificationTypeReceiveAll,
     RevokeNotificationTypeDisable,
 };
