@@ -12,22 +12,23 @@
 @implementation NSObject (AntiRevoke)
 
 static void __attribute__((constructor)) tweak(void) {
-    [objc_getClass("FFProcessReqsvrZZ") jr_swizzleMethod:NSSelectorFromString(@"FFToNameFavChatZZ:sessionMsgList:") withMethod:@selector(tweak_FFToNameFavChatZZ:sessionMsgList:) error:nil];
+    [objc_getClass("FFProcessReqsvrZZ") jr_swizzleMethod:NSSelectorFromString(@"processNewXMLMsg:sessionMsgList:") withMethod:@selector(tweak_processNewXMLMsg:sessionMsgList:) error:nil];
 
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"initWithFrame:") withMethod:@selector(tweak_initWithFrame:) error:nil];
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"populateWithMessage:") withMethod:@selector(tweak_populateWithMessage:) error:nil];
     [objc_getClass("MMMessageCellView") jr_swizzleMethod:NSSelectorFromString(@"layout") withMethod:@selector(tweak_layout) error:nil];
 }
 
-- (void)tweak_FFToNameFavChatZZ:(MessageData *)message sessionMsgList:(nullable id)sessionMsgList {
+- (void)tweak_processNewXMLMsg:(MessageData *)message sessionMsgList:(nullable id)sessionMsgList {
     // - (id)GetMsgData:(id)arg1 svrId:(unsigned long long)arg2;
     SEL GetMsgDataSelector = NSSelectorFromString(@"GetMsgData:svrId:");
     if (![self respondsToSelector:GetMsgDataSelector]) {
         // Fallback to origin method
-        return [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
+        return [self tweak_processNewXMLMsg:message sessionMsgList:sessionMsgList];
     }
     // Decode message
-    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:message.msgContent];
+    NSString *content = [[message.msgContent stringByReplacingOccurrencesOfString:@"\n" withString:@""] componentsSeparatedByString:@":"].lastObject;
+    NSDictionary *dictionary = [NSDictionary dictionaryWithXMLString:content];
     NSString *session = dictionary[@"revokemsg"][@"session"];
     NSString *newMessageID = dictionary[@"revokemsg"][@"newmsgid"];
     NSString *replaceMessage = dictionary[@"revokemsg"][@"replacemsg"];
@@ -35,7 +36,7 @@ static void __attribute__((constructor)) tweak(void) {
     MessageData *messageData = ((id (*)(id, SEL, id, unsigned long long))objc_msgSend)(self, GetMsgDataSelector, session, newMessageID.longLongValue);
     if (messageData.isSendFromSelf) {
         // Fallback to origin method
-        [self tweak_FFToNameFavChatZZ:message sessionMsgList:sessionMsgList];
+        [self tweak_processNewXMLMsg:message sessionMsgList:sessionMsgList];
     } else {
         [self handleRevokedMessageIntoWithSession:session messageData:messageData replaceMessage:replaceMessage];
     }
