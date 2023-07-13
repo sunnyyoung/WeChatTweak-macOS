@@ -119,34 +119,6 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 
 @end
 
-@interface MMSessionMgr: NSObject
-
-- (void)loadSessionData;
-- (void)loadBrandSessionData;
-
-@end
-
-@interface RevokeMsgItem : NSObject
-
-@property (nonatomic, assign) unsigned int createTime;
-@property (nonatomic, retain) NSString *svrId;
-@property (nonatomic, retain) NSString *content;
-
-@end
-
-@interface MMRevokeMsgDB : NSObject
-
-- (BOOL)insertRevokeMsg:(id)msg;
-- (id)getRevokeMsg:(NSString *)svrId;
-
-@end
-
-@interface MMRevokeMsgService : NSObject
-
-@property (nonatomic, strong) MMRevokeMsgDB *db;
-
-@end
-
 @protocol MASPreferencesViewController <NSObject>
 
 @property(readonly, nonatomic) NSString *toolbarItemLabel;
@@ -204,6 +176,19 @@ typedef NS_ENUM(unsigned int, MessageDataType) {
 @interface EmoticonMgr : MMService
 
 - (id)getEmotionDataWithMD5:(id)arg1;
+
+@end
+
+@interface FFProcessReqsvrZZ : NSObject
+
+- (id)GetMsgData:(id)arg2 localId:(long long)arg3;
+- (id)GetMsgData:(id)arg2 svrId:(long long)arg3;
+- (void)AddLocalMsg:(id)arg2 msgData:(id)arg3;
+- (void)ModifyMsgData:(id)arg2 msgData:(id)arg3;
+- (void)notifyAddMsgOnMainThread:(id)arg2 msgData:(id)arg3;
+- (void)notifyModMsgOnMainThread:(id)arg2 msgData:(id)arg3;
+- (void)notifyDelMsgOnMainThread:(id)arg2 msgData:(id)arg3 isRevoke:(BOOL)arg4;
+- (void)notifyUIAndSessionOnMainThread:(id)arg2 withMsg:(id)arg3;
 
 @end
 

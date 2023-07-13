@@ -57,21 +57,23 @@
 
 ## FAQ
 
-1. 功能失效？  
+- 功能失效？  
   请提交 **issue** 然后等待，或提交 **pull request** 一起发电。
-2. Issue 没有响应 or 回复？  
+- Issue 没有响应 or 回复？  
   开源项目，用爱发电，耐心等。
-3. 兼容旧版本客户端吗？  
+- 兼容旧版本客户端吗？  
   不，为了降低维护成本和保证更新速度，默认只支持**最新**版本客户端。
-4. 会封号吗？  
+- 会封号吗？  
   在**只使用该工具**的情况下**没有**出现过封号/风险提示，若有**使用过其他同类工具**则有可能会出现封号/风险提示，因此风险自负。
-5. 安装出现 `codesign_allocate helper tool cannot be found or used` 错误？  
+- 安装出现 `codesign_allocate helper tool cannot be found or used` 错误？  
   该错误为系统问题，暂未清楚原因，一般情况下重新执行安装操作即可。
-6. 安装完打开微信客户端提示 `没有权限打开应用程序`？  
-  先卸载，再重新安装一次即可，如仍无法解决请重启电脑。实在搞不定的，到 [issues](https://github.com/Sunnyyoung/WeChatTweak-macOS/issues?q=) 里找找类似问题并尝试解决。
-7. 截图失效？  
+- 安装完打开微信客户端提示 `没有权限打开应用程序`？  
+  先卸载，再重新安装一次即可，如仍无法解决请重启电脑。实在搞不定的，到 [issues](https://github.com/sunnyyoung/WeChatTweak-macOS/issues) 里找找类似问题并尝试解决。
+- 截图失效？  
   系统偏好设置 -> 隐私 -> 删除微信并重新添加 -> 重启微信客户端。
-8. 理性讨论。
+- 出现`“WeChat.app” cannot be opened because the developer cannot be verified.`怎么办？  
+  进入 `WeChat.app` 所在目录，通过右键菜单打开。
+- 理性讨论。
 
 ## 参考
 
