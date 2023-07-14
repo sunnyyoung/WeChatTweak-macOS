@@ -23,6 +23,7 @@
   - 支持由系统默认浏览器直接打开
 - ~~重新打开应用无需手机认证~~（官方已经支持）
 - UI界面设置面板
+- 支持 Raycast extension
 - 支持 Alfred workflow
 - 支持 Launchbar action
 
@@ -46,6 +47,10 @@
 ### 整体预览
 
 ![Overview](Screenshot/0x01.png)
+
+### Raycast extension
+
+![Raycast](Screenshot/raycast.png)
 
 ### Alfred workflow
 

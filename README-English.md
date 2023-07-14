@@ -23,6 +23,7 @@ A dynamic library tweak for WeChat macOS.
   - Support opened by the system default browser directly
 - ~~Auto login without authentication~~ (Already supported by official)
 - UI Interface settings panel
+- Raycast extension support
 - Alfred workflow support
 - Launchbar action support
 
@@ -46,6 +47,10 @@ Install/Upgrade/Uninstall Tweak:
 ### Overview
 
 ![Overview](Screenshot/0x01.png)
+
+### Raycast extension
+
+![Raycast](Screenshot/raycast.png)
 
 ### Alfred workflow
 
