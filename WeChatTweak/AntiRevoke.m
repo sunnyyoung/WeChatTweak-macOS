@@ -24,7 +24,7 @@ static void __attribute__((constructor)) tweak(void) {
     if (messageData.isSendFromSelf) {
         [self tweak_DelRevokedMsg:session msgData:messageData];
     } else {
-        messageData.mesSvrID = LONG_LONG_MAX;
+        messageData.mesSvrID = messageData.mesLocalID;
         [((FFProcessReqsvrZZ *)self) ModifyMsgData:session msgData:messageData];
         dispatch_async(dispatch_get_main_queue(), ^{
             [((FFProcessReqsvrZZ *)self) notifyDelMsgOnMainThread:session msgData:messageData isRevoke:YES];
@@ -35,7 +35,7 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_notifyAddRevokePromptMsgOnMainThread:(NSString *)session msgData:(MessageData *)messageData {
     MessageData *localMessage = [((FFProcessReqsvrZZ *)self) GetMsgData:session localId:messageData.mesLocalID];
-    if (!localMessage || localMessage.mesSvrID != LONG_LONG_MAX) {
+    if (!localMessage || localMessage.mesSvrID != messageData.mesLocalID) {
         [self tweak_notifyAddRevokePromptMsgOnMainThread:session msgData:messageData];
     } else {
         MMServiceCenter *serviceCenter = [objc_getClass("MMServiceCenter") defaultCenter];
@@ -84,7 +84,7 @@ static void __attribute__((constructor)) tweak(void) {
 
 - (void)tweak_populateWithMessage:(MMMessageTableItem *)tableItem {
     [self tweak_populateWithMessage:tableItem];
-    BOOL recalled = tableItem.message.mesSvrID == LONG_LONG_MAX;
+    BOOL recalled = tableItem.message.mesSvrID && tableItem.message.mesSvrID == tableItem.message.mesLocalID;
     [((MMMessageCellView *)self).subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
         if (view.tag != 9527) {
             return ;
