@@ -7,6 +7,8 @@
 
 微信 macOS 客户端增强 Tweak 动态库。
 
+![Overview](Screenshot/overview.jpg)
+
 ## 功能
 
 - 阻止消息撤回
@@ -31,37 +33,23 @@
 
 **首次使用**安装 [WeChatTweak-CLI](https://github.com/Sunnyyoung/WeChatTweak-CLI):
 
-  ```bash
-  $ brew install sunnyyoung/repo/wechattweak-cli
-  ```
+```bash
+brew install sunnyyoung/repo/wechattweak-cli
+```
 
 安装/更新/卸载 Tweak:
 
-  ```bash
-  $ sudo wechattweak-cli install   # 安装/更新
-  $ sudo wechattweak-cli uninstall # 卸载
-  ```
-
-## 截图
-
-### 整体预览
-
-![Overview](Screenshot/0x01.png)
-
-### Raycast extension
-
-![Raycast](Screenshot/raycast.png)
-
-### Alfred workflow
-
-![Alfred](Screenshot/0x02.png)
-
-### LaunchBar action
-
-![LaunchBar](Screenshot/0x03.png)
+```bash
+sudo wechattweak-cli install   # 安装/更新
+sudo wechattweak-cli uninstall # 卸载
+```
 
 ## FAQ
 
+- 安装失败？
+  1. 请检查本地网络是否畅通。
+  2. 请检查是否安装了最新版本 WeChat 客户端，官网 & App Store 版本均可尝试。
+  3. 请检查 Terminal app 是否有正确的权限配置。
 - 功能失效？  
   请提交 **issue** 然后等待，或提交 **pull request** 一起发电。
 - Issue 没有响应 or 回复？  

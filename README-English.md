@@ -7,6 +7,8 @@
 
 A dynamic library tweak for WeChat macOS.
 
+![Overview](Screenshot/overview.jpg)
+
 ## Features
 
 - Anti message revoked
@@ -31,34 +33,16 @@ A dynamic library tweak for WeChat macOS.
 
 Install command line tool [WeChatTweak-CLI](https://github.com/Sunnyyoung/WeChatTweak-CLI):
 
-  ```bash
-  $ brew tap sunnyyoung/repo/wechattweak-cli
-  ```
+```bash
+brew tap sunnyyoung/repo/wechattweak-cli
+```
 
 Install/Upgrade/Uninstall Tweak:
 
-  ```bash
-  $ sudo wechattweak-cli install   # Install/Uninstall
-  $ sudo wechattweak-cli uninstall # Uninstall
-  ```
-
-## Screenshots
-
-### Overview
-
-![Overview](Screenshot/0x01.png)
-
-### Raycast extension
-
-![Raycast](Screenshot/raycast.png)
-
-### Alfred workflow
-
-![Alfred](Screenshot/0x02.png)
-
-### LaunchBar action
-
-![LaunchBar](Screenshot/0x03.png)
+```bash
+sudo wechattweak-cli install   # Install/Uninstall
+sudo wechattweak-cli uninstall # Uninstall
+```
 
 ## References
 
