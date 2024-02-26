@@ -34,7 +34,7 @@ A dynamic library tweak for WeChat macOS.
 Install command line tool [WeChatTweak-CLI](https://github.com/Sunnyyoung/WeChatTweak-CLI):
 
 ```bash
-brew tap sunnyyoung/repo/wechattweak-cli
+brew install sunnyyoung/repo/wechattweak-cli
 ```
 
 Install/Upgrade/Uninstall Tweak:
