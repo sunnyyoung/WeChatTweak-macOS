@@ -1,10 +1,12 @@
 PODS:
+  - fishhook (0.2)
   - GCDWebServer (3.5.4):
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
-  - JRSwizzle (1.0)
+  - JRSwizzle (2.0.0)
 
 DEPENDENCIES:
+  - fishhook (from `fishhook.podspec`)
   - GCDWebServer
   - JRSwizzle
 
@@ -13,10 +15,15 @@ SPEC REPOS:
     - GCDWebServer
     - JRSwizzle
 
+EXTERNAL SOURCES:
+  fishhook:
+    :podspec: fishhook.podspec
+
 SPEC CHECKSUMS:
+  fishhook: 1a2c3acb28611ff4d6104918e9f178b919ccf476
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
-  JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
+  JRSwizzle: 7a6fdfe05231e2de26eb14835622d4c6c20c0b6c
 
-PODFILE CHECKSUM: a8b00ccdd620dd22fe5a5bf70a40b396e143b680
+PODFILE CHECKSUM: 0bce956039abc78c2a336c2ed5f3cc4cc4a664e2
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
