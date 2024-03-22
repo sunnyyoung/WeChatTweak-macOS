@@ -4,6 +4,7 @@ inhibit_all_warnings!
 target 'WeChatTweak' do
   pod 'JRSwizzle'
   pod 'GCDWebServer'
+  pod 'fishhook', :podspec => 'fishhook.podspec'
 end
 
 post_install do |installer|

@@ -16,8 +16,6 @@
 		7D64150C27A94B9600A8A398 /* Directory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D64150B27A94B9600A8A398 /* Directory.m */; };
 		7D64150E27A94BEA00A8A398 /* MultipleInstances.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D64150D27A94BEA00A8A398 /* MultipleInstances.m */; };
 		7D64151027A94DE200A8A398 /* PreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D64150F27A94DE200A8A398 /* PreferencesWindow.m */; };
-		7D9049F51F82A41A004E6370 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D9049F31F82A415004E6370 /* fishhook.c */; };
-		7D9049F61F82A41A004E6370 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D9049F41F82A415004E6370 /* fishhook.h */; };
 		7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8422A1F40583F00D42D79 /* WeChatTweak.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF842331F4058AB00D42D79 /* WeChatTweak.m */; };
 		7DF842521F4058C600D42D79 /* TweakPreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF8424F1F4058C600D42D79 /* TweakPreferencesController.h */; };
@@ -42,8 +40,6 @@
 		7D64150B27A94B9600A8A398 /* Directory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Directory.m; sourceTree = "<group>"; };
 		7D64150D27A94BEA00A8A398 /* MultipleInstances.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipleInstances.m; sourceTree = "<group>"; };
 		7D64150F27A94DE200A8A398 /* PreferencesWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindow.m; sourceTree = "<group>"; };
-		7D9049F31F82A415004E6370 /* fishhook.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
-		7D9049F41F82A415004E6370 /* fishhook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
 		7DAE1DD727E828960009C01E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TweakPreferencesController.strings; sourceTree = "<group>"; };
 		7DAE1DD927E828A50009C01E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TweakPreferencesController.strings"; sourceTree = "<group>"; };
 		7DAE1DDB27E828B00009C01E /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TweakPreferencesController.strings"; sourceTree = "<group>"; };
@@ -109,15 +105,6 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
-		7D5AAF3720DF4BB300860EEE /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				7D9049F41F82A415004E6370 /* fishhook.h */,
-				7D9049F31F82A415004E6370 /* fishhook.c */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
 		7D5AAF3820DF4BC400860EEE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,7 +145,6 @@
 				7D64150627A9469900A8A398 /* ContextMenu.m */,
 				7D14E5A21F6447DB00D75132 /* Alfred.h */,
 				7D14E5A31F6447DB00D75132 /* Alfred.m */,
-				7D5AAF3720DF4BB300860EEE /* Vendor */,
 				7D5AAF3620DF4BA400860EEE /* Category */,
 				7D5AAF3520DF4B9700860EEE /* Controller */,
 				7DF842631F40594400D42D79 /* Resources */,
@@ -184,7 +170,6 @@
 			files = (
 				7DF8422C1F40583F00D42D79 /* WeChatTweak.h in Headers */,
 				7DF8425B1F4058DD00D42D79 /* NSBundle+WeChatTweak.h in Headers */,
-				7D9049F61F82A41A004E6370 /* fishhook.h in Headers */,
 				7D14E5A41F6447DB00D75132 /* Alfred.h in Headers */,
 				7DF842601F40590500D42D79 /* WeChatTweakHeaders.h in Headers */,
 				7DF842521F4058C600D42D79 /* TweakPreferencesController.h in Headers */,
@@ -221,8 +206,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Sunnyyoung;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					7DF842261F40583F00D42D79 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -317,7 +301,6 @@
 				7D64150827A9469900A8A398 /* ContextMenu.m in Sources */,
 				7D2194CC264701950068F4CC /* AntiRevoke.m in Sources */,
 				7DF842341F4058AB00D42D79 /* WeChatTweak.m in Sources */,
-				7D9049F51F82A41A004E6370 /* fishhook.c in Sources */,
 				7D64151027A94DE200A8A398 /* PreferencesWindow.m in Sources */,
 				7D64150E27A94BEA00A8A398 /* MultipleInstances.m in Sources */,
 				7DF8425C1F4058DD00D42D79 /* NSBundle+WeChatTweak.m in Sources */,
@@ -387,6 +370,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 24;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -447,6 +431,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 24;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -471,7 +456,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 9;
@@ -495,7 +479,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 9;
