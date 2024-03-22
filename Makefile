@@ -1,21 +1,24 @@
-APP_PATH=/Applications/WeChat.app/Contents/MacOS
-TMP_PATH=/tmp
-APP_NAME=WeChat
-BACKUP_NAME=WeChat.bak
-FRAMEWORK_PATH=WeChatTweak.framework
-FRAMEWORK_NAME=WeChatTweak
-DYLIB_NAME=WeChatTweak.dylib
-
 debug::
-	DYLD_INSERT_LIBRARIES=${FRAMEWORK_PATH}/${FRAMEWORK_NAME} ${APP_PATH}/${APP_NAME} &
+	xcodebuild build \
+		-workspace WeChatTweak.xcworkspace \
+		-scheme WeChatTweak \
+		-configuration Debug
+	DYLD_INSERT_LIBRARIES=WeChatTweak.framework/WeChatTweak /Applications/WeChat.app/Contents/MacOS/WeChat &
+
+release::
+	xcodebuild archive \
+		-workspace WeChatTweak.xcworkspace \
+		-scheme WeChatTweak \
+		-destination 'generic/platform=macOS' \
+		-archivePath WeChatTweak.xcarchive
 
 clean::
-	rm -rf ${FRAMEWORK_PATH}
+	rm -rf WeChatTweak.xcarchive WeChatTweak.framework
 
 install::
 	@echo "Makefile installation has been deprecated!!!"
-	@echo "For more information: \033[33;32mhttps://github.com/Sunnyyoung/WeChatTweak-CLI\033[0m."
+	@echo "For more information: \033[33;32mhttps://github.com/sunnyyoung/WeChatTweak-CLI\033[0m."
 
 uninstall::
 	@echo "Makefile installation has been deprecated!!!"
-	@echo "For more information: \033[33;32mhttps://github.com/Sunnyyoung/WeChatTweak-CLI\033[0m."
+	@echo "For more information: \033[33;32mhttps://github.com/sunnyyoung/WeChatTweak-CLI\033[0m."
