@@ -11,6 +11,11 @@
 
 #import <CoreImage/CoreImage.h>
 
+typedef NS_ENUM(NSUInteger, OpenMapMenuType) {
+    OpenMapMenuTypeGoogleMaps = 0,
+    OpenMapMenuTypeAmap
+};
+
 @implementation NSObject (ContextMenu)
 
 static void __attribute__((constructor)) tweak(void) {
@@ -72,6 +77,26 @@ static void __attribute__((constructor)) tweak(void) {
                                                                   action:@selector(tweakExportSticker:)
                                                            keyEquivalent:@"e"];
                     item.target = self;
+                    item;
+                })];
+                break;
+            }
+            case MessageDataTypeLocation: {
+                [menu addItem:NSMenuItem.separatorItem];
+                [menu addItem:({
+                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInGoogleMaps"]
+                                                                  action:@selector(tweakOpenMaps:)
+                                                           keyEquivalent:@""];
+                    item.target = self;
+                    item.tag = OpenMapMenuTypeGoogleMaps;
+                    item;
+                })];
+                [menu addItem:({
+                    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[NSBundle.tweakBundle localizedStringForKey:@"Tweak.MessageMenuItem.OpenInAmap"]
+                                                                  action:@selector(tweakOpenMaps:)
+                                                           keyEquivalent:@""];
+                    item.target = self;
+                    item.tag = OpenMapMenuTypeAmap;
                     item;
                 })];
                 break;
@@ -151,6 +176,34 @@ static void __attribute__((constructor)) tweak(void) {
             [stickerData writeToFile:path atomically:YES];
         }
     }];
+}
+
+- (void)tweakOpenMaps:(NSMenuItem *)sender {
+    MMMessageCellView *cell = (MMMessageCellView *)sender.target;
+
+    NSURL *url = ({
+        NSURL *url = nil;
+        NSDictionary *location = [NSDictionary dictionaryWithXMLString:cell.messageTableItem.message.msgContent][@"location"];
+        id x = location[@"_x"];
+        id y = location[@"_y"];
+        if (x && y) {
+            switch (sender.tag) {
+                case OpenMapMenuTypeGoogleMaps:
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.google.com/maps/search/?api=1&query=%@,%@", x, y]];
+                    break;
+                case OpenMapMenuTypeAmap:
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"https://uri.amap.com/marker?position=%@,%@", y, x]];
+                    break;
+                default:
+                    break;
+            }
+        }
+        url;
+    });
+
+    if (url) {
+        [NSWorkspace.sharedWorkspace openURL:url];
+    }
 }
 
 @end
