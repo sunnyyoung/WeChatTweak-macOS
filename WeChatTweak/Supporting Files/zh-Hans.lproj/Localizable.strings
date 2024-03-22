@@ -22,3 +22,5 @@
 "Tweak.MessageMenuItem.IdentifyQRCode" = "识别二维码";
 "Tweak.MessageMenuItem.IdentifyQRCodeNotification" = "识别结果已复制到粘贴板";
 "Tweak.MessageMenuItem.ExportSticker" = "导出表情";
+"Tweak.MessageMenuItem.OpenInGoogleMaps" = "使用谷歌地图打开";
+"Tweak.MessageMenuItem.OpenInAmap" = "使用高德地图打开";
