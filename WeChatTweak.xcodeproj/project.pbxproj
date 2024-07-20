@@ -45,7 +45,6 @@
 		7DAE1DDB27E828B00009C01E /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TweakPreferencesController.strings"; sourceTree = "<group>"; };
 		7DF842271F40583F00D42D79 /* WeChatTweak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WeChatTweak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF8422A1F40583F00D42D79 /* WeChatTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeChatTweak.h; sourceTree = "<group>"; };
-		7DF8422B1F40583F00D42D79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DF842331F4058AB00D42D79 /* WeChatTweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeChatTweak.m; sourceTree = "<group>"; };
 		7DF8424F1F4058C600D42D79 /* TweakPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweakPreferencesController.h; sourceTree = "<group>"; };
 		7DF842501F4058C600D42D79 /* TweakPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweakPreferencesController.m; sourceTree = "<group>"; };
@@ -109,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				7DF8425F1F40590500D42D79 /* WeChatTweakHeaders.h */,
-				7DF8422B1F40583F00D42D79 /* Info.plist */,
 				7D54A06C20E74FE500CB5306 /* Localizable.strings */,
 			);
 			path = "Supporting Files";
@@ -461,7 +459,8 @@
 				DYLIB_CURRENT_VERSION = 9;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "WeChatTweak/Supporting Files/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2017年 Sunny Young. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -484,7 +483,8 @@
 				DYLIB_CURRENT_VERSION = 9;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "WeChatTweak/Supporting Files/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2017年 Sunny Young. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
