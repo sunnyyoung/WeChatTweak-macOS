@@ -20,11 +20,11 @@
 
 + (NSColor *)maskColor {
     NSData *data = [NSUserDefaults.standardUserDefaults objectForKey:@"WeChatTweakMaskColor"];
-    return  data ? [NSUnarchiver unarchiveObjectWithData:data] : [NSColor.systemYellowColor colorWithAlphaComponent:0.3];
+    return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : [NSColor.systemYellowColor colorWithAlphaComponent:0.3];
 }
 
 + (void)setMaskColor:(NSColor *)maskColor {
-    NSData *data = [NSArchiver archivedDataWithRootObject:maskColor];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:maskColor];
     [NSUserDefaults.standardUserDefaults setObject:data forKey:@"WeChatTweakMaskColor"];
 }
 
