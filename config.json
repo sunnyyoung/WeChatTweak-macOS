@@ -303,5 +303,130 @@
         ]
       }
     ]
+  },
+  {
+    "version": "34888",
+    "targets": [
+      {
+        "identifier": "revoke",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "103fc3ea8",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1045505ae",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "startUpdater",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001c3610",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001e5120",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "startBackgroundUpdatesCheck",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001c59fc",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001e7be0",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "checkForUpdates",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001c5738",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001e7880",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "enableAutoUpdate",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001c5ddc",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001e8080",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "automaticallyDownloadsUpdates",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001cc640",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001efbb0",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "canCheckForUpdate",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001cc650",
+            "asm": "00008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001efbd0",
+            "asm": "31C0C390909090C3"
+          }
+        ]
+      },
+      {
+        "identifier": "multiInstance",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "1001bb334",
+            "asm": "20008052C0035FD6"
+          },
+          {
+            "arch": "x86_64",
+            "addr": "1001dbdfe",
+            "asm": "B801000000C39090"
+          }
+        ]
+      }
+    ]
   }
 ]
