@@ -24,7 +24,13 @@ struct Command {
     }
 
     static func patch(app: URL, config: Config) async throws {
-        try Patcher.patch(binary: app.appendingPathComponent("Contents/MacOS/WeChat"), config: config)
+        let dylibURL = app.appendingPathComponent("Contents/Frameworks/wechat.dylib")
+        let mainURL = app.appendingPathComponent("Contents/MacOS/WeChat")
+
+        // Check for the newer directory structure first: if wechat.dylib exists, patch it only.
+        // Otherwise, fall back to the main WeChat binary.
+        let targetURL = FileManager.default.fileExists(atPath: dylibURL.path) ? dylibURL : mainURL
+        try Patcher.patch(binary: targetURL, config: config)
     }
 
     static func resign(app: URL) async throws {
