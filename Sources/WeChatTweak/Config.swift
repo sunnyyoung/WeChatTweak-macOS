@@ -27,11 +27,15 @@ struct Config: Decodable {
         let arch: Arch
         let addr: UInt64
         let asm: Data
+        /// Original bytes expected at `addr` before patching. May list several
+        /// accepted variants (e.g. pristine + already-patched). Empty = skip check.
+        let expected: [Data]
 
         private enum CodingKeys: CodingKey {
             case arch
             case addr
             case asm
+            case expected
         }
 
         init(from decoder: any Decoder) throws {
@@ -59,22 +63,47 @@ struct Config: Decodable {
                 }
                 return value
             }()
+            self.expected = try {
+                // `expected` may be absent, a single hex string, or an array of them.
+                guard container.contains(.expected) else { return [] }
+                let hexes: [String]
+                if let single = try? container.decode(String.self, forKey: .expected) {
+                    hexes = [single]
+                } else {
+                    hexes = try container.decode([String].self, forKey: .expected)
+                }
+                return try hexes.map { hex in
+                    guard let value = Data(hex: hex) else {
+                        throw DecodingError.dataCorruptedError(
+                            forKey: CodingKeys.expected,
+                            in: container,
+                            debugDescription: "Invalid Entry.expected"
+                        )
+                    }
+                    return value
+                }
+            }()
         }
     }
 
     struct Target: Decodable {
         let identifier: String
         let entries: [Entry]
+        /// Bundle-relative path of the binary to patch. `nil` → `Contents/MacOS/WeChat`.
+        /// WeChat 4.x moved the revoke logic into `Contents/Resources/wechat.dylib`.
+        let binary: String?
 
         private enum CodingKeys: CodingKey {
             case identifier
             case entries
+            case binary
         }
 
         init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.identifier = try container.decode(String.self, forKey: .identifier)
             self.entries = try container.decode([Entry].self, forKey: .entries)
+            self.binary = try container.decodeIfPresent(String.self, forKey: .binary)
         }
     }
 

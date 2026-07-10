@@ -10,19 +10,34 @@ import MachO
 import Foundation
 
 struct Patcher {
-    enum Error: Swift.Error {
+    enum Error: LocalizedError {
         case invalidFile
         case not64BitMachO(magic: UInt32)
         case vaNotFound(arch: String, va: UInt64)
         case noArchMatched
+        case expectedMismatch(arch: String, va: UInt64, found: String, want: [String])
+
+        var errorDescription: String? {
+            switch self {
+            case .invalidFile:
+                return "Invalid binary file"
+            case let .not64BitMachO(magic):
+                return "Not a 64-bit Mach-O (magic: \(String(format: "0x%08x", magic)))"
+            case let .vaNotFound(arch, va):
+                return "[\(arch)] VA \(String(format: "0x%llx", va)) not found in any segment"
+            case .noArchMatched:
+                return "No matching arch/entries to patch"
+            case let .expectedMismatch(arch, va, found, want):
+                return "[\(arch)] byte mismatch at \(String(format: "0x%llx", va)): found \(found), expected one of \(want.joined(separator: " / ")). Wrong WeChat build — refusing to patch."
+            }
+        }
     }
 
-    static func patch(binary: URL, config: Config) throws {
+    static func patch(binary: URL, entries: [Config.Entry]) throws {
         guard FileManager.default.fileExists(atPath: binary.path) else {
             throw Error.invalidFile
         }
 
-        let entries = config.targets.flatMap { $0.entries }
         guard !entries.isEmpty else { throw Error.noArchMatched }
 
         let fh = try FileHandle(forUpdating: binary)
@@ -66,6 +81,7 @@ struct Patcher {
                                       sliceOffset: UInt64(entry.offset),
                                       targetVA: target.addr,
                                       patch: target.asm,
+                                      expected: target.expected,
                                       archName: target.arch.rawValue)
                     patchedCount += 1
                 }
@@ -93,6 +109,7 @@ struct Patcher {
                                   sliceOffset: 0,
                                   targetVA: target.addr,
                                   patch: target.asm,
+                                  expected: target.expected,
                                   archName: target.arch.rawValue)
                 patchedCount += 1
             }
@@ -107,6 +124,7 @@ struct Patcher {
                                       sliceOffset: UInt64,
                                       targetVA: UInt64,
                                       patch: Data,
+                                      expected: [Data],
                                       archName: String) throws {
 
         // 读 slice 内 mach_header_64
@@ -144,8 +162,25 @@ struct Patcher {
 
                 if vmaddr <= targetVA && targetVA < vmaddr + vmsize {
                     let fileOffset = sliceOffset + fileoff + (targetVA - vmaddr)
-                    print("[\(archName)] vmaddr=\(String(format: "0x%llx", vmaddr)), fileoff=\(String(format: "0x%llx", fileoff)), sliceoff=\(String(format: "0x%llx", sliceOffset))")
-                    print("[\(archName)] patch VA=\(String(format: "0x%llx", targetVA)), fileoff=\(String(format: "0x%llx", fileOffset))")
+
+                    // Read current bytes to guard against patching the wrong build.
+                    try fh.seek(toOffset: fileOffset)
+                    let current = try fh.read(upToCount: patch.count) ?? Data()
+
+                    if current == patch {
+                        print("[\(archName)] VA \(String(format: "0x%llx", targetVA)) already patched — skipping")
+                        return
+                    }
+                    if !expected.isEmpty && !expected.contains(current) {
+                        throw Error.expectedMismatch(
+                            arch: archName,
+                            va: targetVA,
+                            found: current.map { String(format: "%02X", $0) }.joined(),
+                            want: expected.map { $0.map { String(format: "%02X", $0) }.joined() }
+                        )
+                    }
+
+                    print("[\(archName)] patch VA=\(String(format: "0x%llx", targetVA)), fileoff=\(String(format: "0x%llx", fileOffset)): \(current.map { String(format: "%02X", $0) }.joined()) -> \(patch.map { String(format: "%02X", $0) }.joined())")
 
                     try fh.seek(toOffset: fileOffset)
                     try fh.write(contentsOf: patch)

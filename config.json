@@ -1,5 +1,22 @@
 [
   {
+    "version": "268880",
+    "targets": [
+      {
+        "identifier": "revoke",
+        "binary": "Contents/Resources/wechat.dylib",
+        "entries": [
+          {
+            "arch": "arm64",
+            "addr": "48831a0",
+            "expected": "E00F0034",
+            "asm": "7F000014"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "version": "31927",
     "targets": [
       {
