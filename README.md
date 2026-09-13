@@ -28,6 +28,23 @@ wechattweak patch
 wechattweak versions
 ```
 
+## 本地适配微信 4.1.13（269602，Apple Silicon）
+
+本仓库配置已包含新版业务动态库的防撤回和多开补丁。多开已通过应用副本启动验证；
+防撤回已完成静态定位及写入验证，尚待另一账号实际撤回消息验证。
+Homebrew 和默认远程配置不会自动使用本地改动。
+
+退出微信后，在仓库目录执行：
+
+```bash
+swift build -c release
+sudo .build/release/wechattweak patch --config "$PWD/config.json"
+```
+
+原文件首次备份为 `Contents/Resources/wechat.dylib.269602.bak`。
+配置与回归说明见 [tools/CONFIG.md](tools/CONFIG.md)，定位证据见
+[tools/analysis/FINDINGS-269602.md](tools/analysis/FINDINGS-269602.md)。
+
 ## 参考
 
 - [微信 macOS 客户端无限多开功能实践](https://blog.sunnyyoung.net/wei-xin-macos-ke-hu-duan-wu-xian-duo-kai-gong-neng-shi-jian/)

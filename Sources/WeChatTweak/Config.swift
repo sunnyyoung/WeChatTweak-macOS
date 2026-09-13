@@ -27,11 +27,13 @@ struct Config: Decodable {
         let arch: Arch
         let addr: UInt64
         let asm: Data
+        let expected: Data?
 
         private enum CodingKeys: CodingKey {
             case arch
             case addr
             case asm
+            case expected
         }
 
         init(from decoder: any Decoder) throws {
@@ -59,6 +61,15 @@ struct Config: Decodable {
                 }
                 return value
             }()
+            if let hex = try container.decodeIfPresent(String.self, forKey: .expected) {
+                guard let bytes = Data(hex: hex), !bytes.isEmpty, bytes.count == self.asm.count else {
+                    throw DecodingError.dataCorruptedError(forKey: .expected, in: container,
+                        debugDescription: "Expected bytes must match patch length")
+                }
+                self.expected = bytes
+            } else {
+                self.expected = nil
+            }
         }
     }
 
@@ -79,6 +90,12 @@ struct Config: Decodable {
     }
 
     let version: String
+    // Explicit selection avoids applying executable addresses to a different image.
+    enum Binary: String, Decodable {
+        case executable = "MacOS/WeChat"
+        case library = "Resources/wechat.dylib"
+    }
+    let binary: Binary?
     let targets: [Target]
 
     static func load(url: URL) async throws -> [Config] {
